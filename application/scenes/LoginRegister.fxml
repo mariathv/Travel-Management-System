@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <AnchorPane prefHeight="629.0" prefWidth="549.0" style="-fx-background-color: black;" stylesheets="@../css/loginRegisterModule.css" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="614.0" fitWidth="569.0" layoutX="-2.0" layoutY="1.0" pickOnBounds="true" styleClass="image-view-fit-pane" AnchorPane.bottomAnchor="0.40000000000009095" AnchorPane.leftAnchor="-2.0" AnchorPane.topAnchor="1.0">
+               <image>
+                  <Image url="@../assets/images/bgs/chintz-blooms-wallpaper-l-dark-blue.jpg" />
+               </image>
+               <effect>
+                  <Blend mode="SRC_ATOP">
+                     <topInput>
+                        <GaussianBlur radius="11.15" />
+                     </topInput>
+                  </Blend>
+               </effect>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </left>
+   <center>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <children>
+            <Pane prefHeight="600.0" prefWidth="538.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Text fill="#212832" layoutX="61.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LOGIN">
+                     <font>
+                        <Font name="Lexend Medium" size="41.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="200.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Don't have an account?">
+                     <font>
+                        <Font name="Lexend Deca Regular" size="14.0" />
+                     </font>
+                  </Text>
+                  <Button layoutX="373.0" layoutY="14.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="150.0" styleClass="semi-rect-button" stylesheets="@../css/loginRegisterModule.css" text="CREATE ACCOUNT">
+                     <font>
+                        <Font name="Lexend Regular" size="7.0" />
+                     </font>
+                  </Button>
+                  <Text layoutX="62.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your Username &amp; Password">
+                     <font>
+                        <Font name="Lexend Deca Light" size="14.0" />
+                     </font>
+                  </Text>
+                  <TextField layoutX="84.0" layoutY="264.0" prefHeight="33.0" prefWidth="350.0" promptText="Username" styleClass="text-field-with-bottom-border" stylesheets="@../css/loginRegisterModule.css">
+                     <font>
+                        <Font name="Lexend Deca Regular" size="16.0" />
+                     </font>
+                  </TextField>
+                  <FontAwesomeIcon fill="#1a454e" glyphName="USER" layoutX="53.0" layoutY="289.0" selectionFill="BLACK" size="2em" />
+                  <FontAwesomeIcon fill="#1a454e" glyphName="KEY" layoutX="51.0" layoutY="349.0" selectionFill="BLACK" size="2em" />
+                  <Button layoutX="58.0" layoutY="418.0" mnemonicParsing="false" styleClass="button-sign-in" stylesheets="@../css/loginRegisterModule.css" text="SIGN IN">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="15.0" />
+                     </font>
+                  </Button>
+                  <ImageView fitHeight="84.0" fitWidth="120.0" layoutX="423.0" layoutY="515.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/images/logos/l1.png" />
+                     </image>
+                  </ImageView>
+                  <PasswordField layoutX="84.0" layoutY="328.0" prefHeight="33.0" prefWidth="350.0" promptText="Password" styleClass="text-field-with-bottom-border" stylesheets="@../css/loginRegisterModule.css">
+                     <font>
+                        <Font name="Lexend Deca Regular" size="16.0" />
+                     </font>
+                  </PasswordField>
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

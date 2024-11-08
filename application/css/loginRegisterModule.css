@@ -1,0 +1,65 @@
+.background-pane {
+    -fx-background-image: url("../assets/images/bgs/bg1.jpg");
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+	-fx-background-blur : 1px;	
+}
+
+.semi-rect-button {
+    -fx-background-color: transparent;     
+    -fx-border-color: #1A454E;             
+    -fx-border-width: 2;                   
+    -fx-border-radius: 15 15 0 0;         
+    -fx-background-radius: 15 15 0 0;      
+    -fx-padding: 5;                       
+    -fx-text-fill: #212832;                 
+    -fx-font-size: 14px;                  
+    -fx-font-weight: bold;                 
+    -fx-cursor: hand;                      
+}
+
+.semi-rect-button:hover {
+    -fx-background-color: #212832;        
+    -fx-text-fill: white;                
+}
+
+.semi-rect-button:pressed {
+    -fx-background-color: #2980b9;         
+    -fx-border-color: #2980b9;              
+}
+
+.text-field-with-bottom-border {
+    -fx-border-width: 0 0 2px 0;  
+    -fx-border-color: transparent transparent #00ADB4 transparent;   
+    -fx-background-color: transparent;  
+    -fx-padding: 5px;   
+    -fx-text-fill: #333; 
+}
+
+.button-sign-in {
+    -fx-background-color: #1A454E;                /* Button color */
+    -fx-text-fill: white;                          /* Text color */
+    -fx-border-radius: 5px;                        /* Rounded corners */
+    -fx-padding: 10px 30px;                        /* Padding inside the button */
+    -fx-border-color: transparent;                 /* No border color */
+    -fx-cursor: hand;                              /* Hand cursor on hover */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0.0, 0, 1);  /* Subtle shadow effect */
+    
+    /* Transition for hover and click effects */
+    -fx-transition: background-color 0.3s, -fx-border-radius 0.3s;
+}
+
+.button-sign-in:hover {
+    -fx-background-color: #2C6975;                 /* Hover color (lighter shade of #1A454E) */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 7, 0.0, 0, 1);  /* Darker shadow on hover */
+}
+
+.button-sign-in:pressed {
+    -fx-background-color: #133C42;                 /* Click color (darker shade of #1A454E) */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 10, 0.0, 0, 1);  /* Stronger shadow on click */
+}
+
+.image-view-fit-pane {
+    -fx-fit-height: true; /* Ensures the height of the image fits the container */
+}
