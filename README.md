@@ -10,6 +10,7 @@
 
 <p>2. Install all the fonts in the 'assets/fonts' folder the primary font used in the project will be "Lexand Deca"</p>
 
+## Collaborators
 <!-- readme: contributors -start -->
 <table>
 	<tbody>
