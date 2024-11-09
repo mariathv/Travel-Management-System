@@ -10,7 +10,8 @@
 
 <p>2. Install all the fonts in the 'assets/fonts' folder the primary font used in the project will be "Lexand Deca"</p>
 
-<h2>🍰 Contribution Guidelines:</h2>
+<!-- readme: contributors -start -->
+<!-- readme: contributors -end -->
 
   
   
