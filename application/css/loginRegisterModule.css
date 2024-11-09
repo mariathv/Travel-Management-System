@@ -63,3 +63,39 @@
 .image-view-fit-pane {
     -fx-fit-height: true; /* Ensures the height of the image fits the container */
 }
+
+.pane-with-background {
+	-fx-background-image: url("../assets/images/bgs/chintz-blooms-wallpaper-l-dark-blue.jpg");
+    -fx-background-size: cover; /* Make sure the background image covers the whole Pane */
+    -fx-background-position: center center; /* Center the image */
+    -fx-background-repeat: no-repeat; /* Prevent repeating the image */
+}
+
+.pane-with-border{
+	-fx-border-width: 10px 0px 10px 10px; /* Top, Right, Bottom, Left */
+	-fx-border-color: #212832; /* Set the color of the border */
+	-fx-border-style: solid; 
+}
+
+.semi-rect-button-full {
+    -fx-background-color: transparent;     
+    -fx-border-color: #1A454E;             
+    -fx-border-width: 2;                   
+    -fx-border-radius: 15 15 15 15;         
+    -fx-background-radius: 15 15 15 15;      
+    -fx-padding: 5;                        
+    -fx-cursor: hand;                      
+}
+
+
+.semi-rect-button-full:hover {
+    -fx-background-color: #212832;        
+    -fx-text-fill: white;      
+	-fx-font-size: 20px;     
+	-fx-font-family : "Lexend Deca"     
+}
+
+.semi-rect-button-full:pressed {
+    -fx-background-color: #2980b9;         
+    -fx-border-color: #2980b9;              
+}

@@ -18,7 +18,7 @@
    <left>
       <AnchorPane prefHeight="629.0" prefWidth="549.0" style="-fx-background-color: black;" stylesheets="@../css/loginRegisterModule.css" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="598.0" fitWidth="572.0" layoutX="-2.0" layoutY="1.0" pickOnBounds="true" styleClass="image-view-fit-pane">
+            <ImageView fitHeight="608.0" fitWidth="572.0" layoutX="-2.0" layoutY="1.0" pickOnBounds="true" styleClass="image-view-fit-pane">
                <image>
                   <Image url="@../assets/images/bgs/chintz-blooms-wallpaper-l-dark-blue.jpg" />
                </image>
@@ -48,7 +48,7 @@
                         <Font name="Lexend Deca Regular" size="14.0" />
                      </font>
                   </Text>
-                  <Button layoutX="373.0" layoutY="14.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="150.0" styleClass="semi-rect-button" stylesheets="@../css/loginRegisterModule.css" text="CREATE ACCOUNT">
+                  <Button fx:id="createacc_btn" layoutX="373.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#createNewAccount" prefHeight="22.0" prefWidth="150.0" styleClass="semi-rect-button" stylesheets="@../css/loginRegisterModule.css" text="CREATE ACCOUNT">
                      <font>
                         <Font name="Lexend Regular" size="7.0" />
                      </font>

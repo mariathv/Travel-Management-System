@@ -1,5 +1,8 @@
 package application.controllers;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -8,6 +11,7 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 
@@ -16,6 +20,8 @@ public class authController {
 	private TextField username;
 	@FXML
 	private PasswordField password;
+	
+	ScreenController screenController = new ScreenController();
 	public void login_sp() throws SQLException, ClassNotFoundException {
 		Connection connection = dbHandler.connect();
 		
@@ -39,5 +45,13 @@ public class authController {
 		}
 
 	}
+	@FXML
+	public void createNewAccount(MouseEvent event) throws SQLException, ClassNotFoundException, IOException {
+		System.out.println("pass");
+		screenController.switchToRegisterScene(event);
+	}
+	
+	
+	
 
 }
