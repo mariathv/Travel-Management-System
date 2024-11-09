@@ -1,27 +1,28 @@
-## Overview
-The **Travel Management System** is a comprehensive platform designed to simplify corporate and individual travel planning. It allows users to book hotels, flights, trains, and buses seamlessly, providing a one-stop solution for all travel needs.
+<h1 align="center" id="title">Travel Management System</h1>
 
-## Objective
-The primary objective of this project is to streamline and automate the processes of a travel agency by centralizing various travel-related services in a single, easy-to-use platform. With this system, users can save time and experience a more efficient and personalized travel planning journey.
+<p align="center"><img src="https://i.ibb.co/THRtcxJ/Screenshot-2024-11-09-204447.png" alt="project-image"></p>
 
-## Problem Statement
-Currently, travelers face the inconvenience of navigating multiple websites or agencies to gather information, check availability, and make bookings for accommodations and transport. This approach is often time-consuming and inefficient.
+<p id="description">Software Design &amp; Analysis Project | Fall 2024</p>
 
-### Proposed Solution
-The **Travel Management System** addresses this issue by consolidating services in a single platform. Users can:
-- Search and book hotels, flights, trains, and buses
-- Access information about destinations and available transport options
-- Complete bookings quickly and conveniently
+<h2>🛠️ Installation Steps:</h2>
 
-By centralizing these services, the system aims to save users time and enhance their travel experience. Leveraging existing technology, this project provides a feasible and beneficial solution for both customers and agencies.
+<p>1. Add all JAR files (in the jar folder) to your classpath</p>
 
-## Features
-- **Hotel Booking**: Find and book accommodations based on location and availability.
-- **Flight Booking**: Search and reserve flights across different airlines.
-- **Train and Bus Booking**: Access schedules and book train and bus tickets.
-- **User-Friendly Interface**: Intuitive design for smooth navigation and efficient booking.
+<p>2. Install all the fonts in the 'assets/fonts' folder the primary font used in the project will be "Lexand Deca"</p>
 
-## Technology Stack
-- **Frontend**: [JavaFX]
-- **Backend**: [Java]
-- **Database**: [MariaDB or MySQL]
+<h2>🍰 Contribution Guidelines:</h2>
+
+  
+  
+<h2>💻 Built with</h2>
+
+Technologies used in the project:
+
+*   Java
+*   JavaFX
+*   SceneBuilder
+*   Eclipse
+*   MySQL
+*   CleverCloud
+*   PhpMyAdmin
+*   fontAwesome
