@@ -18,11 +18,7 @@
 
 Technologies used in the project:
 
-*   Java
-*   JavaFX
-*   SceneBuilder
-*   Eclipse
-*   MySQL
-*   CleverCloud
-*   PhpMyAdmin
-*   fontAwesome
+![Static_Badge](https://img.shields.io/badge/java-red)
+![Static_Badge](https://img.shields.io/badge/javafx-blue)
+![Static_Badge](https://img.shields.io/badge/mysql-purple)
+
