@@ -32,12 +32,12 @@
 
 .button3
 {
-    -fx-background-color : #141124;
+    -fx-background-color :  #393D46;
     -fx-background-radius :  0 0 0 0;
 }
 .button3:hover
 {
-    -fx-background-color : #524A7B ;
+    -fx-background-color : #1A454E ;
 }
 .button3:pressed
 {
@@ -150,3 +150,21 @@
 {
     -fx-background-color: linear-gradient(to bottom left, #00adb4, #212832);
 }
+
+
+.semi-rect-button-full {
+    -fx-background-color: transparent;     
+    -fx-border-color: #1A454E;             
+    -fx-border-width: 2;                   
+    -fx-border-radius: 15 15 15 15;         
+    -fx-background-radius: 15 15 15 15;      
+    -fx-padding: 5;                        
+    -fx-cursor: hand;                      
+}
+
+
+.semi-rect-button-full:hover {
+    -fx-background-color: #212832;        
+    -fx-text-fill: white;       
+}
+

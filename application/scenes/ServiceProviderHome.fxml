@@ -30,7 +30,7 @@
             <VBox prefHeight="544.0" prefWidth="74.0" style="-fx-background-color: #393D46; -fx-background-radius: 15 0 0 15;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Pane prefHeight="79.0" prefWidth="74.0" style="-fx-background-radius: 15 0 15 15;" />
-                  <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="66.0" prefWidth="74.0" style="-fx-background-color: #393D46;" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Home" textFill="#00adb4">
+                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#loadHomePane" prefHeight="66.0" prefWidth="74.0" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Home" textFill="#00adb4">
                      <graphic>
                         <FontAwesomeIcon fill="#00adb4" glyphName="HOME" selectionFill="#fafafa" selectionStart="1" size="3em" wrappingWidth="32.47615098953247" />
                      </graphic>
@@ -38,7 +38,7 @@
                         <Font name="Lexend Deca Medium" size="12.0" />
                      </font>
                   </Button>
-                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#loadNewPanel" prefHeight="66.0" prefWidth="74.0" style="-fx-background-color: #393D46;" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Bookings" textFill="#00adb4">
+                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#loadNewPanel" prefHeight="66.0" prefWidth="74.0" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Services" textFill="#00adb4">
                      <graphic>
                         <FontAwesomeIcon fill="#00adb4" glyphName="BARS" selectionFill="#fafafa" selectionStart="1" size="3em" wrappingWidth="32.47615098953247" />
                      </graphic>
@@ -46,7 +46,7 @@
                         <Font name="Lexend Deca Medium" size="12.0" />
                      </font>
                   </Button>
-                  <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="66.0" prefWidth="74.0" style="-fx-background-color: #393D46;" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Notifications" textFill="#00adb4">
+                  <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="66.0" prefWidth="74.0" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Notifications" textFill="#00adb4">
                      <graphic>
                         <FontAwesomeIcon fill="#00adb4" glyphName="BELL" selectionFill="#fafafa" selectionStart="1" size="3em" wrappingWidth="32.47615098953247" />
                      </graphic>
@@ -54,7 +54,7 @@
                         <Font name="Lexend Deca Medium" size="9.0" />
                      </font>
                   </Button>
-                  <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="66.0" prefWidth="74.0" style="-fx-background-color: #393D46;" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Profile" textFill="#00adb4">
+                  <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="66.0" prefWidth="74.0" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Profile" textFill="#00adb4">
                      <graphic>
                         <FontAwesomeIcon fill="#00adb4" glyphName="USER" selectionFill="#fafafa" selectionStart="1" size="3em" wrappingWidth="32.47615098953247" />
                      </graphic>

@@ -24,4 +24,19 @@ public class ServiceProviderController {
 	    public void exitApplication() {
 	        Platform.exit(); 
 	    }
+	    
+	    public void loadHomePane() {
+	        try {
+	            AnchorPane newPanel = FXMLLoader.load(getClass().getResource("../scenes/ServiceProviderHomePane.fxml"));
+	            
+	            mainPanel.getChildren().setAll(newPanel);
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    
+	    
+	    
+	    
 }
