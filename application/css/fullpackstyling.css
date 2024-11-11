@@ -168,3 +168,20 @@
     -fx-text-fill: white;       
 }
 
+.semi-rect-pane-full {
+    -fx-background-color: transparent;     
+    -fx-border-color: #1A454E;             
+    -fx-border-width: 2;                   
+    -fx-border-radius: 15 15 15 15;         
+    -fx-background-radius: 15 15 15 15;      
+    -fx-padding: 0	;                        
+    -fx-cursor: hand;                      
+}
+
+
+.semi-rect-pane-full:hover {
+    -fx-background-color: #212832;        
+    -fx-text-fill: white;       
+}
+
+

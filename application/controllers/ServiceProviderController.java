@@ -36,6 +36,18 @@ public class ServiceProviderController {
 	        }
 	    }
 	    
+	    public void loadProfilePane() {
+	        try {
+	            AnchorPane newPanel = FXMLLoader.load(getClass().getResource("../scenes/ServiceProviderProfilePane.fxml"));
+	            
+	            mainPanel.getChildren().setAll(newPanel);
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    
+	    
 	    
 	    
 	    
