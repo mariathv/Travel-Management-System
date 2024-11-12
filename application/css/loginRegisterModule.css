@@ -99,3 +99,11 @@
     -fx-background-color: #2980b9;         
     -fx-border-color: #2980b9;              
 }
+
+.text-button{
+	-fx-text-fill: #1A454E;
+}
+
+.text-button:hover{
+	-fx-text-fill: #212832;
+}

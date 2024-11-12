@@ -1,6 +1,8 @@
 package application;
 	
+import application.controllers.AppController;
 import application.controllers.ScreenController;
+import application.controllers.authController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -18,8 +20,14 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			//BorderPane root = new BorderPane();
-			Parent root = FXMLLoader.load(getClass().getResource("scenes/ServiceProviderHome.fxml"));
+			AppController.setPrimaryStage(primaryStage);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("scenes/LoginRegister.fxml"));
+			Parent root = loader.load(); // Load the FXML and get the root node
+
 			primaryStage.initStyle(StageStyle.TRANSPARENT);
+
+//			authController authController = loader.getController();
+//		    authController.setPrimaryStage(primaryStage); // Assuming you want to pass primaryStage
 			
 			//grab your root here
 	        root.setOnMousePressed(event -> {
@@ -33,7 +41,7 @@ public class Main extends Application {
 	            primaryStage.setY(event.getScreenY() - yOffset);
 	        });
 	        
-			Scene scene = new Scene(root);
+			Scene scene = new Scene(root,1100,600);
 			scene.setFill(Color.TRANSPARENT);
 			primaryStage.setScene(scene);
 			primaryStage.show();
