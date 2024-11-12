@@ -58,14 +58,14 @@
                         <Font name="Lexend Deca Light" size="14.0" />
                      </font>
                   </Text>
-                  <TextField id="username-text" fx:id="username" layoutX="83.0" layoutY="191.0" prefHeight="33.0" prefWidth="350.0" promptText="Username" styleClass="text-field-with-bottom-border" stylesheets="@../css/loginRegisterModule.css">
+                  <TextField id="username-text" fx:id="reg_username" layoutX="83.0" layoutY="191.0" prefHeight="33.0" prefWidth="350.0" promptText="Username" styleClass="text-field-with-bottom-border" stylesheets="@../css/loginRegisterModule.css">
                      <font>
                         <Font name="Lexend Deca Regular" size="16.0" />
                      </font>
                   </TextField>
                   <FontAwesomeIcon fill="#1a454e" glyphName="USER" layoutX="49.0" layoutY="218.0" selectionFill="BLACK" size="2em" />
                   <FontAwesomeIcon fill="#1a454e" glyphName="KEY" layoutX="51.0" layoutY="349.0" selectionFill="BLACK" size="2em" />
-                  <Button layoutX="61.0" layoutY="470.0" mnemonicParsing="false" onMouseClicked="#login_sp" styleClass="button-sign-in" stylesheets="@../css/loginRegisterModule.css" text="SIGN IN">
+                  <Button layoutX="60.0" layoutY="515.0" mnemonicParsing="false" onMouseClicked="#RegisterServiceProvider" styleClass="button-sign-in" stylesheets="@../css/loginRegisterModule.css" text="SIGN UP">
                      <font>
                         <Font name="Lexend Deca Medium" size="15.0" />
                      </font>
@@ -75,19 +75,14 @@
                         <Image url="@../assets/images/logos/l1.png" />
                      </image>
                   </ImageView>
-                  <PasswordField id="password-text" fx:id="password" layoutX="84.0" layoutY="328.0" prefHeight="33.0" prefWidth="350.0" promptText="Re-Enter Password" styleClass="text-field-with-bottom-border" stylesheets="@../css/loginRegisterModule.css">
+                  <PasswordField id="password-text" fx:id="password_re" layoutX="84.0" layoutY="328.0" prefHeight="33.0" prefWidth="350.0" promptText="Re-Enter Password" styleClass="text-field-with-bottom-border" stylesheets="@../css/loginRegisterModule.css">
                      <font>
                         <Font name="Lexend Deca Regular" size="16.0" />
                      </font>
                   </PasswordField>
-                  <FontAwesomeIcon fill="#1a454e" glyphName="USER" layoutX="49.0" layoutY="260.0" selectionFill="BLACK" size="2em" />
-                  <PasswordField id="password-text" fx:id="password1" layoutX="84.0" layoutY="235.0" prefHeight="33.0" prefWidth="350.0" promptText="Email" styleClass="text-field-with-bottom-border" stylesheets="@../css/loginRegisterModule.css">
-                     <font>
-                        <Font name="Lexend Deca Regular" size="16.0" />
-                     </font>
-                  </PasswordField>
+                  <FontAwesomeIcon fill="#1a454e" glyphName="ENVELOPE" layoutX="49.0" layoutY="260.0" selectionFill="BLACK" size="2em" />
                   <FontAwesomeIcon fill="#1a454e" glyphName="KEY" layoutX="51.0" layoutY="308.0" selectionFill="BLACK" size="2em" />
-                  <PasswordField id="password-text" fx:id="password2" layoutX="84.0" layoutY="283.0" prefHeight="33.0" prefWidth="350.0" promptText="Password" styleClass="text-field-with-bottom-border" stylesheets="@../css/loginRegisterModule.css">
+                  <PasswordField id="password-text" fx:id="reg_password" layoutX="84.0" layoutY="283.0" prefHeight="33.0" prefWidth="350.0" promptText="Password" styleClass="text-field-with-bottom-border" stylesheets="@../css/loginRegisterModule.css">
                      <font>
                         <Font name="Lexend Deca Regular" size="16.0" />
                      </font>
@@ -97,7 +92,13 @@
                         <Font name="Lexend Deca Light" size="18.0" />
                      </font>
                   </Text>
-                  <TextField id="username-text" fx:id="username1" layoutX="79.0" layoutY="420.0" prefHeight="33.0" prefWidth="350.0" styleClass="text-field-with-bottom-border" stylesheets="@../css/loginRegisterModule.css">
+                  <TextField id="username-text" fx:id="agencyName" layoutX="79.0" layoutY="420.0" prefHeight="33.0" prefWidth="350.0" styleClass="text-field-with-bottom-border" stylesheets="@../css/loginRegisterModule.css">
+                     <font>
+                        <Font name="Lexend Deca Regular" size="16.0" />
+                     </font>
+                  </TextField>
+                  <FontAwesomeIcon fill="#1a454e" glyphName="BUS" layoutX="50.0" layoutY="449.0" selectionFill="BLACK" size="2em" />
+                  <TextField id="username-text" fx:id="email" layoutX="84.0" layoutY="235.0" prefHeight="33.0" prefWidth="350.0" promptText="Email" styleClass="text-field-with-bottom-border" stylesheets="@../css/loginRegisterModule.css">
                      <font>
                         <Font name="Lexend Deca Regular" size="16.0" />
                      </font>
