@@ -4,3 +4,5 @@
 /authController.class
 /dbHandler.class
 /AppController.class
+/ServiceController.class
+/ServiceItemController.class

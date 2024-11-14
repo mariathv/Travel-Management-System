@@ -3,6 +3,7 @@ package application.controllers;
 import java.io.IOException;
 import java.util.HashMap;
 
+import application.Model.ServiceProvider;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -56,6 +57,8 @@ public class ScreenController {
     public void switchToLoginScene(MouseEvent event) throws IOException {
     	System.out.println("Switching Scenes");	
     	
+    	setPrimaryStage(AppController.getPrimaryStage());
+    	
     	Parent root = FXMLLoader.load(getClass().getResource("/application/scenes/LoginRegister.fxml"));
     	stage = (Stage)((Node)event.getSource()).getScene().getWindow();
     	
@@ -80,6 +83,8 @@ public class ScreenController {
     public void switchToSPRegister(MouseEvent event) throws IOException {
     	System.out.println("Switching Scenes");	
     	
+    	setPrimaryStage(AppController.getPrimaryStage());
+    	
     	Parent root = FXMLLoader.load(getClass().getResource("/application/scenes/RegisterServiceProvider.fxml"));
     	stage = (Stage)((Node)event.getSource()).getScene().getWindow();
     	
@@ -101,12 +106,20 @@ public class ScreenController {
     	stage.show();
     }
     
-    public void switchToSPHome(MouseEvent event) throws IOException {
+    public void switchToSPHome(MouseEvent event, ServiceProvider serviceProvider) throws IOException {
     	System.out.println("Switching Scenes");	
     	
-    	Parent root = FXMLLoader.load(getClass().getResource("/application/scenes/ServiceProviderHome.fxml"));
-    	stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    	setPrimaryStage(AppController.getPrimaryStage());
     	
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/scenes/ServiceProviderHome.fxml"));
+        Parent root = loader.load();
+
+        ServiceProviderController controller = loader.getController();
+        
+        controller.setServiceProvider(serviceProvider);
+    	
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        
     	root.setOnMousePressed(mouseEvent -> {
     	    xOffset = mouseEvent.getSceneX();
     	    yOffset = mouseEvent.getSceneY();

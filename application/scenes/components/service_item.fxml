@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<HBox prefHeight="63.0" prefWidth="534.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.ServiceItemController">
+   <children>
+      <ImageView fitHeight="60.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../assets/images/pngs/bus.png" />
+         </image>
+      </ImageView>
+      <VBox alignment="TOP_RIGHT" prefHeight="68.0" prefWidth="109.0">
+         <children>
+            <Text fx:id="depLoc" strokeType="OUTSIDE" strokeWidth="0.0" text="Departure" textAlignment="RIGHT">
+               <font>
+                  <Font name="Lexend Deca Medium" size="13.0" />
+               </font>
+            </Text>
+         </children>
+      </VBox>
+      <ImageView fitHeight="72.0" fitWidth="68.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../assets/images/pngs/route-map.png" />
+         </image>
+      </ImageView>
+      <VBox alignment="BOTTOM_LEFT" prefHeight="68.0" prefWidth="87.0">
+         <children>
+            <Text fx:id="destLoc" strokeType="OUTSIDE" strokeWidth="0.0" text="Destination" textAlignment="RIGHT">
+               <font>
+                  <Font name="Lexend Deca Medium" size="13.0" />
+               </font>
+            </Text>
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" prefHeight="68.0" prefWidth="74.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Departure Time:" wrappingWidth="100.33399200439453">
+               <font>
+                  <Font name="Lexend Deca Medium" size="10.0" />
+               </font>
+            </Text>
+            <Text fx:id="depTime" strokeType="OUTSIDE" strokeWidth="0.0" text="10:00 PM" textAlignment="CENTER" wrappingWidth="100.33399200439453">
+               <font>
+                  <Font name="Lexend Deca Medium" size="21.0" />
+               </font>
+            </Text>
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" prefHeight="68.0" prefWidth="74.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Arrival Time" wrappingWidth="100.33399200439453">
+               <font>
+                  <Font name="Lexend Deca Medium" size="10.0" />
+               </font>
+            </Text>
+            <Text fx:id="arvTime" strokeType="OUTSIDE" strokeWidth="0.0" text="9:00 AM" textAlignment="CENTER" wrappingWidth="100.33399200439453">
+               <font>
+                  <Font name="Lexend Deca Medium" size="21.0" />
+               </font>
+            </Text>
+         </children>
+      </VBox>
+   </children>
+</HBox>
