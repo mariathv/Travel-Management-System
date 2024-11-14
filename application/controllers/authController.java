@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
+import application.Model.ServiceProvider;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,12 +36,13 @@ public class authController {
 	private TextField agencyName;
 	
 	ScreenController screenController = new ScreenController();
+	ServiceProvider serviceProvider;
 	private Stage primaryStage;
-	public void login_sp() throws SQLException, ClassNotFoundException {
+	public void login_sp(MouseEvent event) throws SQLException, ClassNotFoundException, IOException {
 		Connection connection = dbHandler.connect();
 		
 		//login implementation
-		String getPassQuery = "SELECT password FROM serviceProviderAuth WHERE username = ?";
+		String getPassQuery = "SELECT * FROM serviceProviderAuth WHERE username = ?";
 		PreparedStatement prepStatement = connection.prepareStatement(getPassQuery);
 		prepStatement.setString(1, username.getText());
 		
@@ -49,8 +51,25 @@ public class authController {
 		ResultSet resultSet = prepStatement.executeQuery();
 		if (resultSet.next()) { 
 		    String retrievedPassword = resultSet.getString("password");
+		    int id = resultSet.getInt("userID");
 		    if (retrievedPassword.equals(password.getText())) {
 		        System.out.println("Login successful.");
+		        
+		        String getPassQuery2 = "SELECT * FROM ServiceProvider WHERE serviceProviderID = ?";
+		        PreparedStatement prepStatement2 = connection.prepareStatement(getPassQuery2);
+				prepStatement2.setInt(1, id);
+				ResultSet resultSet2 = prepStatement2.executeQuery();
+				if(resultSet2.next()) {
+					String emailSP = resultSet2.getString("email");
+					String nameSP = resultSet2.getString("name");
+					String agencyName = resultSet2.getString("travelAgencyName");
+					serviceProvider = new ServiceProvider(id, emailSP,username.getText(), agencyName);
+					
+				}else {
+					System.out.println("Incorrect password.");
+				}
+		        
+		        screenController.switchToSPHome(event, serviceProvider);
 		    } else {
 		        System.out.println("Incorrect password.");
 		    }
@@ -109,6 +128,8 @@ public class authController {
 		if (prepStatement1.executeUpdate() > 0) {
 			System.out.println("successful operation :: adding new service provieder");
 			prepStatement1.close();
+			serviceProvider = new ServiceProvider(userID, email.getText(), reg_username.getText(), agencyName.getText());
+			
 		} else {
 			System.out.println("failed operation :: adding new service provieder");
 			prepStatement1.close();
@@ -116,7 +137,7 @@ public class authController {
 		    return;
 		}
 		System.out.println("switching scenes");
-		screenController.switchToSPHome(event);
+		screenController.switchToSPHome(event, serviceProvider);
 		
 		
 	

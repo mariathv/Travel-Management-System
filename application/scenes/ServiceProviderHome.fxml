@@ -30,7 +30,7 @@
             <VBox prefHeight="544.0" prefWidth="74.0" style="-fx-background-color: #393D46; -fx-background-radius: 15 0 0 15;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Pane prefHeight="79.0" prefWidth="74.0" style="-fx-background-radius: 15 0 15 15;" />
-                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#loadHomePane" prefHeight="66.0" prefWidth="74.0" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Home" textFill="#00adb4">
+                  <Button fx:id="nav_home" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadHomePane" prefHeight="66.0" prefWidth="74.0" style="-fx-background-color: #212832;" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Home" textFill="#00adb4">
                      <graphic>
                         <FontAwesomeIcon fill="#00adb4" glyphName="HOME" selectionFill="#fafafa" selectionStart="1" size="3em" wrappingWidth="32.47615098953247" />
                      </graphic>
@@ -38,7 +38,7 @@
                         <Font name="Lexend Deca Medium" size="12.0" />
                      </font>
                   </Button>
-                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#loadNewPanel" prefHeight="66.0" prefWidth="74.0" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Services" textFill="#00adb4">
+                  <Button fx:id="nav_service" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadNewPanel" prefHeight="66.0" prefWidth="74.0" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Services" textFill="#00adb4">
                      <graphic>
                         <FontAwesomeIcon fill="#00adb4" glyphName="BARS" selectionFill="#fafafa" selectionStart="1" size="3em" wrappingWidth="32.47615098953247" />
                      </graphic>
@@ -46,7 +46,7 @@
                         <Font name="Lexend Deca Medium" size="12.0" />
                      </font>
                   </Button>
-                  <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="66.0" prefWidth="74.0" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Notifications" textFill="#00adb4">
+                  <Button fx:id="nav_notifs" contentDisplay="TOP" mnemonicParsing="false" prefHeight="66.0" prefWidth="74.0" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Notifications" textFill="#00adb4">
                      <graphic>
                         <FontAwesomeIcon fill="#00adb4" glyphName="BELL" selectionFill="#fafafa" selectionStart="1" size="3em" wrappingWidth="32.47615098953247" />
                      </graphic>
@@ -54,7 +54,7 @@
                         <Font name="Lexend Deca Medium" size="9.0" />
                      </font>
                   </Button>
-                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#loadProfilePane" prefHeight="66.0" prefWidth="74.0" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Profile" textFill="#00adb4">
+                  <Button fx:id="nav_profile" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadProfilePane" prefHeight="66.0" prefWidth="74.0" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Profile" textFill="#00adb4">
                      <graphic>
                         <FontAwesomeIcon fill="#00adb4" glyphName="USER" selectionFill="#fafafa" selectionStart="1" size="3em" wrappingWidth="32.47615098953247" />
                      </graphic>
@@ -68,21 +68,25 @@
                <children>
                   <Pane layoutX="569.0" layoutY="46.0" prefHeight="297.0" prefWidth="270.0" style="-fx-background-radius: 20;" styleClass="linear-grad" stylesheets="@../css/fullpackstyling.css">
                      <children>
-                        <ImageView fitHeight="175.0" fitWidth="172.0" layoutX="45.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../assets/images/pngs/profile-user.png" />
-                           </image>
-                        </ImageView>
-                        <Text fill="WHITE" layoutX="72.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\@username">
-                           <font>
-                              <Font name="Lexend Deca Regular" size="20.0" />
-                           </font>
-                        </Text>
-                        <Text fill="WHITE" layoutX="32.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Travel Agency Name">
-                           <font>
-                              <Font name="Lexend Deca Regular" size="20.0" />
-                           </font>
-                        </Text>
+                        <VBox alignment="TOP_CENTER" layoutX="16.0" layoutY="12.0" prefHeight="265.0" prefWidth="243.0">
+                           <children>
+                              <ImageView fitHeight="175.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/images/pngs/profile-user.png" />
+                                 </image>
+                              </ImageView>
+                              <Text fx:id="usernameProfilePane" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="\@username" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Lexend Deca Regular" size="20.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="agencyProfilePane" boundsType="LOGICAL_VERTICAL_CENTER" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Travel Agency Name" textAlignment="CENTER" textOrigin="CENTER">
+                                 <font>
+                                    <Font name="Lexend Deca Bold" size="18.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
                      </children>
                   </Pane>
                   <Line endX="100.0" layoutX="445.0" layoutY="54.0" startX="100.0" startY="418.0" stroke="#b9b1b1" strokeDashOffset="2.0" />

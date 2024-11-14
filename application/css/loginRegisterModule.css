@@ -61,7 +61,7 @@
 }
 
 .image-view-fit-pane {
-    -fx-fit-height: true; /* Ensures the height of the image fits the container */
+    /*-fx-fit-height: true; /* Ensures the height of the image fits the container */
 }
 
 .pane-with-background {

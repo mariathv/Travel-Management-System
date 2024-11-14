@@ -174,14 +174,54 @@
     -fx-border-width: 2;                   
     -fx-border-radius: 15 15 15 15;         
     -fx-background-radius: 15 15 15 15;      
-    -fx-padding: 0	;                        
-    -fx-cursor: hand;                      
+    -fx-padding: 0	;                       
 }
 
 
-.semi-rect-pane-full:hover {
-    -fx-background-color: #212832;        
-    -fx-text-fill: white;       
+.button-black-white {
+    -fx-background-color: #212832;  /* Black background */
+    -fx-text-fill: white;  /* White text */
+    -fx-border-radius: 5px;  /* Rounded corners */
+    -fx-border-color: black;  /* Black border */
+    -fx-border-width: 2px;  /* Border width */
+}
+
+.button-black-white:hover {
+    -fx-background-color: white;  /* White background on hover */
+    -fx-text-fill: black;  /* Black text on hover */
+    -fx-border-color: white;  /* White border on hover */
+}
+
+/* Set the background color of the ScrollPane */
+.scroll-pane {
+    -fx-background-color: #E8E8E8; /* Light gray color */
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+}
+
+/* Customize the scrollbars inside the ScrollPane */
+.scroll-pane > .viewport {
+    -fx-background-color: #E8E8E8;  /* Set viewport area background color */
+}
+
+/* Customize the scroll bar's thumb (the draggable part) */
+.scroll-pane .thumb {
+    -fx-background-color: #4CAF50;  /* Color of the thumb */
+}
+
+/* Customize the scrollbar's track (the background area of the scrollbar) */
+.scroll-pane .track {
+    -fx-background-color: lightgray; /* Background color of the scrollbar */
+}
+
+/* Customize the horizontal scrollbar */
+.scroll-pane .horizontal {
+    -fx-background-color: transparent;
+}
+
+/* Customize the vertical scrollbar */
+.scroll-pane .vertical {
+    -fx-background-color: transparent;
 }
 
 
