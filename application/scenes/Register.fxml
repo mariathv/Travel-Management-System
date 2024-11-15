@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.RegisterController">
+<BorderPane style="-fx-background-radius: 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.RegisterController">
    <right>
-      <AnchorPane prefHeight="600.0" prefWidth="640.0" styleClass="pane-with-background" stylesheets="@../css/loginRegisterModule.css" BorderPane.alignment="CENTER" />
+      <AnchorPane prefHeight="600.0" prefWidth="640.0" styleClass="pane-with-background" stylesheets="@../css/loginRegisterModule.css" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="31.0" fitWidth="28.0" layoutX="593.0" layoutY="20.0" onMouseClicked="#exitApplication" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/images/pngs/close.png" />
+               </image>
+            </ImageView>
+         </children></AnchorPane>
    </right>
    <left>
       <AnchorPane prefHeight="600.0" prefWidth="514.0" style="-fx-background-color: 212832;" styleClass="pane-with-border" stylesheets="@../css/loginRegisterModule.css" BorderPane.alignment="CENTER">
@@ -23,12 +32,12 @@
                   <Font name="Lexend Deca Medium" size="18.0" />
                </font>
             </Button>
-            <Button layoutX="90.0" layoutY="356.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="246.0" styleClass="semi-rect-button-full" stylesheets="@../css/loginRegisterModule.css" text="Service Provider">
+            <Button layoutX="90.0" layoutY="356.0" mnemonicParsing="false" onMouseClicked="#RegisterAsServiceProvider" prefHeight="38.0" prefWidth="246.0" styleClass="semi-rect-button-full" stylesheets="@../css/loginRegisterModule.css" text="Service Provider">
                <font>
                   <Font name="Lexend Deca Medium" size="18.0" />
                </font>
             </Button>
-            <Text fill="#117579" layoutX="22.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="2.0" styleClass="semi-rect-button" text="Back to Login" wrappingWidth="132.85597229003906">
+            <Text layoutX="22.0" layoutY="35.0" onMouseClicked="#goBackLogin" strokeType="OUTSIDE" strokeWidth="2.0" styleClass="text-button" text="Back to Login" wrappingWidth="132.85597229003906">
                <font>
                   <Font name="Lexend Deca Regular" size="13.0" />
                </font>

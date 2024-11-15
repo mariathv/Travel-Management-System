@@ -14,11 +14,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.authController">
+
+<BorderPane style="-fx-background-radius: 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.authController">
    <left>
       <AnchorPane prefHeight="629.0" prefWidth="549.0" style="-fx-background-color: black;" stylesheets="@../css/loginRegisterModule.css" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="608.0" fitWidth="572.0" layoutX="-2.0" layoutY="1.0" pickOnBounds="true" styleClass="image-view-fit-pane">
+            <ImageView fitHeight="634.0" fitWidth="552.0" layoutX="-2.0" layoutY="1.0" pickOnBounds="true" styleClass="image-view-fit-pane">
                <image>
                   <Image url="@../assets/images/bgs/chintz-blooms-wallpaper-l-dark-blue.jpg" />
                </image>
@@ -43,12 +44,12 @@
                         <Font name="Lexend Medium" size="41.0" />
                      </font>
                   </Text>
-                  <Text layoutX="200.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Don't have an account?">
+                  <Text layoutX="14.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Don't have an account?">
                      <font>
                         <Font name="Lexend Deca Regular" size="14.0" />
                      </font>
                   </Text>
-                  <Button fx:id="createacc_btn" layoutX="373.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#createNewAccount" prefHeight="22.0" prefWidth="150.0" styleClass="semi-rect-button" stylesheets="@../css/loginRegisterModule.css" text="CREATE ACCOUNT">
+                  <Button fx:id="createacc_btn" layoutX="190.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#createNewAccount" prefHeight="22.0" prefWidth="150.0" styleClass="semi-rect-button" stylesheets="@../css/loginRegisterModule.css" text="CREATE ACCOUNT">
                      <font>
                         <Font name="Lexend Regular" size="7.0" />
                      </font>
@@ -80,6 +81,11 @@
                         <Font name="Lexend Deca Regular" size="16.0" />
                      </font>
                   </PasswordField>
+                  <ImageView fitHeight="17.0" fitWidth="18.0" layoutX="499.0" layoutY="12.0" onMouseClicked="#exitApplication" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/images/pngs/close-black.png" />
+                     </image>
+                  </ImageView>
                </children>
             </Pane>
          </children>
