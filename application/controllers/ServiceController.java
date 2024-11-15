@@ -11,19 +11,38 @@ import java.util.List;
 import application.Model.ServiceProvider;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 public class ServiceController {
 	ServiceProvider serviceProvider;
+	@FXML
+	private Pane addServicePane;
+	@FXML
+	private ScrollPane viewServicePane;
+	
+	@FXML
+	private Text serviceNumber;
 	
 	@FXML
 	private VBox servicesCont;
+	
+	@FXML
+	private Button addNewServiceBtn;
 	
 	public void setServiceProvider(ServiceProvider serviceProvider) {
         this.serviceProvider = serviceProvider;
 	}
 	
+	public void addNewService(){
+		addServicePane.setVisible(true);
+		viewServicePane.setVisible(false);
+		addNewServiceBtn.setVisible(false);
+	}
 	public void initServicesFS() throws SQLException, ClassNotFoundException { //initialize services for service provider ONLY not for the customer interface
 		Connection connection = dbHandler.connect();
 		
@@ -45,6 +64,9 @@ public class ServiceController {
 
 		PreparedStatement prepStatement = connection.prepareStatement(query);
 		prepStatement.setInt(1, serviceProvider.getServiceProviderID());
+		
+		
+		serviceNumber.setText("Blah");
 		
 		ResultSet resultSet = prepStatement.executeQuery();
 		
@@ -83,13 +105,13 @@ public class ServiceController {
 		    ServiceItemController sItemC = fxmlloader.getController();
 		
 		    // Simulate setting the data from the mock data list
-		    sItemC.setData(data[4], data[7], data[5], data[6]);
+		    sItemC.setData(data[5], data[7], data[5], data[6]);
 		
 		    // Adding the item to the container
 		    servicesCont.getChildren().add(hbox);
 		} catch (IOException io) {
 		    System.out.println(io);
 	}
-}
+	}
 	}
 }

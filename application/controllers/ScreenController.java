@@ -130,8 +130,6 @@ public class ScreenController {
     	    primaryStage.setY(mouseEvent.getScreenY() - yOffset);
     	});
     	//get dimensions of the window
-    	double width = stage.getWidth();
-        double height = stage.getHeight();
     	scene = new Scene(root);
 		scene.setFill(Color.TRANSPARENT);
     	stage.setScene(scene);
