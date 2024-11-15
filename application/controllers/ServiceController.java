@@ -14,10 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-<<<<<<< HEAD
-=======
 import javafx.scene.control.TextField;
->>>>>>> temp-1
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -29,18 +26,6 @@ public class ServiceController {
 	private Pane addServicePane;
 	@FXML
 	private ScrollPane viewServicePane;
-<<<<<<< HEAD
-	
-	@FXML
-	private Text serviceNumber;
-	
-	@FXML
-	private VBox servicesCont;
-	
-	@FXML
-	private Button addNewServiceBtn;
-	
-=======
 	@FXML
 	private Text serviceNumber;
 	@FXML
@@ -49,17 +34,10 @@ public class ServiceController {
 	private Button addNewServiceBtn;
 	@FXML
 	private TextField depLoc, depTime, depDate, arvLoc, arvTime, arvDate, SBusNo, BStationName, BStationLoc, StktPrice;
->>>>>>> temp-1
 	public void setServiceProvider(ServiceProvider serviceProvider) {
         this.serviceProvider = serviceProvider;
 	}
 	
-<<<<<<< HEAD
-	public void addNewService(){
-		addServicePane.setVisible(true);
-		viewServicePane.setVisible(false);
-		addNewServiceBtn.setVisible(false);
-=======
 	public void addNewServiceForm() {
 		addServicePane.setVisible(true);
 		viewServicePane.setVisible(false);
@@ -162,7 +140,6 @@ public class ServiceController {
 		}
 		
 		
->>>>>>> temp-1
 	}
 	public void initServicesFS() throws SQLException, ClassNotFoundException { //initialize services for service provider ONLY not for the customer interface
 		Connection connection = dbHandler.connect();
@@ -187,11 +164,7 @@ public class ServiceController {
 		prepStatement.setInt(1, serviceProvider.getServiceProviderID());
 		
 		
-<<<<<<< HEAD
-		serviceNumber.setText("Blah");
-=======
 		//serviceNumber.setText("Blah");
->>>>>>> temp-1
 		
 		ResultSet resultSet = prepStatement.executeQuery();
 		
@@ -209,23 +182,6 @@ public class ServiceController {
 		do {
 		    FXMLLoader fxmlloader = new FXMLLoader();
 		    fxmlloader.setLocation(getClass().getResource("../scenes/components/service_item.fxml"));
-<<<<<<< HEAD
-		
-		try {
-		    // Mock the loading of a HBox and controller
-		    HBox hbox = fxmlloader.load();
-		    ServiceItemController sItemC = fxmlloader.getController();
-		
-		    // Simulate setting the data from the mock data list
-		    sItemC.setData(data[5], data[7], data[5], data[6]);
-		
-		    // Adding the item to the container
-		    servicesCont.getChildren().add(hbox);
-		} catch (IOException io) {
-		    System.out.println(io);
-	}
-	}
-=======
 		    
 		    try {
 		        System.out.println("adding service to View");
@@ -261,7 +217,6 @@ public class ServiceController {
 //		    System.out.println(io);
 //	}
 //	}
->>>>>>> temp-1
 	}
 	
 //	private void showServiceDetails(String serviceType, String BUSNO, String Desc, String arrivalTime) {
