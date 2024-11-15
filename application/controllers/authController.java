@@ -36,7 +36,10 @@ public class authController {
 	private TextField agencyName;
 	
 	ScreenController screenController = new ScreenController();
+	
 	ServiceProvider serviceProvider;
+	
+	
 	private Stage primaryStage;
 	public void login_sp(MouseEvent event) throws SQLException, ClassNotFoundException, IOException {
 		Connection connection = dbHandler.connect();
@@ -137,6 +140,9 @@ public class authController {
 		    return;
 		}
 		System.out.println("switching scenes");
+		
+		
+		
 		screenController.switchToSPHome(event, serviceProvider);
 		
 		
