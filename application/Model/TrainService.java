@@ -1,14 +1,14 @@
 package application.Model;
 
-public class BusService extends TravelService {
+public class TrainService extends TravelService {
 	String stationName;
 	String stationLocation;
-	String BusNumber;
+	String TrainNumber;
 	
-	public BusService(
+	public TrainService(
 	        String stationName,
 	        String stationLocation,
-	        String busNumber,
+	        String TrainNumber,
 	        int serviceID,
 	        int serviceProviderID,
 	        String description,
@@ -22,7 +22,7 @@ public class BusService extends TravelService {
 	    ) {
 	        this.stationName = stationName;
 	        this.stationLocation = stationLocation;
-	        this.BusNumber = busNumber;
+	        this.TrainNumber = TrainNumber;
 	        this.serviceID = serviceID;
 	        this.serviceProviderID = serviceProviderID;
 	        this.description = description;
@@ -51,11 +51,12 @@ public class BusService extends TravelService {
 	    this.stationLocation = stationLocation;
 	}
 	
-	public String getBusNumber() {
-	    return BusNumber;
+	public String getTrainNumber() {
+	    return TrainNumber;
 	}
 	
-	public void setBusNumber(String busNumber) {
-	    this.BusNumber = busNumber;
+	public void setTrainNumber(String busNumber) {
+	    this.TrainNumber = busNumber;
 	}
 }
+

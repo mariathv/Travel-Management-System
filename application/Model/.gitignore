@@ -2,3 +2,5 @@
 /ServiceProvider.class
 /TravelService.class
 /BusService.class
+/TrainService.class
+/FlightService.class
