@@ -1,6 +1,7 @@
 package application.controllers;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ import application.Model.ServiceProvider;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 
 //adding sql executions here for now, will add it in separate classes later
@@ -34,13 +36,27 @@ public class authController {
 	private TextField password_re;
 	@FXML
 	private TextField agencyName;
+	@FXML
+	private Pane mainRegPanel, nextRegPanel;
+	@FXML
+	private ComboBox<String> ComboSTypes;
 	
 	ScreenController screenController = new ScreenController();
 	
 	ServiceProvider serviceProvider;
 	
-	
 	private Stage primaryStage;
+	
+	public void selectServiceType() {
+		mainRegPanel.setVisible(false);
+		nextRegPanel.setVisible(true);
+		
+		ComboSTypes.getItems().add("Bus");
+		ComboSTypes.getItems().add("Train");
+		ComboSTypes.getItems().add("Flight");
+		ComboSTypes.getItems().add("Hotel");
+	}
+	
 	public void login_sp(MouseEvent event) throws SQLException, ClassNotFoundException, IOException {
 		Connection connection = dbHandler.connect();
 		
@@ -64,9 +80,9 @@ public class authController {
 				ResultSet resultSet2 = prepStatement2.executeQuery();
 				if(resultSet2.next()) {
 					String emailSP = resultSet2.getString("email");
-					String nameSP = resultSet2.getString("name");
 					String agencyName = resultSet2.getString("travelAgencyName");
-					serviceProvider = new ServiceProvider(id, emailSP,username.getText(), agencyName);
+					String serviceType = resultSet2.getString("serviceType");
+					serviceProvider = new ServiceProvider(id, emailSP,username.getText(), agencyName, serviceType);
 					
 				}else {
 					System.out.println("Incorrect password.");
@@ -90,7 +106,7 @@ public class authController {
 		Connection connection = dbHandler.connect();
 		
 		String insertQuery0 = "INSERT INTO serviceProviderAuth(username, password) VALUES (?,?)";
-		String insertQuery1 = "INSERT INTO ServiceProvider(serviceProviderID, email, travelAgencyName, rating) VALUES (?,?,?,?)";
+		String insertQuery1 = "INSERT INTO ServiceProvider(serviceProviderID, email, travelAgencyName, rating, serviceType) VALUES (?,?,?,?,?)";
 		
 		if (!reg_password.getText().equals(password_re.getText())) {
 		    System.out.println("Incorrect Password: " + reg_password.getText() + " " + password_re.getText());
@@ -127,11 +143,12 @@ public class authController {
 		prepStatement1.setString(2, email.getText());
 		prepStatement1.setString(3, agencyName.getText());
 		prepStatement1.setInt(4, 0);
+		prepStatement1.setString(5, ComboSTypes.getValue());
 		System.out.println("executing statement 2");
 		if (prepStatement1.executeUpdate() > 0) {
 			System.out.println("successful operation :: adding new service provieder");
 			prepStatement1.close();
-			serviceProvider = new ServiceProvider(userID, email.getText(), reg_username.getText(), agencyName.getText());
+			serviceProvider = new ServiceProvider(userID, email.getText(), reg_username.getText(), agencyName.getText(),ComboSTypes.getValue());
 			
 		} else {
 			System.out.println("failed operation :: adding new service provieder");

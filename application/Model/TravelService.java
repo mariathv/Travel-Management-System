@@ -9,7 +9,8 @@ public abstract class TravelService {
 	String arrivalTime;
 	String departureLocation;
 	String arrivalLocation;
-	String ServiceDate;
+	String arrivalDate;
+	String departureDate;
 	
     public int getServiceID() {
         return serviceID;

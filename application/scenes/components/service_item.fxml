@@ -9,11 +9,7 @@
 
 <HBox prefHeight="63.0" prefWidth="534.0" style="-fx-background-radius: 40;" styleClass="hbox" stylesheets="@../../css/fullpackstyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.ServiceItemController">
    <children>
-      <ImageView fitHeight="60.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../assets/images/pngs/bus.png" />
-         </image>
-      </ImageView>
+      <ImageView fx:id="serviceImage" fitHeight="60.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true" />
       <VBox alignment="TOP_RIGHT" prefHeight="68.0" prefWidth="109.0">
          <children>
             <Text fx:id="depLoc" strokeType="OUTSIDE" strokeWidth="0.0" text="Departure" textAlignment="RIGHT">
