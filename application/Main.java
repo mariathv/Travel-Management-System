@@ -29,13 +29,11 @@ public class Main extends Application {
 //			authController authController = loader.getController();
 //		    authController.setPrimaryStage(primaryStage); // Assuming you want to pass primaryStage
 			
-			//grab your root here
 	        root.setOnMousePressed(event -> {
 	            xOffset = event.getSceneX();
 	            yOffset = event.getSceneY();
 	        });
 
-	        //move around here
 	        root.setOnMouseDragged(event -> {
 	            primaryStage.setX(event.getScreenX() - xOffset);
 	            primaryStage.setY(event.getScreenY() - yOffset);

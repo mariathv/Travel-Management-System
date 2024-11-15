@@ -177,6 +177,20 @@
     -fx-padding: 0	;                       
 }
 
+.semi-rect-button-full-1 {
+    -fx-background-color: transparent;     
+    -fx-border-color: #1A454E;             
+    -fx-border-width: 2;                   
+    -fx-border-radius: 15 15 15 15;         
+    -fx-background-radius: 15 15 15 15;      
+    -fx-padding: 0	;                       
+}
+
+.semi-rect-button-full-1:hover {
+    -fx-background-color: #212832;        
+    -fx-text-fill: white;       
+}
+
 
 .button-black-white {
     -fx-background-color: #212832;  /* Black background */
@@ -222,6 +236,22 @@
 /* Customize the vertical scrollbar */
 .scroll-pane .vertical {
     -fx-background-color: transparent;
+}
+
+.hbox {
+    -fx-background-color: transparent; /* Default background color */
+    -fx-padding: 10px; /* Optional padding */
+    -fx-border-radius: 30px; /* Border follows rounded corners */
+    -fx-border-width: 2px; /* Border width */
+    -fx-border-color: transparent; 
+} 
+.hbox:hover .vbox, /* Apply to VBox inside HBox */
+.hbox:hover .label, /* Apply to Label inside HBox (direct or indirect) */
+.hbox:hover .text-field { /* Apply to TextField inside HBox */
+    -fx-text-fill: white; /* Change text color to white */
+}
+.hbox:hover {
+    -fx-background-color: #A8B3B6; /* Color change on hover */
 }
 
 
