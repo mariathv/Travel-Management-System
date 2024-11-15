@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -20,54 +21,30 @@
    <children>
       <Pane layoutX="621.0" layoutY="46.0" prefHeight="298.0" prefWidth="227.0" style="-fx-background-radius: 20;" styleClass="linear-grad" stylesheets="@../css/fullpackstyling.css">
          <children>
-            <Text fx:id="serviceNumber" fill="WHITE" layoutX="17.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Service Number">
-               <font>
-                  <Font name="Lexend Deca Bold" size="24.0" />
-               </font>
-            </Text>
-            <HBox layoutX="15.0" layoutY="216.0" prefHeight="26.0" prefWidth="240.0">
+            <VBox layoutX="11.0" layoutY="19.0" prefHeight="263.0" prefWidth="204.0">
                <children>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Departure">
+                  <Text fx:id="serviceType" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="ServiceType">
                      <font>
-                        <Font name="Lexend Deca Regular" size="20.0" />
+                        <Font name="Lexend Deca Bold" size="24.0" />
                      </font>
                   </Text>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" to ">
+                  <HBox alignment="CENTER" prefHeight="74.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="60.0" fitWidth="92.0" pickOnBounds="true" preserveRatio="true" />
+                        <Text fx:id="BusNoInfoPanel" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" BUSNO">
+                           <font>
+                              <Font name="Lexend Deca Bold" size="23.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <Text fx:id="InfoPaneDesc" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="195.73675537109375">
                      <font>
-                        <Font name="Lexend Deca Regular" size="20.0" />
-                     </font>
-                  </Text>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Arrival">
-                     <font>
-                        <Font name="Lexend Deca Regular" size="20.0" />
+                        <Font name="Lexend Deca Regular" size="15.0" />
                      </font>
                   </Text>
                </children>
-            </HBox>
-            <Text fill="WHITE" layoutX="14.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Service Location">
-               <font>
-                  <Font name="Lexend Deca Regular" size="20.0" />
-               </font>
-            </Text>
-            <HBox layoutX="15.0" layoutY="242.0" prefHeight="26.0" prefWidth="240.0">
-               <children>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Departure">
-                     <font>
-                        <Font name="Lexend Deca Regular" size="20.0" />
-                     </font>
-                  </Text>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" to ">
-                     <font>
-                        <Font name="Lexend Deca Regular" size="20.0" />
-                     </font>
-                  </Text>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Arrival">
-                     <font>
-                        <Font name="Lexend Deca Regular" size="20.0" />
-                     </font>
-                  </Text>
-               </children>
-            </HBox>
+            </VBox>
          </children>
       </Pane>
       <BorderPane layoutX="569.0" layoutY="404.0" prefHeight="66.0" prefWidth="270.0" />
@@ -98,7 +75,7 @@
             </Button>
          </children>
       </GridPane>
-      <Button fx:id="addNewService" layoutX="470.0" layoutY="41.0" mnemonicParsing="false" onAction="#addNewService" prefHeight="32.0" prefWidth="133.0" styleClass="semi-rect-button-full" stylesheets="@../css/loginRegisterModule.css" text="Add New Service">
+      <Button fx:id="addNewServiceBtn" layoutX="470.0" layoutY="41.0" mnemonicParsing="false" onAction="#addNewServiceForm" prefHeight="32.0" prefWidth="133.0" styleClass="semi-rect-button-full-1" stylesheets="@../css/loginRegisterModule.css" text="Add New Service">
          <font>
             <Font name="Lexend Deca Regular" size="13.0" />
          </font>
@@ -106,6 +83,11 @@
       <Line endX="100.0" endY="37.19999694824219" layoutX="-47.0" layoutY="53.0" startX="100.0" startY="418.0" stroke="#b9b1b1" strokeDashOffset="2.0" />
       <StackPane layoutX="54.0" layoutY="90.0" prefHeight="382.0" prefWidth="550.0">
          <children>
+            <ScrollPane fx:id="viewServicePane" prefHeight="382.0" prefWidth="542.0" style="-fx-border-color: transparent; -fx-background-color: transparent;">
+               <content>
+                  <VBox fx:id="servicesCont" prefHeight="374.0" prefWidth="542.0" style="-fx-background-color: #DDDDDD;" />
+               </content>
+            </ScrollPane>
             <Pane fx:id="addServicePane" prefHeight="382.0" prefWidth="538.0" visible="false">
                <children>
                   <Text layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add New Service" wrappingWidth="185.3367156982422">
@@ -115,7 +97,7 @@
                   </Text>
                   <VBox layoutX="14.0" layoutY="50.0" prefHeight="318.0" prefWidth="522.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Departure Details:">
+                        <Text fill="#1a454e" strokeType="OUTSIDE" strokeWidth="0.0" text="Departure Details:">
                            <font>
                               <Font name="Lexend Deca Regular" size="15.0" />
                            </font>
@@ -129,7 +111,7 @@
                                           <Font name="Lexend Deca Medium" size="18.0" />
                                        </font>
                                     </Text>
-                                    <TextField promptText="LOCATION" style="-fx-background-color: transparent;">
+                                    <TextField fx:id="depLoc" promptText="LOCATION" style="-fx-background-color: transparent;">
                                        <font>
                                           <Font name="Lexend Deca Medium" size="19.0" />
                                        </font>
@@ -143,7 +125,7 @@
                                           <Font name="Lexend Deca Medium" size="18.0" />
                                        </font>
                                     </Text>
-                                    <TextField promptText="TIME" style="-fx-background-color: transparent;">
+                                    <TextField fx:id="depTime" promptText="TIME" style="-fx-background-color: transparent;">
                                        <font>
                                           <Font name="Lexend Deca Medium" size="19.0" />
                                        </font>
@@ -157,7 +139,7 @@
                                           <Font name="Lexend Deca Medium" size="18.0" />
                                        </font>
                                     </Text>
-                                    <TextField promptText="DATE" style="-fx-background-color: transparent;">
+                                    <TextField fx:id="depDate" promptText="DATE" style="-fx-background-color: transparent;">
                                        <font>
                                           <Font name="Lexend Deca Medium" size="19.0" />
                                        </font>
@@ -167,7 +149,7 @@
                            </children>
                         </HBox>
                         <Line endX="424.8929443359375" endY="0.6213447451591492" startX="-100.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Arrival Details:">
+                        <Text fill="#1a454e" strokeType="OUTSIDE" strokeWidth="0.0" text="Arrival Details:">
                            <font>
                               <Font name="Lexend Deca Regular" size="15.0" />
                            </font>
@@ -181,7 +163,7 @@
                                           <Font name="Lexend Deca Medium" size="18.0" />
                                        </font>
                                     </Text>
-                                    <TextField promptText="LOCATION" style="-fx-background-color: transparent;">
+                                    <TextField fx:id="arvLoc" promptText="LOCATION" style="-fx-background-color: transparent;">
                                        <font>
                                           <Font name="Lexend Deca Medium" size="19.0" />
                                        </font>
@@ -195,7 +177,7 @@
                                           <Font name="Lexend Deca Medium" size="18.0" />
                                        </font>
                                     </Text>
-                                    <TextField promptText="TIME" style="-fx-background-color: transparent;">
+                                    <TextField fx:id="arvTime" promptText="TIME" style="-fx-background-color: transparent;">
                                        <font>
                                           <Font name="Lexend Deca Medium" size="19.0" />
                                        </font>
@@ -209,7 +191,7 @@
                                           <Font name="Lexend Deca Medium" size="18.0" />
                                        </font>
                                     </Text>
-                                    <TextField promptText="DATE" style="-fx-background-color: transparent;">
+                                    <TextField fx:id="arvDate" promptText="DATE" style="-fx-background-color: transparent;">
                                        <font>
                                           <Font name="Lexend Deca Medium" size="19.0" />
                                        </font>
@@ -228,23 +210,24 @@
                                           <Font name="Lexend Deca Medium" size="19.0" />
                                        </font>
                                     </Text>
-                                    <TextField prefHeight="52.0" prefWidth="173.0" promptText="BUS NO" style="-fx-background-color: transparent;">
+                                    <TextField fx:id="SBusNo" prefHeight="52.0" prefWidth="173.0" promptText="BUS NO" style="-fx-background-color: transparent;">
                                        <font>
                                           <Font name="Lexend Deca Medium" size="20.0" />
                                        </font>
                                     </TextField>
                                  </children>
                               </VBox>
+                              <Line endX="-188.6423797607422" endY="48.5617790222168" startX="-188.6423797607422" startY="110.2327880859375" />
                               <VBox prefHeight="63.0" prefWidth="350.0">
                                  <children>
                                     <HBox prefHeight="36.0" prefWidth="350.0">
                                        <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Station Name:" wrappingWidth="185.3367156982422">
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" Station Name:" wrappingWidth="185.3367156982422">
                                              <font>
                                                 <Font name="Lexend Deca Medium" size="19.0" />
                                              </font>
                                           </Text>
-                                          <TextField promptText="Name" style="-fx-background-color: transparent;">
+                                          <TextField fx:id="BStationName" promptText="Name" style="-fx-background-color: transparent;">
                                              <font>
                                                 <Font name="Lexend Deca Medium" size="19.0" />
                                              </font>
@@ -253,12 +236,12 @@
                                     </HBox>
                                     <HBox prefHeight="36.0" prefWidth="350.0">
                                        <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Station Location:" wrappingWidth="185.3367156982422">
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" Station Location:" wrappingWidth="185.3367156982422">
                                              <font>
                                                 <Font name="Lexend Deca Medium" size="19.0" />
                                              </font>
                                           </Text>
-                                          <TextField promptText="Loc" style="-fx-background-color: transparent;">
+                                          <TextField fx:id="BStationLoc" promptText="Loc" style="-fx-background-color: transparent;">
                                              <font>
                                                 <Font name="Lexend Deca Medium" size="19.0" />
                                              </font>
@@ -269,20 +252,34 @@
                               </VBox>
                            </children>
                         </HBox>
-                        <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="95.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Add" textFill="WHITE">
-                           <font>
-                              <Font name="Lexend Deca Medium" size="18.0" />
-                           </font>
-                        </Button>
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#addNewService" prefHeight="38.0" prefWidth="155.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Add" textFill="WHITE">
+                                 <font>
+                                    <Font name="Lexend Deca Medium" size="18.0" />
+                                 </font>
+                              </Button>
+                              <VBox prefHeight="82.0" prefWidth="126.0" />
+                              <VBox alignment="TOP_RIGHT" prefHeight="82.0" prefWidth="281.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ticket Price:" wrappingWidth="262.93669080734253">
+                                       <font>
+                                          <Font name="Lexend Deca Medium" size="19.0" />
+                                       </font>
+                                    </Text>
+                                    <TextField fx:id="StktPrice" prefHeight="52.0" prefWidth="254.0" promptText="Price" style="-fx-background-color: transparent;" styleClass="text-field-with-bottom-border" stylesheets="@../css/loginRegisterModule.css">
+                                       <font>
+                                          <Font name="Lexend Deca Medium" size="20.0" />
+                                       </font>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
                </children>
             </Pane>
-            <ScrollPane fx:id="viewServicePane" prefHeight="382.0" prefWidth="542.0" style="-fx-border-color: transparent; -fx-background-color: transparent;">
-               <content>
-                  <VBox fx:id="servicesCont" prefHeight="374.0" prefWidth="542.0" style="-fx-background-color: #DDDDDD;" />
-               </content>
-            </ScrollPane>
          </children>
       </StackPane>
    </children>
