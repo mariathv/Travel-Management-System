@@ -2,6 +2,7 @@ package application.controllers;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 import application.Model.ServiceProvider;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -37,9 +39,14 @@ public class authController {
 	@FXML
 	private TextField agencyName;
 	@FXML
-	private Pane mainRegPanel, nextRegPanel;
+	private Pane mainRegPanel, nextRegPanel, serviceInfoPane;
 	@FXML
 	private ComboBox<String> ComboSTypes;
+	
+	@FXML
+	private Text serviceEnterText;
+	@FXML
+	private FontAwesomeIcon serviceEnterImage;
 	
 	ScreenController screenController = new ScreenController();
 	
@@ -55,6 +62,21 @@ public class authController {
 		ComboSTypes.getItems().add("Train");
 		ComboSTypes.getItems().add("Flight");
 		ComboSTypes.getItems().add("Hotel");
+	}
+	
+	public void onUpdateComboBox() {
+		System.out.println("combo box value changed");
+		String selc = ComboSTypes.getValue();
+		if(!serviceInfoPane.isVisible()){
+			serviceInfoPane.setVisible(true);
+		}
+		if(selc.equals("Hotel")) {
+			serviceEnterText.setText("Enter Your Hotel Name:");
+			serviceEnterImage.setGlyphName("HOTEL");
+		}else {
+			serviceEnterText.setText("Enter Your Travel Agency Name:");
+			serviceEnterImage.setGlyphName("BUS");
+		}
 	}
 	
 	public void login_sp(MouseEvent event) throws SQLException, ClassNotFoundException, IOException {
