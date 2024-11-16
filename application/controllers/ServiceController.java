@@ -11,6 +11,7 @@ import java.util.List;
 
 import application.Model.BusService;
 import application.Model.FlightService;
+import application.Model.HotelService;
 import application.Model.ServiceProvider;
 import application.Model.TrainService;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -56,6 +57,7 @@ public class ServiceController {
 	public ArrayList<BusService> BusServices = new ArrayList<>();
 	public ArrayList<FlightService> FlightServices = new ArrayList<>();
 	public ArrayList<TrainService> TrainServices = new ArrayList<>();
+	public ArrayList<HotelService> HotelServices = new ArrayList<>();
 	    
 	public void setServiceProvider(ServiceProvider serviceProvider) {
         this.serviceProvider = serviceProvider;
@@ -270,6 +272,17 @@ public class ServiceController {
 	                   "FROM TravelService ts " +
 	                   "JOIN TrainService bs ON ts.ServiceID = bs.ServiceID " +
 	                   "WHERE ts.ServiceProviderID = ?;";
+	    }else if(serviceProvider.getServiceType().equals("Hotel")) {
+	    	query = "SELECT " +
+	                   "HotelServiceID," +
+	                   "ServiceProviderID, " +
+	                   "HotelName," +
+	                   "HotelLocation," +
+	                   "Rating, " +
+	                   "BasicRoomPrice, " +
+	                   "DoubleRoomPrice, " +
+	                   "FROM HotelService" +
+	                   "WHERE ServiceProviderID = ?;";
 	    }
 	    else {
 	    	System.out.println("error. servicetype failure");
@@ -288,46 +301,30 @@ public class ServiceController {
 
 	    do {
 	        // Store the result set values into local variables
-	        String serviceType = resultSet.getString(4);
-	        String busNo = resultSet.getString(11);
-	        String serviceDesc = resultSet.getString(3);
-	        String arrivalTime = resultSet.getString(6);
-	        String departureTime = resultSet.getString(5);
-	        String departureLocation = resultSet.getString(7);
-	        String arrivalLocation = resultSet.getString(8);
-	        String departureDate ;
-	        String arrivalDate ;
-	        if(serviceProvider.getServiceType().equals("Flight")) {
-	        	departureDate = resultSet.getString(13);
-	        	arrivalDate = resultSet.getString(14);
-	        }else {
-	        	departureDate = resultSet.getString(12);
-	        	arrivalDate = resultSet.getString(13);
-	        }
-	        
-	        System.out.println(serviceProvider.getServiceType() + " is the service type of SP");
-	        if(serviceProvider.getServiceType().equals("Bus")) {
-	        	BusService busService = new BusService(
-	        	    resultSet.getString(9),          // stationName
-	        	    resultSet.getString(10),         // stationLocation
-	        	    busNo,                // BusNumber
-	        	    resultSet.getInt(1),  // serviceID
-	        	    resultSet.getInt(2),  // serviceProviderID
-	        	    serviceDesc,          // description
-	        	    serviceType,          // serviceType
-	        	    departureTime,        // departureTime
-	        	    arrivalTime,          // arrivalTime
-	        	    departureLocation,    // departureLocation
-	        	    arrivalLocation,      // arrivalLocation
-	        	    departureDate,          // serviceDate
-	        	    arrivalDate
-	        	);
-	        	BusServices.add(busService);
-	        }else if(serviceProvider.getServiceType().equals("Train")) {
-	        	TrainService trainService = new TrainService(
+	    	if(!serviceProvider.getServiceType().equals("Hotel")) {
+		        String serviceType = resultSet.getString(4);
+		        String busNo = resultSet.getString(11);
+		        String serviceDesc = resultSet.getString(3);
+		        String arrivalTime = resultSet.getString(6);
+		        String departureTime = resultSet.getString(5);
+		        String departureLocation = resultSet.getString(7);
+		        String arrivalLocation = resultSet.getString(8);
+		        String departureDate ;
+		        String arrivalDate ;
+		        if(serviceProvider.getServiceType().equals("Flight")) {
+		        	departureDate = resultSet.getString(13);
+		        	arrivalDate = resultSet.getString(14);
+		        }else {
+		        	departureDate = resultSet.getString(12);
+		        	arrivalDate = resultSet.getString(13);
+		        }
+		        
+		        System.out.println(serviceProvider.getServiceType() + " is the service type of SP");
+		        if(serviceProvider.getServiceType().equals("Bus")) {
+		        	BusService busService = new BusService(
 		        	    resultSet.getString(9),          // stationName
 		        	    resultSet.getString(10),         // stationLocation
-		        	    busNo,                // TrainNumber
+		        	    busNo,                // BusNumber
 		        	    resultSet.getInt(1),  // serviceID
 		        	    resultSet.getInt(2),  // serviceProviderID
 		        	    serviceDesc,          // description
@@ -339,48 +336,100 @@ public class ServiceController {
 		        	    departureDate,          // serviceDate
 		        	    arrivalDate
 		        	);
-		        	TrainServices.add(trainService);
-	        }else if (serviceProvider.getServiceType().equals("Flight")){
-	        	FlightService flightService = new FlightService(
-		        	    resultSet.getString(9),          // stationName
-		        	    resultSet.getString(10),         // stationLocation
-		        	    busNo,                // FlightNumber
-		        	    resultSet.getInt(1),  // serviceID
-		        	    resultSet.getInt(2),  // serviceProviderID
-		        	    serviceDesc,          // description
-		        	    serviceType,          // serviceType
-		        	    departureTime,        // departureTime
-		        	    arrivalTime,          // arrivalTime
-		        	    departureLocation,    // departureLocation
-		        	    arrivalLocation,      // arrivalLocation
-		        	    departureDate,          // serviceDate
-		        	    arrivalDate,
-		        	    resultSet.getString(10)
-		        	    
+		        	BusServices.add(busService);
+		        }else if(serviceProvider.getServiceType().equals("Train")) {
+		        	TrainService trainService = new TrainService(
+			        	    resultSet.getString(9),          // stationName
+			        	    resultSet.getString(10),         // stationLocation
+			        	    busNo,                // TrainNumber
+			        	    resultSet.getInt(1),  // serviceID
+			        	    resultSet.getInt(2),  // serviceProviderID
+			        	    serviceDesc,          // description
+			        	    serviceType,          // serviceType
+			        	    departureTime,        // departureTime
+			        	    arrivalTime,          // arrivalTime
+			        	    departureLocation,    // departureLocation
+			        	    arrivalLocation,      // arrivalLocation
+			        	    departureDate,          // serviceDate
+			        	    arrivalDate
+			        	);
+			        	TrainServices.add(trainService);
+		        }else if (serviceProvider.getServiceType().equals("Flight")){
+		        	FlightService flightService = new FlightService(
+			        	    resultSet.getString(9),          // stationName
+			        	    resultSet.getString(10),         // stationLocation
+			        	    busNo,                // FlightNumber
+			        	    resultSet.getInt(1),  // serviceID
+			        	    resultSet.getInt(2),  // serviceProviderID
+			        	    serviceDesc,          // description
+			        	    serviceType,          // serviceType
+			        	    departureTime,        // departureTime
+			        	    arrivalTime,          // arrivalTime
+			        	    departureLocation,    // departureLocation
+			        	    arrivalLocation,      // arrivalLocation
+			        	    departureDate,          // serviceDate
+			        	    arrivalDate,
+			        	    resultSet.getString(10)
+			        	    
+			        	);
+		        		System.out.println("added flight service object");
+			        	FlightServices.add(flightService);
+		        }
+	    	
+
+		        FXMLLoader fxmlloader = new FXMLLoader();
+		        fxmlloader.setLocation(getClass().getResource("../scenes/components/service_item.fxml"));
+	
+		        try {
+		            System.out.println("adding service to View");
+		            HBox hbox = fxmlloader.load();
+		            ServiceItemController sItemC = fxmlloader.getController();
+	
+		            // Pass the captured data to the controller
+		            sItemC.setData(arrivalLocation, departureLocation, arrivalTime, departureTime, serviceProvider.getServiceType());
+	
+		            hbox.setOnMouseClicked(event -> {
+		                showServiceDetails(serviceType, busNo, arrivalLocation, departureLocation);
+		            });
+	
+		            servicesCont.getChildren().add(hbox);
+		        } catch (IOException io) {
+		            System.out.println(io);
+		        }
+	    	}else {
+	    		int HotelServiceID = resultSet.getInt(1);
+	    		int ServiceProviderID = resultSet.getInt(2);
+		        String HotelName = resultSet.getString(3);
+		        String HotelLocation = resultSet.getString(4);
+		        int rating = resultSet.getInt(5);
+		        int BasicRoomPrice = resultSet.getInt(6);
+		        int DoubleRoomPrice = resultSet.getInt(7);
+		        
+		        HotelService hotelService = new HotelService(
+		        		HotelServiceID, ServiceProviderID, HotelName, HotelLocation, rating, BasicRoomPrice, DoubleRoomPrice
 		        	);
-	        		System.out.println("added flight service object");
-		        	FlightServices.add(flightService);
-	        }
-
-	        FXMLLoader fxmlloader = new FXMLLoader();
-	        fxmlloader.setLocation(getClass().getResource("../scenes/components/service_item.fxml"));
-
-	        try {
-	            System.out.println("adding service to View");
-	            HBox hbox = fxmlloader.load();
-	            ServiceItemController sItemC = fxmlloader.getController();
-
-	            // Pass the captured data to the controller
-	            sItemC.setData(arrivalLocation, departureLocation, arrivalTime, departureTime, serviceProvider.getServiceType());
-
-	            hbox.setOnMouseClicked(event -> {
-	                showServiceDetails(serviceType, busNo, arrivalLocation, departureLocation);
-	            });
-
-	            servicesCont.getChildren().add(hbox);
-	        } catch (IOException io) {
-	            System.out.println(io);
-	        }
+		        HotelServices.add(hotelService);
+		        FXMLLoader fxmlloader = new FXMLLoader();
+		        fxmlloader.setLocation(getClass().getResource("../scenes/components/service_item_hotel.fxml"));
+	
+		        try {
+		            System.out.println("adding service to View");
+		            HBox hbox = fxmlloader.load();
+		            HotelServiceItemController sHItemC = fxmlloader.getController();
+	
+		            // Pass the captured data to the controller
+		            sHItemC.setData(HotelName, HotelLocation, BasicRoomPrice, DoubleRoomPrice, rating);
+	
+//		            hbox.setOnMouseClicked(event -> {
+//		                showServiceDetails(serviceType, busNo, arrivalLocation, departureLocation);
+//		            });
+//	
+		            servicesCont.getChildren().add(hbox);
+		        } catch (IOException io) {
+		            System.out.println(io);
+		        }
+		        
+	    	}
 	    } while (resultSet.next());
 	}
 
