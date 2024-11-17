@@ -106,14 +106,14 @@
             </ScrollPane>
             <Pane fx:id="addServicePane" prefHeight="382.0" prefWidth="538.0" visible="false">
                <children>
-                  <Text layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add New Service" wrappingWidth="185.3367156982422">
+                  <Text fx:id="serviceTypeAddText" layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add New Service" wrappingWidth="185.3367156982422">
                      <font>
                         <Font name="Lexend Deca Medium" size="18.0" />
                      </font>
                   </Text>
                   <VBox layoutX="14.0" layoutY="50.0" prefHeight="318.0" prefWidth="522.0">
                      <children>
-                        <Text fill="#1a454e" strokeType="OUTSIDE" strokeWidth="0.0" text="Departure Details:">
+                        <Text fx:id="depDetailText" fill="#1a454e" strokeType="OUTSIDE" strokeWidth="0.0" text="Departure Details:">
                            <font>
                               <Font name="Lexend Deca Regular" size="15.0" />
                            </font>
@@ -304,6 +304,117 @@
                                     </TextField>
                                  </children>
                               </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </Pane>
+            <Pane fx:id="addHotelListingPane" prefHeight="382.0" prefWidth="538.0" visible="false">
+               <children>
+                  <Text fx:id="serviceTypeAddText1" layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Hotel Listing" wrappingWidth="185.3367156982422">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="18.0" />
+                     </font>
+                  </Text>
+                  <VBox layoutX="14.0" layoutY="50.0" prefHeight="318.0" prefWidth="522.0">
+                     <children>
+                        <Text fx:id="depDetailText1" fill="#1a454e" strokeType="OUTSIDE" strokeWidth="0.0" text="Details:">
+                           <font>
+                              <Font name="Lexend Deca Regular" size="15.0" />
+                           </font>
+                        </Text>
+                        <HBox prefHeight="66.0" prefWidth="522.0">
+                           <children>
+                              <VBox prefHeight="60.0" prefWidth="526.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" wrappingWidth="185.3367156982422">
+                                       <font>
+                                          <Font name="Lexend Deca Medium" size="18.0" />
+                                       </font>
+                                    </Text>
+                                    <TextField fx:id="HotelName" promptText="Name" style="-fx-background-color: transparent;">
+                                       <font>
+                                          <Font name="Lexend Deca Medium" size="19.0" />
+                                       </font>
+                                    </TextField>
+                                    <HBox prefHeight="66.0" prefWidth="522.0">
+                                       <children>
+                                          <VBox prefHeight="60.0" prefWidth="254.0">
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="City:" wrappingWidth="185.3367156982422">
+                                                   <font>
+                                                      <Font name="Lexend Deca Medium" size="18.0" />
+                                                   </font>
+                                                </Text>
+                                                <TextField fx:id="City" prefHeight="37.0" prefWidth="230.0" promptText="CITY" style="-fx-background-color: transparent;">
+                                                   <font>
+                                                      <Font name="Lexend Deca Medium" size="19.0" />
+                                                   </font>
+                                                </TextField>
+                                             </children>
+                                          </VBox>
+                                          <VBox prefHeight="60.0" prefWidth="254.0">
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location:" wrappingWidth="185.3367156982422">
+                                                   <font>
+                                                      <Font name="Lexend Deca Medium" size="18.0" />
+                                                   </font>
+                                                </Text>
+                                                <TextField fx:id="HotelLocation" prefHeight="37.0" prefWidth="230.0" promptText="LOCATION" style="-fx-background-color: transparent;">
+                                                   <font>
+                                                      <Font name="Lexend Deca Medium" size="19.0" />
+                                                   </font>
+                                                </TextField>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Line endX="424.8929443359375" endY="0.6213447451591492" startX="-100.0" />
+                        <HBox prefHeight="66.0" prefWidth="522.0">
+                           <children>
+                              <VBox prefHeight="83.0" prefWidth="267.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Basic Room Price:" wrappingWidth="185.3367156982422">
+                                       <font>
+                                          <Font name="Lexend Deca Medium" size="18.0" />
+                                       </font>
+                                    </Text>
+                                    <TextField fx:id="BasicPrice" promptText="PRICE" style="-fx-background-color: transparent;">
+                                       <font>
+                                          <Font name="Lexend Deca Medium" size="19.0" />
+                                       </font>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="83.0" prefWidth="286.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Double Room Price:" wrappingWidth="262.1367645263672">
+                                       <font>
+                                          <Font name="Lexend Deca Medium" size="18.0" />
+                                       </font>
+                                    </Text>
+                                    <TextField fx:id="DoublePrice" promptText="PRICE" style="-fx-background-color: transparent;">
+                                       <font>
+                                          <Font name="Lexend Deca Medium" size="19.0" />
+                                       </font>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Line endX="424.8929443359375" endY="0.6213447451591492" startX="-100.0" />
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#addNewHotelListing" prefHeight="38.0" prefWidth="155.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Add" textFill="WHITE">
+                                 <font>
+                                    <Font name="Lexend Deca Medium" size="18.0" />
+                                 </font>
+                              </Button>
                            </children>
                         </HBox>
                      </children>

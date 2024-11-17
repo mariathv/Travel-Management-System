@@ -1,6 +1,7 @@
 package application.controllers;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,7 +31,7 @@ import javafx.scene.text.Text;
 public class ServiceController {
 	ServiceProvider serviceProvider;
 	@FXML
-	private Pane addServicePane, sideInfoPane;
+	private Pane addServicePane, sideInfoPane, addHotelListingPane;
 	@FXML
 	private ScrollPane viewServicePane;
 	@FXML
@@ -51,6 +52,8 @@ public class ServiceController {
 	private Text critBusNo;
 	@FXML
 	private ImageView imageViewInfo;
+	@FXML
+	private TextField HotelName, HotelLocation, BasicPrice, DoublePrice, City;
 	
 	boolean infoSideVisibleWas;
 	
@@ -59,38 +62,61 @@ public class ServiceController {
 	public ArrayList<TrainService> TrainServices = new ArrayList<>();
 	public ArrayList<HotelService> HotelServices = new ArrayList<>();
 	    
+	
+	public void clearAllServices() {
+		  BusServices.clear();
+		    FlightServices.clear();
+		    TrainServices.clear();
+		    HotelServices.clear();
+	}
 	public void setServiceProvider(ServiceProvider serviceProvider) {
         this.serviceProvider = serviceProvider;
 	}
 	
 	public void addNewServiceForm() {
-		if(serviceProvider.getServiceType().equals("Train")) {
-			critBusNo.setText("Train Number:");
-			SBusNo.setPromptText("TRAIN NO");
-		} else if (serviceProvider.getServiceType().equals("Flight")) {
-			GateInfo.setVisible(true);
-			SBusNo.setPromptText("FLIGHT NO");
-			critBusNo.setText("Flight Number:");
-			PlatformNameTxt.setText(" Airport Name");
-			PlatformLocTxt.setText(" Airport Location");
+		if(serviceProvider.getServiceType().equals("Hotel")) {
+			addHotelListingPane.setVisible(true);
+			addServicePane.setVisible(false);
+			viewServicePane.setVisible(false);
+			addNewServiceBtn.setVisible(false);
+			goBackView.setVisible(true);
+			if(sideInfoPane.isVisible()) {
+				infoSideVisibleWas=true;
+			}else
+				infoSideVisibleWas=false;
+			sideInfoPane.setVisible(false);
+			
+		}else {
+			if(serviceProvider.getServiceType().equals("Train")) {
+				critBusNo.setText("Train Number:");
+				SBusNo.setPromptText("TRAIN NO");
+			} else if (serviceProvider.getServiceType().equals("Flight")) {
+				GateInfo.setVisible(true);
+				SBusNo.setPromptText("FLIGHT NO");
+				critBusNo.setText("Flight Number:");
+				PlatformNameTxt.setText(" Airport Name");
+				PlatformLocTxt.setText(" Airport Location");
+			}
+			
+			
+			
+			addServicePane.setVisible(true);
+			viewServicePane.setVisible(false);
+			addNewServiceBtn.setVisible(false);
+			goBackView.setVisible(true);
+			if(sideInfoPane.isVisible()) {
+				infoSideVisibleWas=true;
+			}else
+				infoSideVisibleWas=false;
+			sideInfoPane.setVisible(false);
 		}
-		
-		
-		
-		addServicePane.setVisible(true);
-		viewServicePane.setVisible(false);
-		addNewServiceBtn.setVisible(false);
-		goBackView.setVisible(true);
-		if(sideInfoPane.isVisible()) {
-			infoSideVisibleWas=true;
-		}else
-			infoSideVisibleWas=false;
-		sideInfoPane.setVisible(false);
 		
 	}
 	
+	
 	public void displayServices() {
 		addServicePane.setVisible(false);
+		addHotelListingPane.setVisible(false);
 		viewServicePane.setVisible(true);
 		addNewServiceBtn.setVisible(true);
 		goBackView.setVisible(false);
@@ -210,8 +236,75 @@ public class ServiceController {
 		
 		
 	}
+	
+	public void addNewHotelListing() throws SQLException, ClassNotFoundException{
+		
+		//add new service logic and db handling
+		if (HotelName.getText().isEmpty() || 
+			    HotelLocation.getText().isEmpty() || 
+			    BasicPrice.getText().isEmpty() || 
+			    DoublePrice.getText().isEmpty()) {
+			    System.out.println("One or more fields are empty. Please fill all fields.");
+			    return;
+		}
+		
+		String HotelName = this.HotelName.getText();
+		String HotelLocation = this.HotelLocation.getText();
+		int BasicPrice = Integer.parseInt(this.BasicPrice.getText());
+		int DoublePrice = Integer.parseInt(this.DoublePrice.getText());
+		String City = this.City.getText();
+
+		
+		Connection connection = dbHandler.connect();
+		
+		String insertQuery = "INSERT INTO HotelService(serviceProviderID, HotelName, HotelLocation, Rating, BasicRoomPrice, DoubleRoomPrice, city) VALUES (?,?,?,?,?,?,?)";
+		
+		PreparedStatement prepStatement = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
+		
+		prepStatement.setInt(1, serviceProvider.getServiceProviderID());
+		prepStatement.setString(2, HotelName);
+		prepStatement.setString(3, HotelLocation);
+		prepStatement.setInt(4, 1);
+		prepStatement.setInt(5, BasicPrice);
+		prepStatement.setInt(6, DoublePrice);
+		prepStatement.setString(7, City);
+		
+		int HotelID = -1;
+		
+		System.out.println("Adding new service > Executing Statement");
+		int affectedRows = prepStatement.executeUpdate();
+		
+		if (affectedRows > 0) {
+			
+			ResultSet generatedKeys = prepStatement.getGeneratedKeys();
+		    
+		    if (generatedKeys.next()) {
+		    	HotelID = generatedKeys.getInt(1); 
+		    }else {
+		    	System.out.println("Key generation error");
+		    	return;
+		    }
+		    prepStatement.close();
+		    
+		   
+			System.out.println("Adding new service > Successfully Added New Service");
+			initServicesFS();
+			displayServices();
+			
+		} else {
+			System.out.println("Adding new service > Failure Adding New Service > 1");
+		    prepStatement.close();
+		    connection.close();
+		    return;
+		}
+		
+		
+	}
 	public void initServicesFS() throws SQLException, ClassNotFoundException {
 		
+		//clearing prev fetched data
+		clearAllServices();
+		addNewServiceBtn.setText("Add Hotel Listing");
 		servicesCont.getChildren().clear();
 		
 		
@@ -281,7 +374,8 @@ public class ServiceController {
 	                   "Rating, " +
 	                   "BasicRoomPrice, " +
 	                   "DoubleRoomPrice, " +
-	                   "FROM HotelService" +
+	                   "city " +
+	                   "FROM HotelService " +
 	                   "WHERE ServiceProviderID = ?;";
 	    }
 	    else {
@@ -404,29 +498,32 @@ public class ServiceController {
 		        int rating = resultSet.getInt(5);
 		        int BasicRoomPrice = resultSet.getInt(6);
 		        int DoubleRoomPrice = resultSet.getInt(7);
+		        String city = resultSet.getString(8);
 		        
 		        HotelService hotelService = new HotelService(
-		        		HotelServiceID, ServiceProviderID, HotelName, HotelLocation, rating, BasicRoomPrice, DoubleRoomPrice
+		        		HotelServiceID, ServiceProviderID, HotelName, HotelLocation, rating, BasicRoomPrice, DoubleRoomPrice,city
 		        	);
 		        HotelServices.add(hotelService);
 		        FXMLLoader fxmlloader = new FXMLLoader();
+		        System.out.println("loading fxml");
 		        fxmlloader.setLocation(getClass().getResource("../scenes/components/service_item_hotel.fxml"));
-	
+
 		        try {
-		            System.out.println("adding service to View");
+		            System.out.println("loading hbox");
 		            HBox hbox = fxmlloader.load();
+		            System.out.println("getting controller");
 		            HotelServiceItemController sHItemC = fxmlloader.getController();
-	
+		            System.out.println("setting data");
 		            // Pass the captured data to the controller
 		            sHItemC.setData(HotelName, HotelLocation, BasicRoomPrice, DoubleRoomPrice, rating);
 	
 //		            hbox.setOnMouseClicked(event -> {
 //		                showServiceDetails(serviceType, busNo, arrivalLocation, departureLocation);
 //		            });
-//	
+		            System.out.println("addiing");
 		            servicesCont.getChildren().add(hbox);
 		        } catch (IOException io) {
-		            System.out.println(io);
+		        	 System.out.println("Error loading FXML: " + io.getMessage());
 		        }
 		        
 	    	}
