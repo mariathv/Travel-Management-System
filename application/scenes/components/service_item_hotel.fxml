@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -23,11 +22,7 @@
                   <Font name="Lexend Deca Regular" size="23.0" />
                </font>
             </Text>
-            <HBox fx:id="starBox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <FontAwesomeIcon glyphName="STAR" size="2em" />
-               </children>
-            </HBox>
+            <HBox fx:id="starBox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" />
          </children>
       </VBox>
       <VBox prefHeight="60.0" prefWidth="203.0">
@@ -67,7 +62,7 @@
                         <Font name="Lexend Deca Regular" size="14.0" />
                      </font>
                   </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="DR PRICE" wrappingWidth="125.38398742675781">
+                  <Text fx:id="DRPRice" strokeType="OUTSIDE" strokeWidth="0.0" text="DR PRICE" wrappingWidth="125.38398742675781">
                      <font>
                         <Font name="Lexend Deca Regular" size="14.0" />
                      </font>

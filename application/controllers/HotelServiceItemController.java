@@ -2,6 +2,7 @@ package application.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.fxml.FXML;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
@@ -10,6 +11,8 @@ public class HotelServiceItemController {
 	private Text HotelName,HotelLoc,BRPrice,DRPrice;
 	@FXML
 	private HBox starBox;
+	@FXML
+	private ImageView serviceImage;
 	
 	public void setData(String hotelName, String hotelLoc, int BRPPrice, int DRPPrice, int rating) {
 		HotelName.setText(hotelName);

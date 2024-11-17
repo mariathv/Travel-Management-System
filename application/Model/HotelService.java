@@ -2,7 +2,7 @@ package application.Model;
 
 public class HotelService {
 	 public HotelService(int serviceID, int serviceProviderID, String hotelName, String hotelLocation,
-             int rating, int basicRoomPrice, int doubleRoomPrice) {
+             int rating, int basicRoomPrice, int doubleRoomPrice, String City) {
 		this.serviceID = serviceID;
 		this.serviceProviderID = serviceProviderID;
 		this.HotelName = hotelName;
@@ -10,6 +10,7 @@ public class HotelService {
 		this.rating = rating;
 		this.basicRoomPrice = basicRoomPrice;
 		this.doubleRoomPrice = doubleRoomPrice;
+		this.City = City;
 	}
 	int serviceID;
 	int serviceProviderID;
@@ -18,6 +19,7 @@ public class HotelService {
 	int rating;
 	int basicRoomPrice;
 	int doubleRoomPrice;
+	String City;
 	
 	public int getServiceID() {
 	    return serviceID;
@@ -49,6 +51,14 @@ public class HotelService {
 
 	public void setHotelLocation(String hotelLocation) {
 	    this.HotelLocation = hotelLocation;
+	}
+	
+	public String getCity() {
+	    return City;
+	}
+
+	public void setCity(String City) {
+	    this.City = City;
 	}
 
 	public int getRating() {
