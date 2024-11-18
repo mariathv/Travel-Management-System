@@ -31,7 +31,7 @@
                               <Font name="Lexend Deca Bold" size="24.0" />
                            </font>
                         </Text>
-                        <HBox alignment="CENTER" prefHeight="74.0" prefWidth="200.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="74.0" prefWidth="200.0">
                            <children>
                               <ImageView fx:id="imageViewInfo" fitHeight="60.0" fitWidth="92.0" pickOnBounds="true" preserveRatio="true" />
                               <Text fx:id="infoBusNo" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" BUSNO">
@@ -71,6 +71,102 @@
                 <RowConstraints maxHeight="55.20004882812499" minHeight="10.0" prefHeight="32.80002441406249" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
+                  <BorderPane prefHeight="66.0" prefWidth="270.0" GridPane.columnIndex="1">
+                     <center>
+                        <Button fx:id="removeButton" mnemonicParsing="false" onAction="#removeSelectedService" prefHeight="36.0" prefWidth="221.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Remove Service" textFill="WHITE" BorderPane.alignment="CENTER">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="18.0" />
+                           </font>
+                        </Button>
+                     </center>
+                  </BorderPane>
+                  <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="223.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="View Feedbacks" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </GridPane>
+         </children>
+      </Pane>
+      <Pane fx:id="hotelServicePane" layoutX="626.0" layoutY="51.0" prefHeight="414.0" prefWidth="240.0" visible="false">
+         <children>
+            <Pane layoutX="7.0" layoutY="14.0" prefHeight="298.0" prefWidth="227.0" style="-fx-background-radius: 20;" styleClass="linear-grad" stylesheets="@../css/fullpackstyling.css">
+               <children>
+                  <VBox layoutX="11.0" layoutY="19.0" prefHeight="263.0" prefWidth="204.0">
+                     <children>
+                        <Text fx:id="infoHotelName" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="HotelName">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="21.0" />
+                           </font>
+                        </Text>
+                        <Line endX="100.0" startX="-100.0" stroke="WHITE" />
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Location Details:">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="14.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="infoLocationDetails" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="locationDet">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="20.0" />
+                           </font>
+                        </Text>
+                        <Line endX="100.0" startX="-100.0" stroke="WHITE" />
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Pricing:">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="14.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Basic Room Price">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="20.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="infoBasicPrice" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="PRICE">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="20.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Double Room Price">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="20.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="infoDoublePrice" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="PRICE">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="20.0" />
+                           </font>
+                        </Text>
+                        <Line endX="100.0" startX="-100.0" stroke="WHITE" />
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Rating:">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="14.0" />
+                           </font>
+                        </Text>
+                        <HBox fx:id="infoRatingBox" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="(num)">
+                                 <font>
+                                    <Font name="Lexend Deca Medium" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </Pane>
+            <GridPane layoutX="14.0" layoutY="312.0" prefHeight="103.0" prefWidth="218.0">
+               <columnConstraints>
+                  <ColumnConstraints />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="68.4" minHeight="10.0" prefHeight="68.4" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="35.9999755859375" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="55.20004882812499" minHeight="10.0" prefHeight="32.80002441406249" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
                   <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="212.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="View Feedbacks" textFill="WHITE" GridPane.columnIndex="1">
                      <font>
                         <Font name="Lexend Deca Medium" size="18.0" />
@@ -85,7 +181,6 @@
             </GridPane>
          </children>
       </Pane>
-      <BorderPane layoutX="569.0" layoutY="404.0" prefHeight="66.0" prefWidth="270.0" />
       <Text layoutX="53.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Services">
          <font>
             <Font name="Lexend Deca Regular" size="34.0" />

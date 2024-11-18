@@ -1,6 +1,7 @@
 package application;
 	
 import application.controllers.AppController;
+
 import application.controllers.ScreenController;
 import application.controllers.authController;
 import javafx.application.Application;

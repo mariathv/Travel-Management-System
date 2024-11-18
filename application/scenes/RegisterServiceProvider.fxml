@@ -93,6 +93,11 @@
                         <Font name="Lexend Deca Regular" size="16.0" />
                      </font>
                   </TextField>
+                  <Text fx:id="errText" fill="#d71b1b" layoutX="74.0" layoutY="399.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="375.3492965698242">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="14.0" />
+                     </font>
+                  </Text>
                </children>
             </Pane>
             <Pane fx:id="nextRegPanel" layoutX="10.0" layoutY="4.0" prefHeight="607.0" prefWidth="538.0" visible="false">
