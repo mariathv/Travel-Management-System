@@ -41,14 +41,14 @@
                   </Text>
                </children>
             </HBox>
-            <HBox fx:id="DRPrice" prefHeight="27.0" prefWidth="210.0">
+            <HBox prefHeight="27.0" prefWidth="210.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Basic Room Price  " wrappingWidth="143.78395080566406">
                      <font>
                         <Font name="Lexend Deca Regular" size="14.0" />
                      </font>
                   </Text>
-                  <Text fx:id="BRPRice" strokeType="OUTSIDE" strokeWidth="0.0" text="BR PRICE" wrappingWidth="118.18403635024879">
+                  <Text fx:id="BRPrice" strokeType="OUTSIDE" strokeWidth="0.0" text="BR PRICE" wrappingWidth="118.18403635024879">
                      <font>
                         <Font name="Lexend Deca Regular" size="14.0" />
                      </font>
@@ -62,7 +62,7 @@
                         <Font name="Lexend Deca Regular" size="14.0" />
                      </font>
                   </Text>
-                  <Text fx:id="DRPRice" strokeType="OUTSIDE" strokeWidth="0.0" text="DR PRICE" wrappingWidth="125.38398742675781">
+                  <Text fx:id="DRPrice" strokeType="OUTSIDE" strokeWidth="0.0" text="DR PRICE" wrappingWidth="125.38398742675781">
                      <font>
                         <Font name="Lexend Deca Regular" size="14.0" />
                      </font>
