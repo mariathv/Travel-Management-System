@@ -15,8 +15,14 @@ public class RegisterController {
 		screenController.switchToLoginScene(event);
 	}
 
+	@FXML
 	public void RegisterAsServiceProvider(MouseEvent event) throws SQLException, ClassNotFoundException, IOException {
 		screenController.switchToSPRegister(event);
+	}
+
+	@FXML
+	public void RegisterAsCustomer(MouseEvent event) throws SQLException, ClassNotFoundException, IOException {
+		screenController.switchToCusRegister(event);
 	}
 
 	// utils

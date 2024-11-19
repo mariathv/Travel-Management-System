@@ -192,6 +192,20 @@
     -fx-text-fill: white;
 }
 
+.semi-rect-button-full-1 {
+    -fx-background-color: transparent;
+    -fx-border-color: #1A454E;
+    -fx-border-width: 2;
+    -fx-border-radius: 15 15 15 15;
+    -fx-background-radius: 15 15 15 15;
+    -fx-padding: 0;
+}
+
+.semi-rect-button-full-1:hover {
+    -fx-background-color: #212832;
+    -fx-text-fill: white;
+}
+
 
 .button-black-white {
     -fx-background-color: #212832;

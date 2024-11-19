@@ -15,6 +15,7 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
+import application.Model.Customer;
 import application.Model.ServiceProvider;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.application.Platform;
@@ -40,122 +41,138 @@ public class authController {
 	@FXML
 	private TextField agencyName;
 	@FXML
-	private Pane mainRegPanel, nextRegPanel, serviceInfoPane;
+	private Pane mainRegPanel, nextRegPanel;
 	@FXML
 	private ComboBox<String> ComboSTypes;
-
 	@FXML
-	private Text serviceEnterText, errText, errTextLogin;
+	private TextField email_Cus;
 	@FXML
-	private FontAwesomeIcon serviceEnterImage;
+	private TextField phoneNo;
+	@FXML
+	private TextField reg_name;
+	@FXML
+	private TextField reg_CUS_username;
+	@FXML
+	private TextField reg_CUS_password;
+	@FXML
+	private TextField password_re_Cus;
 
 	ScreenController screenController = new ScreenController();
 
 	ServiceProvider serviceProvider;
+	Customer customer;
 
 	private Stage primaryStage;
 
-	public void selectServiceType() throws ClassNotFoundException, SQLException {
-		if (!isUsernameTaken(reg_username.getText())) {
-			mainRegPanel.setVisible(false);
-			nextRegPanel.setVisible(true);
+	public void selectServiceType() {
+		mainRegPanel.setVisible(false);
+		nextRegPanel.setVisible(true);
 
-			ComboSTypes.getItems().add("Bus");
-			ComboSTypes.getItems().add("Train");
-			ComboSTypes.getItems().add("Flight");
-			ComboSTypes.getItems().add("Hotel");
-		}
+		ComboSTypes.getItems().add("Bus");
+		ComboSTypes.getItems().add("Train");
+		ComboSTypes.getItems().add("Flight");
+		ComboSTypes.getItems().add("Hotel");
 	}
 
-	public void onUpdateComboBox() {
-		System.out.println("combo box value changed");
-		String selc = ComboSTypes.getValue();
-		if (!serviceInfoPane.isVisible()) {
-			serviceInfoPane.setVisible(true);
-		}
-		if (selc.equals("Hotel")) {
-			serviceEnterText.setText("Enter Your Hotel Name:");
-			serviceEnterImage.setGlyphName("HOTEL");
-		} else {
-			serviceEnterText.setText("Enter Your Travel Agency Name:");
-			serviceEnterImage.setGlyphName("BUS");
-		}
-	}
-
-	public boolean isUsernameTaken(String username) throws SQLException, ClassNotFoundException {
-
+	public void login(MouseEvent event) throws SQLException, ClassNotFoundException, IOException {
+		// Establish the database connection
 		Connection connection = dbHandler.connect();
 
-		// SQL query to check if the username already exists
-		String checkUsernameQuery = "SELECT COUNT(*) FROM serviceProviderAuth WHERE username = ?";
-		PreparedStatement checkUsernameStmt = connection.prepareStatement(checkUsernameQuery);
-		checkUsernameStmt.setString(1, username);
-
-		ResultSet rs = checkUsernameStmt.executeQuery();
-
-		boolean usernameExists = false;
-		if (rs.next()) {
-			usernameExists = rs.getInt(1) > 0; // If count > 0, username exists
-		}
-
-		rs.close();
-		checkUsernameStmt.close();
-		connection.close();
-
-		if (usernameExists) {
-			errText.setText("This Username already exists");
-		}
-
-		return usernameExists;
-	}
-
-	public void login_sp(MouseEvent event) throws SQLException, ClassNotFoundException, IOException {
-		Connection connection = dbHandler.connect();
-
-		// login implementation
-		String getPassQuery = "SELECT * FROM serviceProviderAuth WHERE username = ?";
+		// First, try to find the username in the customerAuth table
+		String getPassQuery = "SELECT * FROM customerAuth WHERE username = ?";
 		PreparedStatement prepStatement = connection.prepareStatement(getPassQuery);
-		prepStatement.setString(1, username.getText());
+		prepStatement.setString(1, username.getText()); // Assuming username is a TextField
 
-		System.out.println("auth controlling username " + username);
+		System.out.println("Authenticating username: " + username.getText());
 
 		ResultSet resultSet = prepStatement.executeQuery();
+
 		if (resultSet.next()) {
+			// Customer found
 			String retrievedPassword = resultSet.getString("password");
 			int id = resultSet.getInt("userID");
-			if (retrievedPassword.equals(password.getText())) {
-				System.out.println("Login successful.");
 
-				String getPassQuery2 = "SELECT * FROM ServiceProvider WHERE serviceProviderID = ?";
-				PreparedStatement prepStatement2 = connection.prepareStatement(getPassQuery2);
+			// Check if the entered password matches
+			if (retrievedPassword.equals(password.getText())) {
+				System.out.println("Login successful for Customer.");
+
+				// Retrieve additional customer details
+				String getCustomerQuery = "SELECT * FROM Customer WHERE CustomerID = ?";
+				PreparedStatement prepStatement2 = connection.prepareStatement(getCustomerQuery);
 				prepStatement2.setInt(1, id);
+
 				ResultSet resultSet2 = prepStatement2.executeQuery();
 				if (resultSet2.next()) {
-					String emailSP = resultSet2.getString("email");
-					String agencyName = resultSet2.getString("travelAgencyName");
-					String serviceType = resultSet2.getString("serviceType");
-					serviceProvider = new ServiceProvider(id, emailSP, username.getText(), agencyName, serviceType);
+					String customerName = resultSet2.getString("name");
+					String email = resultSet2.getString("email");
+					String phoneNo = resultSet2.getString("phoneNo");
+					customer = new Customer(id, customerName, email, phoneNo, username.getText());
 
+					// Redirect to the customer home screen
+					screenController.switchToCusHome(event, customer);
 				} else {
-					System.out.println("Incorrect password.");
-					errTextLogin.setText("Incorrect Password");
+					System.out.println("Customer details not found.");
 				}
-
-				screenController.switchToSPHome(event, serviceProvider);
 			} else {
-				System.out.println("Incorrect password.");
-				errTextLogin.setText("Incorrect Password");
+				System.out.println("Incorrect password for Customer.");
+				errText.setText("Incorrect password");
 			}
 		} else {
-			System.out.println("Username not found.");
-			errTextLogin.setText("Username does not exist.");
-		}
+			// Customer not found, try ServiceProvider
+			System.out.println("Username not found in customerAuth. Checking serviceProviderAuth...");
 
+			// Now try to find the username in the serviceProviderAuth table
+			String getPassQuery2 = "SELECT * FROM serviceProviderAuth WHERE username = ?";
+			PreparedStatement prepStatement2 = connection.prepareStatement(getPassQuery2);
+			prepStatement2.setString(1, username.getText()); // Assuming username is a TextField
+
+			ResultSet resultSet2 = prepStatement2.executeQuery();
+
+			if (resultSet2.next()) {
+				// ServiceProvider found
+				String retrievedPassword = resultSet2.getString("password");
+				int id = resultSet2.getInt("userID");
+
+				// Check if the entered password matches
+				if (retrievedPassword.equals(password.getText())) {
+					System.out.println("Login successful for Service Provider.");
+
+					// Retrieve additional service provider details
+					String getSPQuery = "SELECT * FROM ServiceProvider WHERE serviceProviderID = ?";
+					PreparedStatement prepStatement3 = connection.prepareStatement(getSPQuery);
+					prepStatement3.setInt(1, id);
+
+					ResultSet resultSet3 = prepStatement3.executeQuery();
+					if (resultSet3.next()) {
+						String emailSP = resultSet3.getString("email");
+						String agencyName = resultSet3.getString("travelAgencyName");
+						String serviceType = resultSet3.getString("serviceType");
+
+						serviceProvider = new ServiceProvider(id, emailSP, username.getText(), agencyName, serviceType);
+
+						// Redirect to the service provider home screen
+						screenController.switchToSPHome(event, serviceProvider);
+					} else {
+						System.out.println("Service provider details not found.");
+					}
+				} else {
+					System.out.println("Incorrect password for Service Provider.");
+					errText.setText("Incorrect password");
+				}
+			} else {
+				System.out.println("Username not found in serviceProviderAuth.");
+				errText.setText("Username not found");
+			}
+		}
 	}
 
 	@FXML
 	public void createNewAccount(MouseEvent event) throws SQLException, ClassNotFoundException, IOException {
 		screenController.switchToRegisterScene(event);
+	}
+
+	public void BacktoLogin(MouseEvent event) throws SQLException, ClassNotFoundException, IOException {
+		screenController.switchToLoginScene(event);
 	}
 
 	public void RegisterServiceProvider(MouseEvent event) throws SQLException, ClassNotFoundException, IOException {
@@ -216,6 +233,80 @@ public class authController {
 
 		screenController.switchToSPHome(event, serviceProvider);
 
+	}
+
+	// utils
+
+	public void setPrimaryStage(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+	}
+
+	public void RegisterCustomer(MouseEvent event) throws SQLException, ClassNotFoundException, IOException {
+		Connection connection = dbHandler.connect();
+
+		// Step 1: Insert customer credentials into customerAuth table
+		String insertQuery0 = "INSERT INTO customerAuth(username, password) VALUES (?, ?)";
+		String insertQuery1 = "INSERT INTO Customer(CustomerID, name, email, phoneNo) VALUES (?, ?, ?, ?)";
+
+		// Check if passwords match
+		if (!reg_CUS_password.getText().equals(password_re_Cus.getText())) {
+			System.out.println("Password mismatch: " + reg_CUS_password.getText() + " != " + password_re_Cus.getText());
+			return;
+		}
+
+		// Insert credentials into customerAuth
+		PreparedStatement prepStatement = connection.prepareStatement(insertQuery0, Statement.RETURN_GENERATED_KEYS);
+		prepStatement.setString(1, reg_CUS_username.getText());
+		prepStatement.setString(2, reg_CUS_password.getText());
+		System.out.println("Executing statement 1: Inserting credentials");
+
+		int affectedRows = prepStatement.executeUpdate();
+		int userID = -1;
+		if (affectedRows > 0) {
+			ResultSet generatedKeys = prepStatement.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				userID = generatedKeys.getInt(1);
+			} else {
+				System.out.println("Failed to retrieve generated userID");
+				prepStatement.close();
+				connection.close();
+				return;
+			}
+			prepStatement.close();
+		} else {
+			System.out.println("Failed to insert customer credentials");
+			prepStatement.close();
+			connection.close();
+			return;
+		}
+
+		// Step 2: Insert customer details into Customer table
+		PreparedStatement prepStatement1 = connection.prepareStatement(insertQuery1);
+		prepStatement1.setInt(1, userID); // Use the generated userID
+		prepStatement1.setString(2, reg_name.getText());
+		prepStatement1.setString(3, email_Cus.getText());
+		prepStatement1.setString(4, phoneNo.getText());
+		System.out.println("Executing statement 2: Inserting customer details");
+
+		if (prepStatement1.executeUpdate() > 0) {
+			System.out.println("Customer registration successful");
+
+			// Create a Customer object
+			customer = new Customer(userID, reg_name.getText(), email_Cus.getText(), phoneNo.getText(),
+					reg_CUS_username.getText());
+			prepStatement1.close();
+
+			// Step 3: Switch to customer home screen
+			System.out.println("Switching scenes to customer home");
+			screenController.switchToCusHome(event, customer);
+		} else {
+			System.out.println("Failed to insert customer details");
+			prepStatement1.close();
+			connection.close();
+			return;
+		}
+
+		connection.close();
 	}
 
 	// utils

@@ -65,7 +65,7 @@
                   </TextField>
                   <FontAwesomeIcon fill="#1a454e" glyphName="USER" layoutX="53.0" layoutY="289.0" selectionFill="BLACK" size="2em" />
                   <FontAwesomeIcon fill="#1a454e" glyphName="KEY" layoutX="51.0" layoutY="349.0" selectionFill="BLACK" size="2em" />
-                  <Button layoutX="58.0" layoutY="418.0" mnemonicParsing="false" onMouseClicked="#login_sp" styleClass="button-sign-in" stylesheets="@../css/loginRegisterModule.css" text="SIGN IN">
+                  <Button layoutX="58.0" layoutY="418.0" mnemonicParsing="false" onMouseClicked="#login" styleClass="button-sign-in" stylesheets="@../css/loginRegisterModule.css" text="SIGN IN">
                      <font>
                         <Font name="Lexend Deca Medium" size="15.0" />
                      </font>
