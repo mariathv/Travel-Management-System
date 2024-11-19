@@ -6,3 +6,5 @@
 /AppController.class
 /ServiceController.class
 /ServiceItemController.class
+/CustomerController.class
+/ServiceControllerCus.class

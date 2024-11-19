@@ -7,16 +7,14 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane style="-fx-background-radius: 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.ServiceProviderController">
+<AnchorPane style="-fx-background-radius: 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.CustomerController">
    <children>
       <AnchorPane prefHeight="616.0" prefWidth="993.0" style="-fx-background-color: #212832; -fx-background-radius: 15;">
          <children>
@@ -32,7 +30,7 @@
             <VBox prefHeight="544.0" prefWidth="74.0" style="-fx-background-color: #393D46; -fx-background-radius: 15 0 0 15;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Pane prefHeight="79.0" prefWidth="74.0" style="-fx-background-radius: 15 0 15 15;" />
-                  <Button fx:id="nav_home" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadHomePane" prefHeight="66.0" prefWidth="74.0" style="-fx-background-color: #212832;" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Home" textFill="#00adb4">
+                  <Button fx:id="nav_home_cus" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadHomePane_cus" prefHeight="66.0" prefWidth="74.0" style="-fx-background-color: #212832;" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Home" textFill="#00adb4">
                      <graphic>
                         <FontAwesomeIcon fill="#00adb4" glyphName="HOME" selectionFill="#fafafa" selectionStart="1" size="3em" wrappingWidth="32.47615098953247" />
                      </graphic>
@@ -40,7 +38,7 @@
                         <Font name="Lexend Deca Medium" size="12.0" />
                      </font>
                   </Button>
-                  <Button fx:id="nav_service" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadNewPanel" prefHeight="66.0" prefWidth="74.0" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Services" textFill="#00adb4">
+                  <Button fx:id="nav_service_cus" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadServicePane_cus" prefHeight="66.0" prefWidth="74.0" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Services" textFill="#00adb4">
                      <graphic>
                         <FontAwesomeIcon fill="#00adb4" glyphName="BARS" selectionFill="#fafafa" selectionStart="1" size="3em" wrappingWidth="32.47615098953247" />
                      </graphic>
@@ -48,7 +46,7 @@
                         <Font name="Lexend Deca Medium" size="12.0" />
                      </font>
                   </Button>
-                  <Button fx:id="nav_notifs" contentDisplay="TOP" mnemonicParsing="false" prefHeight="66.0" prefWidth="74.0" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Notifications" textFill="#00adb4">
+                  <Button fx:id="nav_notifs_cus" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadServiceSearch_cus" prefHeight="66.0" prefWidth="74.0" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Notifications" textFill="#00adb4">
                      <graphic>
                         <FontAwesomeIcon fill="#00adb4" glyphName="BELL" selectionFill="#fafafa" selectionStart="1" size="3em" wrappingWidth="32.47615098953247" />
                      </graphic>
@@ -56,7 +54,7 @@
                         <Font name="Lexend Deca Medium" size="9.0" />
                      </font>
                   </Button>
-                  <Button fx:id="nav_profile" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadProfilePane" prefHeight="66.0" prefWidth="74.0" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Profile" textFill="#00adb4">
+                  <Button fx:id="nav_profile_cus" contentDisplay="TOP" mnemonicParsing="false" prefHeight="66.0" prefWidth="74.0" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Profile" textFill="#00adb4">
                      <graphic>
                         <FontAwesomeIcon fill="#00adb4" glyphName="USER" selectionFill="#fafafa" selectionStart="1" size="3em" wrappingWidth="32.47615098953247" />
                      </graphic>
@@ -66,93 +64,99 @@
                   </Button>
                </children>
             </VBox>
-            <AnchorPane fx:id="mainPanel" layoutX="91.0" layoutY="69.0" prefHeight="531.0" prefWidth="886.0" style="-fx-background-color: #DDDDDD; -fx-background-radius: 10;" stylesheets="@../css/fullpackstyling.css">
-               <children>
-                  <Pane layoutX="569.0" layoutY="46.0" prefHeight="297.0" prefWidth="270.0" style="-fx-background-radius: 20;" styleClass="linear-grad" stylesheets="@../css/fullpackstyling.css">
-                     <children>
-                        <VBox alignment="TOP_CENTER" layoutX="16.0" layoutY="12.0" prefHeight="265.0" prefWidth="243.0">
-                           <children>
-                              <ImageView fitHeight="175.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../assets/images/pngs/profile-user.png" />
-                                 </image>
-                              </ImageView>
-                              <Text fx:id="usernameProfilePane" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="\@username" textAlignment="CENTER">
-                                 <font>
-                                    <Font name="Lexend Deca Regular" size="20.0" />
-                                 </font>
-                              </Text>
-                              <Text fx:id="agencyProfilePane" boundsType="LOGICAL_VERTICAL_CENTER" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Name" textAlignment="CENTER" textOrigin="CENTER">
-                                 <font>
-                                    <Font name="Lexend Deca Bold" size="18.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </VBox>
-                     </children>
-                  </Pane>
-                  <Line endX="100.0" layoutX="445.0" layoutY="54.0" startX="100.0" startY="418.0" stroke="#b9b1b1" strokeDashOffset="2.0" />
-                  <BorderPane layoutX="569.0" layoutY="404.0" prefHeight="66.0" prefWidth="270.0">
-                     <center>
-                        <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="194.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Manage Profile" textFill="WHITE" BorderPane.alignment="CENTER">
-                           <font>
-                              <Font name="Lexend Deca Medium" size="18.0" />
-                           </font>
-                        </Button>
-                     </center>
-                  </BorderPane>
-                  <Line endX="323.0" endY="-1.399993896484375" layoutX="190.0" layoutY="246.0" startX="-135.0" startY="-1.399993896484375" stroke="#00adb4" />
-                  <BorderPane layoutX="24.0" layoutY="47.0" prefHeight="187.0" prefWidth="503.0">
-                     <top>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Recent Bookings" BorderPane.alignment="CENTER">
-                           <font>
-                              <Font name="Lexend Deca Regular" size="14.0" />
-                           </font>
-                        </Text>
-                     </top>
-                     <center>
-                        <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #DDDDDD; -fx-background-radius: 20;" BorderPane.alignment="CENTER" />
-                     </center>
-                  </BorderPane>
-               </children>
-            </AnchorPane>
             <Label layoutX="97.0" layoutY="16.0" text="WanderWide" textFill="WHITE">
                <font>
                   <Font name="Lexend Deca Bold" size="28.0" />
                </font>
             </Label>
-            <GridPane layoutX="154.0" layoutY="369.0" prefHeight="162.0" prefWidth="441.0">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
+            <AnchorPane fx:id="mainPanel_cus" layoutX="91.0" layoutY="69.0" prefHeight="531.0" prefWidth="886.0" style="-fx-background-color: #DDDDDD; -fx-background-radius: 10;" stylesheets="@../css/fullpackstyling.css">
                <children>
-                  <Button alignment="CENTER" mnemonicParsing="false" prefHeight="70.0" prefWidth="211.0" styleClass="semi-rect-button-full" stylesheets="@../css/fullpackstyling.css" text="Book Hotel" textFill="#0b0b0b">
-                     <font>
-                        <Font name="Lexend Deca Regular" size="23.0" />
-                     </font>
-                  </Button>
-                  <Button alignment="CENTER" mnemonicParsing="false" prefHeight="70.0" prefWidth="211.0" styleClass="semi-rect-button-full" stylesheets="@../css/fullpackstyling.css" text="Book Transport" textFill="#0b0b0b" GridPane.columnIndex="1">
-                     <font>
-                        <Font size="23.0" />
-                     </font>
-                  </Button>
-                  <Button alignment="CENTER" mnemonicParsing="false" prefHeight="70.0" prefWidth="211.0" styleClass="semi-rect-button-full" stylesheets="@../css/fullpackstyling.css" text="Give Feedback" textFill="#0b0b0b" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="Lexend Deca Regular" size="23.0" />
-                     </font>
-                  </Button>
-                  <Button alignment="CENTER" mnemonicParsing="false" prefHeight="70.0" prefWidth="211.0" styleClass="semi-rect-button-full" stylesheets="@../css/fullpackstyling.css" text="Make Payment" textFill="#0b0b0b" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="Lexend Deca Regular" size="23.0" />
-                     </font>
-                  </Button>
+                  <StackPane prefHeight="531.0" prefWidth="886.0">
+                     <children>
+                        <AnchorPane fx:id="home" prefHeight="531.0" prefWidth="886.0" style="-fx-background-color: #DDDDDD; -fx-background-radius: 10;" stylesheets="@../css/fullpackstyling.css">
+                           <children>
+                              <Pane layoutX="569.0" layoutY="46.0" prefHeight="297.0" prefWidth="270.0" style="-fx-background-radius: 20;" styleClass="linear-grad" stylesheets="@../css/fullpackstyling.css">
+                                 <children>
+                                    <VBox alignment="TOP_CENTER" layoutX="16.0" layoutY="12.0" prefHeight="265.0" prefWidth="243.0">
+                                       <children>
+                                          <ImageView fitHeight="170.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/images/pngs/profile-user.png" />
+                                             </image>
+                                          </ImageView>
+                                          <Text fx:id="Cus_username" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="\@username" textAlignment="CENTER" wrappingWidth="105.498046875">
+                                             <font>
+                                                <Font name="Lexend Deca Regular" size="20.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fx:id="Cus_name" boundsType="LOGICAL_VERTICAL_CENTER" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Name" textAlignment="CENTER" textOrigin="CENTER">
+                                             <font>
+                                                <Font name="Lexend Deca Bold" size="18.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </Pane>
+                              <Line endX="100.0" layoutX="445.0" layoutY="54.0" startX="100.0" startY="418.0" stroke="#807373" strokeDashOffset="2.0" />
+                              <BorderPane layoutX="569.0" layoutY="404.0" prefHeight="66.0" prefWidth="270.0">
+                                 <center>
+                                    <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="194.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Manage Profile" textFill="WHITE" BorderPane.alignment="CENTER">
+                                       <font>
+                                          <Font name="Lexend Deca Medium" size="18.0" />
+                                       </font>
+                                    </Button>
+                                 </center>
+                              </BorderPane>
+                              <Line endX="323.0" endY="-1.399993896484375" layoutX="187.0" layoutY="402.0" startX="-135.0" startY="-1.399993896484375" stroke="#00adb4" />
+                              <BorderPane layoutX="24.0" layoutY="47.0" prefHeight="187.0" prefWidth="503.0">
+                                 <top>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Recent Bookings" BorderPane.alignment="CENTER">
+                                       <font>
+                                          <Font size="25.0" />
+                                       </font>
+                                    </Text>
+                                 </top>
+                                 <center>
+                                    <Pane minHeight="-Infinity" prefHeight="300.0" prefWidth="503.0" style="-fx-background-color: #b5b0b0; -fx-background-radius: 20;" BorderPane.alignment="CENTER" />
+                                 </center>
+                              </BorderPane>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="selection" prefHeight="531.0" prefWidth="886.0" style="-fx-background-color: #DDDDDD; -fx-background-radius: 10;" stylesheets="@../css/fullpackstyling.css" visible="false">
+                           <children>
+                              <Text layoutX="82.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Services">
+                                 <font>
+                                    <Font name="Lexend Deca Regular" size="34.0" />
+                                 </font>
+                              </Text>
+                              <Line endX="877.6666870117188" endY="52.333335876464844" layoutX="-47.0" layoutY="53.0" startX="77.66665649414062" startY="52.333335876464844" stroke="#b9b1b1" strokeDashOffset="2.0" />
+                              <Line endX="347.66668701171875" endY="386.3333435058594" layoutX="-36.0" layoutY="63.0" startX="347.66668701171875" startY="102.77778625488281" stroke="#a30000" strokeDashOffset="2.0" />
+                              <Button alignment="BOTTOM_CENTER" layoutX="83.0" layoutY="203.0" mnemonicParsing="false" onAction="#loadServiceSearch_cus" prefHeight="206.0" prefWidth="188.0" styleClass="semi-rect-button-full-1" text="Add Transport">
+                                 <font>
+                                    <Font name="System Bold" size="23.0" />
+                                 </font>
+                              </Button>
+                              <Button alignment="BOTTOM_CENTER" layoutX="350.0" layoutY="203.0" mnemonicParsing="false" prefHeight="206.0" prefWidth="188.0" styleClass="semi-rect-button-full-1" text="Add Hotel">
+                                 <font>
+                                    <Font name="System Bold" size="23.0" />
+                                 </font>
+                              </Button>
+                              <Button alignment="BOTTOM_CENTER" layoutX="618.0" layoutY="203.0" mnemonicParsing="false" prefHeight="206.0" prefWidth="188.0" styleClass="semi-rect-button-full-1" text="Make Payment">
+                                 <font>
+                                    <Font name="System Bold" size="22.0" />
+                                 </font>
+                              </Button>
+                              <Line endX="347.66668701171875" endY="386.3333435058594" layoutX="232.0" layoutY="63.0" startX="347.66668701171875" startY="102.77778625488281" stroke="#a30000" strokeDashOffset="2.0" />
+                              <FontAwesomeIcon fill="#c04141" glyphName="BUS" layoutX="124.0" layoutY="336.0" size="120" text="" wrappingWidth="26.22216033935547" />
+                              <FontAwesomeIcon fill="#005e98" glyphName="HOTEL" layoutX="392.0" layoutY="332.0" size="100" wrappingWidth="96.44439697265625" />
+                              <FontAwesomeIcon fill="#00c72b" glyphName="DOLLAR" layoutX="677.0" layoutY="337.0" size="120" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </StackPane>
                </children>
-            </GridPane>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>

@@ -17,7 +17,8 @@
                   <Image url="@../assets/images/pngs/close.png" />
                </image>
             </ImageView>
-         </children></AnchorPane>
+         </children>
+      </AnchorPane>
    </right>
    <left>
       <AnchorPane prefHeight="600.0" prefWidth="514.0" style="-fx-background-color: 212832;" styleClass="pane-with-border" stylesheets="@../css/loginRegisterModule.css" BorderPane.alignment="CENTER">
@@ -27,7 +28,7 @@
                   <Font name="Lexend Deca Medium" size="37.0" />
                </font>
             </Text>
-            <Button layoutX="88.0" layoutY="280.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="245.0" styleClass="semi-rect-button-full" stylesheets="@../css/loginRegisterModule.css" text="Customer">
+            <Button layoutX="88.0" layoutY="280.0" mnemonicParsing="false" onMouseClicked="#RegisterAsCustomer" prefHeight="38.0" prefWidth="245.0" styleClass="semi-rect-button-full" stylesheets="@../css/loginRegisterModule.css" text="Customer">
                <font>
                   <Font name="Lexend Deca Medium" size="18.0" />
                </font>

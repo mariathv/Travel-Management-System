@@ -5,7 +5,7 @@ public class ServiceProvider implements User {
 	String serviceType; 
 	int ServiceProviderID, rating;
 	
-	public ServiceProvider(int ServiceProviderID, String email,  String username, String agencyName){
+	public ServiceProvider(int ServiceProviderID, String email,  String username, String agencyName, String serviceType){
 		this.email=email;
 		this.ServiceProviderID = ServiceProviderID;
 		this.username = username;
@@ -14,6 +14,7 @@ public class ServiceProvider implements User {
 		rating = 0;
 		email = "-";
 		phoneNum = "-";
+		this.serviceType=serviceType;
 		
 	}
 	
@@ -67,6 +68,18 @@ public class ServiceProvider implements User {
     }
     public String getAgencyName() {
     	return agencyName;
+    }
+    
+    public void printDetails() {
+        System.out.println("Service Provider Details:");
+        System.out.println("Name: " + name);
+        System.out.println("Email: " + email);
+        System.out.println("Phone Number: " + phoneNum);
+        System.out.println("Username: " + username);
+        System.out.println("Agency Name: " + agencyName);
+        System.out.println("Service Type: " + serviceType);
+        System.out.println("Service Provider ID: " + ServiceProviderID);
+        System.out.println("Rating: " + rating);
     }
 
 }
