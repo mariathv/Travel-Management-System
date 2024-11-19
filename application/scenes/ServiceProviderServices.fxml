@@ -6,7 +6,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -20,7 +19,7 @@
 
 <AnchorPane prefHeight="531.0" prefWidth="886.0" style="-fx-background-color: #DDDDDD; -fx-background-radius: 10;" stylesheets="@../css/fullpackstyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.ServiceController">
    <children>
-      <Pane fx:id="sideInfoPane" layoutX="616.0" layoutY="41.0" prefHeight="414.0" prefWidth="240.0" visible="false">
+      <Pane fx:id="sideInfoPane" layoutX="616.0" layoutY="41.0" prefHeight="474.0" prefWidth="240.0" visible="false">
          <children>
             <Pane layoutX="7.0" layoutY="14.0" prefHeight="298.0" prefWidth="227.0" style="-fx-background-radius: 20;" styleClass="linear-grad" stylesheets="@../css/fullpackstyling.css">
                <children>
@@ -60,33 +59,25 @@
                   </VBox>
                </children>
             </Pane>
-            <GridPane layoutX="14.0" layoutY="312.0" prefHeight="103.0" prefWidth="218.0">
-              <columnConstraints>
-                <ColumnConstraints />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="68.4" minHeight="10.0" prefHeight="68.4" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="35.9999755859375" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="55.20004882812499" minHeight="10.0" prefHeight="32.80002441406249" vgrow="SOMETIMES" />
-              </rowConstraints>
+            <VBox alignment="TOP_CENTER" layoutY="321.0" prefHeight="154.0" prefWidth="240.0" spacing="8.0">
                <children>
-                  <BorderPane prefHeight="66.0" prefWidth="270.0" GridPane.columnIndex="1">
-                     <center>
-                        <Button fx:id="removeButton" mnemonicParsing="false" onAction="#removeSelectedService" prefHeight="36.0" prefWidth="221.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Remove Service" textFill="WHITE" BorderPane.alignment="CENTER">
-                           <font>
-                              <Font name="Lexend Deca Medium" size="18.0" />
-                           </font>
-                        </Button>
-                     </center>
-                  </BorderPane>
-                  <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="223.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="View Feedbacks" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Button fx:id="removeButton" mnemonicParsing="false" onAction="#removeSelectedService" prefHeight="23.0" prefWidth="218.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Remove Service" textFill="WHITE">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="viewBookings" mnemonicParsing="false" onAction="#displayBookings" prefHeight="34.0" prefWidth="218.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="View Bookings" textFill="WHITE">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="218.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="View Feedbacks" textFill="WHITE">
                      <font>
                         <Font name="Lexend Deca Medium" size="18.0" />
                      </font>
                   </Button>
                </children>
-            </GridPane>
+            </VBox>
          </children>
       </Pane>
       <Pane fx:id="hotelServicePane" layoutX="626.0" layoutY="51.0" prefHeight="414.0" prefWidth="240.0" visible="false">
@@ -516,6 +507,7 @@
                   </VBox>
                </children>
             </Pane>
+            <Pane fx:id="bookingsDisplayPane" prefHeight="382.0" prefWidth="538.0" visible="false" />
          </children>
       </StackPane>
       <FontAwesomeIcon fx:id="goBackView" glyphName="ARROW_LEFT" layoutX="569.0" layoutY="64.0" onMouseClicked="#displayServices" size="2em" visible="false" />

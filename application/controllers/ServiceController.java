@@ -30,7 +30,7 @@ import javafx.scene.text.Text;
 public class ServiceController {
 	ServiceProvider serviceProvider;
 	@FXML
-	private Pane addServicePane, sideInfoPane, addHotelListingPane, hotelServicePane;
+	private Pane addServicePane, sideInfoPane, addHotelListingPane, hotelServicePane, bookingsDisplayPane;
 	@FXML
 	private ScrollPane viewServicePane;
 	@FXML
@@ -40,7 +40,7 @@ public class ServiceController {
 	@FXML
 	private HBox GateInfo;
 	@FXML
-	private Button addNewServiceBtn, removeButton;
+	private Button addNewServiceBtn, removeButton, viewBookings;
 	@FXML
 	private TextField depLoc, depTime, depDate, arvLoc, arvTime, arvDate, SBusNo, BStationName, BStationLoc, StktPrice,
 			GNumber;
@@ -65,6 +65,9 @@ public class ServiceController {
 	public ArrayList<TrainService> TrainServices = new ArrayList<>();
 	public ArrayList<HotelService> HotelServices = new ArrayList<>();
 
+	boolean bookingsLoaded = false;
+	int bookingsLoadedFr = -1;
+
 	public void clearAllServices() {
 		BusServices.clear();
 		FlightServices.clear();
@@ -82,6 +85,7 @@ public class ServiceController {
 			addServicePane.setVisible(false);
 			viewServicePane.setVisible(false);
 			addNewServiceBtn.setVisible(false);
+			bookingsDisplayPane.setVisible(false);
 			goBackView.setVisible(true);
 			if (hotelServicePane.isVisible()) {
 				infoSideVisibleWas = true;
@@ -104,6 +108,7 @@ public class ServiceController {
 			addServicePane.setVisible(true);
 			viewServicePane.setVisible(false);
 			addNewServiceBtn.setVisible(false);
+			bookingsDisplayPane.setVisible(false);
 			goBackView.setVisible(true);
 			if (sideInfoPane.isVisible()) {
 				infoSideVisibleWas = true;
@@ -117,8 +122,10 @@ public class ServiceController {
 	public void displayServices() {
 		addServicePane.setVisible(false);
 		addHotelListingPane.setVisible(false);
+		bookingsDisplayPane.setVisible(false);
 		viewServicePane.setVisible(true);
 		addNewServiceBtn.setVisible(true);
+		viewBookings.setVisible(true);
 		goBackView.setVisible(false);
 		if (infoSideVisibleWas && !serviceProvider.getServiceType().equals("Hotel"))
 			sideInfoPane.setVisible(true);
@@ -641,6 +648,48 @@ public class ServiceController {
 				}
 			}
 		}
+	}
+
+	// bookings handling
+	public void displayBookings() throws IOException, ClassNotFoundException, SQLException {
+		if (bookingsLoaded && selectedServiceID == bookingsLoadedFr) {
+			viewBookings.setVisible(false);
+			hideServicePanels();
+			if (!bookingsDisplayPane.isVisible()) {
+				bookingsDisplayPane.setVisible(true);
+			}
+			return; // Exit early since bookings are already loaded for the selected service
+		}
+
+		hideServicePanels();
+		viewBookings.setVisible(false);
+
+		FXMLLoader fxmlloader = new FXMLLoader();
+		fxmlloader.setLocation(getClass().getResource("../scenes/ServiceBookings.fxml"));
+		Pane pane = fxmlloader.load();
+
+		BookingController bookingController = fxmlloader.getController();
+		if (serviceProvider.getServiceType().equals("Hotel")) {
+			bookingController.loadBookingData(selectedServiceID, false);
+		} else {
+			bookingController.loadBookingData(selectedServiceID, true);
+		}
+
+		bookingsDisplayPane.getChildren().clear();
+		bookingsDisplayPane.getChildren().add(pane);
+
+		bookingsLoaded = true;
+		bookingsLoadedFr = selectedServiceID;
+		bookingsDisplayPane.setVisible(true);
+	}
+
+	// Helper method to hide all service-related panels
+	private void hideServicePanels() {
+		addNewServiceBtn.setVisible(false);
+		viewServicePane.setVisible(false);
+		addServicePane.setVisible(false);
+		addHotelListingPane.setVisible(false);
+		goBackView.setVisible(true);
 	}
 
 }
