@@ -7,3 +7,5 @@
 /ServiceController.class
 /ServiceItemController.class
 /HotelServiceItemController.class
+/BookingController.class
+/bookingItemController.class

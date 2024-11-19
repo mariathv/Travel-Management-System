@@ -5,3 +5,5 @@
 /TrainService.class
 /FlightService.class
 /HotelService.class
+/HotelBooking.class
+/TravelBooking.class

@@ -38,15 +38,6 @@
          </children>
       </Pane>
       <Line endX="100.0" layoutX="445.0" layoutY="54.0" startX="100.0" startY="418.0" stroke="#b9b1b1" strokeDashOffset="2.0" />
-      <BorderPane layoutX="569.0" layoutY="404.0" prefHeight="66.0" prefWidth="270.0">
-         <center>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="194.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Manage Profile" textFill="WHITE" BorderPane.alignment="CENTER">
-               <font>
-                  <Font name="Lexend Deca Medium" size="18.0" />
-               </font>
-            </Button>
-         </center>
-      </BorderPane>
       <Line endX="323.0" endY="-1.399993896484375" layoutX="190.0" layoutY="246.0" startX="-135.0" startY="-1.399993896484375" stroke="#00adb4" />
       <BorderPane layoutX="24.0" layoutY="47.0" prefHeight="187.0" prefWidth="503.0">
          <top>
@@ -92,5 +83,26 @@
             </AnchorPane>
          </items>
       </SplitPane>
+      <VBox alignment="CENTER" layoutX="577.0" layoutY="377.0" prefHeight="112.0" prefWidth="244.0" spacing="10.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="194.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Manage Profile" textFill="WHITE">
+               <font>
+                  <Font name="Lexend Deca Medium" size="18.0" />
+               </font>
+            </Button>
+            <Button alignment="CENTER" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="194.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Logout" textFill="WHITE">
+               <font>
+                  <Font name="Lexend Deca Medium" size="18.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="18.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/images/pngs/logout.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

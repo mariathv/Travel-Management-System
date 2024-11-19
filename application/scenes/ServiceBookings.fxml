@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane fx:id="viewBookingsPane" prefHeight="382.0" prefWidth="538.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.BookingController">
+   <children>
+      <Text layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bookings">
+         <font>
+            <Font name="Lexend Deca Regular" size="19.0" />
+         </font>
+      </Text>
+      <Line endX="405.79998779296875" endY="7.62939453125E-6" layoutX="115.0" layoutY="47.0" startX="-100.0" stroke="#817e7e" />
+      <ScrollPane fx:id="bookingsScroll" layoutX="14.0" layoutY="48.0" prefHeight="326.0" prefWidth="507.0">
+         <content>
+            <VBox fx:id="vBoxBookings" prefHeight="320.0" prefWidth="506.0">
+               <children>
+                  <HBox fx:id="sampleHBOX" alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="506.0" spacing="30.0" style="-fx-background-color: #CCD1D3;" styleClass="bookingDetail" stylesheets="@../css/fullpackstyling.css">
+                     <children>
+                        <Text fx:id="userID" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="   1">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="15.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="username" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" wrappingWidth="119.20999908447266">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="15.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="bookingDate" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="BookingDate" wrappingWidth="122.45497179031372">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="15.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="price" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" wrappingWidth="74.04505205154419">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="15.0" />
+                           </font>
+                        </Text>
+                        <FontAwesomeIcon fx:id="icon" glyphName="BUS" size="1.5em" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </children>
+</Pane>

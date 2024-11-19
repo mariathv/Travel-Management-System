@@ -1,133 +1,133 @@
-.button1
-{
--fx-background-color : #393351;
--fx-background-radius :  30 0 0 30;
-}
-.button1:hover
-{
--fx-background-color : #524A7B ;
--fx-background-radius :  30 0 0 30;
-}
-.button1:pressed
-{
--fx-background-color : #2F2B43 ;
--fx-background-radius :  30 0 0 30;
+.button1 {
+    -fx-background-color: #393351;
+    -fx-background-radius: 30 0 0 30;
 }
 
-.button2
-{
--fx-background-color : #393351;
--fx-background-radius :  20;
-}
-.button2:hover
-{
--fx-background-color : #524A7B ;
--fx-background-radius :  20;
-}
-.button2:pressed
-{
--fx-background-color : #2F2B43 ;
--fx-background-radius :  20;
+.button1:hover {
+    -fx-background-color: #524A7B;
+    -fx-background-radius: 30 0 0 30;
 }
 
-.button3
-{
-    -fx-background-color :  #393D46;
-    -fx-background-radius :  0 0 0 0;
-}
-.button3:hover
-{
-    -fx-background-color : #1A454E ;
-}
-.button3:pressed
-{
-    -fx-background-color : #2F2B43 ;
+.button1:pressed {
+    -fx-background-color: #2F2B43;
+    -fx-background-radius: 30 0 0 30;
 }
 
-.button4
-{
-    -fx-background-color :linear-gradient(to top left, #41951C, #D4CEE3);
-    -fx-background-radius :  30 30 30 30;
+.button2 {
+    -fx-background-color: #393351;
+    -fx-background-radius: 20;
 }
-.button4:hover
-{
-    -fx-background-color :linear-gradient(to top left, #D4CEE3, #41951C);
-    -fx-background-radius :  30 30 30 30;
+
+.button2:hover {
+    -fx-background-color: #524A7B;
+    -fx-background-radius: 20;
 }
-.button4:pressed
-{
-    -fx-background-color :linear-gradient(to top left, #41951C, #D4CEE3);
-    -fx-background-radius :  30 30 30 30;
+
+.button2:pressed {
+    -fx-background-color: #2F2B43;
+    -fx-background-radius: 20;
+}
+
+.button3 {
+    -fx-background-color: #393D46;
+    -fx-background-radius: 0 0 0 0;
+}
+
+.button3:hover {
+    -fx-background-color: #1A454E;
+}
+
+.button3:pressed {
+    -fx-background-color: #2F2B43;
+}
+
+.button4 {
+    -fx-background-color: linear-gradient(to top left, #41951C, #D4CEE3);
+    -fx-background-radius: 30 30 30 30;
+}
+
+.button4:hover {
+    -fx-background-color: linear-gradient(to top left, #D4CEE3, #41951C);
+    -fx-background-radius: 30 30 30 30;
+}
+
+.button4:pressed {
+    -fx-background-color: linear-gradient(to top left, #41951C, #D4CEE3);
+    -fx-background-radius: 30 30 30 30;
 }
 
 
-.combo-box
-{
-    -fx-background-color : #141124;
-    -fx-border-color:  #515658;
+.combo-box {
+    -fx-background-color: #141124;
+    -fx-border-color: #515658;
     -fx-border-radius: 30;
 }
-.combo-box:hover
-{
-    -fx-background-color : #141124;
-    -fx-border-color:  #FFFF;
+
+.combo-box:hover {
+    -fx-background-color: #141124;
+    -fx-border-color: #FFFF;
     -fx-border-radius: 30;
 }
-.combo-box:pressed
-{
-    -fx-background-color : #141124;
-    -fx-border-color:  #FFFF;
+
+.combo-box:pressed {
+    -fx-background-color: #141124;
+    -fx-border-color: #FFFF;
     -fx-border-radius: 30;
 }
 
 .table-view .column-header,
 .table-view .column-header-background .filler {
-    -fx-cell-size : 20;
-    -fx-background-color:   #2D75E8;
+    -fx-cell-size: 20;
+    -fx-background-color: #2D75E8;
 }
-.table-view .column-header .label{
 
-   -fx-text-fill: white;
-   -fx-font-weight: bold;
-   -fx-alignment: CENTER_LEFT;
+.table-view .column-header .label {
+
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
 }
-.table-view .cell{
-   -fx-cell-size: 30;
-  -fx-alignment: center-left;
-  -fx-text-fill: #000000;
+
+.table-view .cell {
+    -fx-cell-size: 30;
+    -fx-alignment: center-left;
+    -fx-text-fill: #000000;
 }
 
 .table-row-cell:selected {
-    -fx-background-color:  rgb(127, 172, 243);
- }
- .table-row-cell:selected .text {
-        -fx-fill : white ;
+    -fx-background-color: rgb(127, 172, 243);
+}
 
- }
+.table-row-cell:selected .text {
+    -fx-fill: white;
+
+}
+
 /* scroll bar starts here */
 
 /* The increment and decrement button CSS class of scrollbar */
-.table-view .increment-button ,.table-view .decrement-button {
-    -fx-background-color:transparent;
-	-fx-background-radius: 2em;
+.table-view .increment-button,
+.table-view .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 2em;
 
 }
 
 /* The main scrollbar **track** CSS class  */
 .table-view .scroll-bar:horizontal .track,
-.table-view .scroll-bar:vertical .track{
-	-fx-background-color: transparent;
-	-fx-border-color:derive(  #2D75E8,80%);
-	-fx-background-radius: 2em;
-	-fx-border-radius:2em;
+.table-view .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+    -fx-border-color: derive(#2D75E8, 80%);
+    -fx-background-radius: 2em;
+    -fx-border-radius: 2em;
 }
 
 /* The main scrollbar **thumb** CSS class which we drag every time (movable) */
 .table-view .scroll-bar:horizontal .thumb,
 .table-view .scroll-bar:vertical .thumb {
-    -fx-background-color:derive( #2D75E8,90%);
-	-fx-background-insets: 2, 0, 0;
-	-fx-background-radius: 2em;
+    -fx-background-color: derive(#2D75E8, 90%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
 
 }
 
@@ -138,94 +138,107 @@
     -fx-background-color: transparent;
     -fx-legend-visible: false;
 }
+
 .chart-plot-background {
-    -fx-background-color:transparent;
+    -fx-background-color: transparent;
 }
 
 .chart-pie {
     -fx-border-color: derive(-fx-pie-color, 1%);
     -fx-border-width: 0px;
 }
-.linear-grad
-{
+
+.linear-grad {
     -fx-background-color: linear-gradient(to bottom left, #00adb4, #212832);
 }
 
 
 .semi-rect-button-full {
-    -fx-background-color: transparent;     
-    -fx-border-color: #1A454E;             
-    -fx-border-width: 2;                   
-    -fx-border-radius: 15 15 15 15;         
-    -fx-background-radius: 15 15 15 15;      
-    -fx-padding: 5;                        
-    -fx-cursor: hand;                      
+    -fx-background-color: transparent;
+    -fx-border-color: #1A454E;
+    -fx-border-width: 2;
+    -fx-border-radius: 15 15 15 15;
+    -fx-background-radius: 15 15 15 15;
+    -fx-padding: 5;
+    -fx-cursor: hand;
 }
 
 
 .semi-rect-button-full:hover {
-    -fx-background-color: #212832;        
-    -fx-text-fill: white;       
+    -fx-background-color: #212832;
+    -fx-text-fill: white;
 }
 
 .semi-rect-pane-full {
-    -fx-background-color: transparent;     
-    -fx-border-color: #1A454E;             
-    -fx-border-width: 2;                   
-    -fx-border-radius: 15 15 15 15;         
-    -fx-background-radius: 15 15 15 15;      
-    -fx-padding: 0	;                       
+    -fx-background-color: transparent;
+    -fx-border-color: #1A454E;
+    -fx-border-width: 2;
+    -fx-border-radius: 15 15 15 15;
+    -fx-background-radius: 15 15 15 15;
+    -fx-padding: 0;
 }
 
 .semi-rect-button-full-1 {
-    -fx-background-color: transparent;     
-    -fx-border-color: #1A454E;             
-    -fx-border-width: 2;                   
-    -fx-border-radius: 15 15 15 15;         
-    -fx-background-radius: 15 15 15 15;      
-    -fx-padding: 0	;                       
+    -fx-background-color: transparent;
+    -fx-border-color: #1A454E;
+    -fx-border-width: 2;
+    -fx-border-radius: 15 15 15 15;
+    -fx-background-radius: 15 15 15 15;
+    -fx-padding: 0;
 }
 
 .semi-rect-button-full-1:hover {
-    -fx-background-color: #212832;        
-    -fx-text-fill: white;       
+    -fx-background-color: #212832;
+    -fx-text-fill: white;
 }
 
 
 .button-black-white {
-    -fx-background-color: #212832;  /* Black background */
-    -fx-text-fill: white;  /* White text */
-    -fx-border-radius: 5px;  /* Rounded corners */
-    -fx-border-color: black;  /* Black border */
-    -fx-border-width: 2px;  /* Border width */
+    -fx-background-color: #212832;
+    /* Black background */
+    -fx-text-fill: white;
+    /* White text */
+    -fx-border-radius: 5px;
+    /* Rounded corners */
+    -fx-border-color: black;
+    /* Black border */
+    -fx-border-width: 2px;
+    /* Border width */
 }
 
 .button-black-white:hover {
-    -fx-background-color: white;  /* White background on hover */
-    -fx-text-fill: black;  /* Black text on hover */
-    -fx-border-color: white;  /* White border on hover */
+    -fx-background-color: white;
+    /* White background on hover */
+    -fx-text-fill: black;
+    /* Black text on hover */
+    -fx-border-color: white;
+    /* White border on hover */
 }
 
 /* Set the background color of the ScrollPane */
 .scroll-pane {
-    -fx-background-color: #E8E8E8; /* Light gray color */
+    -fx-background-color: #E8E8E8;
+    /* Light gray color */
     -fx-border-color: black;
     -fx-border-width: 2px;
 }
 
 /* Customize the scrollbars inside the ScrollPane */
-.scroll-pane > .viewport {
-    -fx-background-color: #E8E8E8;  /* Set viewport area background color */
+.scroll-pane>.viewport {
+    -fx-background-color: #E8E8E8;
+    /* Set viewport area background color */
 }
 
 /* Customize the scroll bar's thumb (the draggable part) */
 .scroll-pane .thumb {
-    -fx-background-color: #4CAF50;  /* Color of the thumb */
+    -fx-background-color: #4CAF50;
+    /* Color of the thumb */
 }
 
 /* Customize the scrollbar's track (the background area of the scrollbar) */
 .scroll-pane .track {
-    -fx-background-color: lightgray; /* Background color of the scrollbar */
+    -fx-background-color: lightgray;
+    /* Background color of the scrollbar */
 }
 
 /* Customize the horizontal scrollbar */
@@ -239,24 +252,32 @@
 }
 
 .hbox {
-    -fx-background-color: transparent; /* Default background color */
-    -fx-padding: 10px; /* Optional padding */
-    -fx-border-radius: 30px; /* Border follows rounded corners */
-    -fx-border-width: 2px; /* Border width */
-    -fx-border-color: transparent; 
-} 
-.hbox:hover .vbox, /* Apply to VBox inside HBox */
-.hbox:hover .label, /* Apply to Label inside HBox (direct or indirect) */
-.hbox:hover .text-field { /* Apply to TextField inside HBox */
-    -fx-text-fill: white; /* Change text color to white */
+    -fx-background-color: transparent;
+    /* Default background color */
+    -fx-padding: 10px;
+    /* Optional padding */
+    -fx-border-radius: 30px;
+    /* Border follows rounded corners */
+    -fx-border-width: 2px;
+    /* Border width */
+    -fx-border-color: transparent;
 }
+
+.hbox:hover .vbox,
+/* Apply to VBox inside HBox */
+.hbox:hover .label,
+/* Apply to Label inside HBox (direct or indirect) */
+.hbox:hover .text-field {
+    /* Apply to TextField inside HBox */
+    -fx-text-fill: white;
+    /* Change text color to white */
+}
+
 .hbox:hover {
-    -fx-background-color: #A8B3B6; /* Color change on hover */
+    -fx-background-color: #A8B3B6;
+    /* Color change on hover */
 }
 
-
-
-
-
-
-
+.bookingDetail:hover {
+    -fx-background-color: #69787F;
+}
