@@ -56,6 +56,9 @@ public class authController {
 	private TextField reg_CUS_password;
 	@FXML
 	private TextField password_re_Cus;
+	
+	@FXML
+	private Text errText, errTextLogin;
 
 	ScreenController screenController = new ScreenController();
 
@@ -115,7 +118,7 @@ public class authController {
 				}
 			} else {
 				System.out.println("Incorrect password for Customer.");
-				errText.setText("Incorrect password");
+				errTextLogin.setText("Incorrect password");
 			}
 		} else {
 			// Customer not found, try ServiceProvider
@@ -157,11 +160,11 @@ public class authController {
 					}
 				} else {
 					System.out.println("Incorrect password for Service Provider.");
-					errText.setText("Incorrect password");
+					errTextLogin.setText("Incorrect password");
 				}
 			} else {
 				System.out.println("Username not found in serviceProviderAuth.");
-				errText.setText("Username not found");
+				errTextLogin.setText("Username not found");
 			}
 		}
 	}
@@ -236,11 +239,6 @@ public class authController {
 	}
 
 	// utils
-
-	public void setPrimaryStage(Stage primaryStage) {
-		this.primaryStage = primaryStage;
-	}
-
 	public void RegisterCustomer(MouseEvent event) throws SQLException, ClassNotFoundException, IOException {
 		Connection connection = dbHandler.connect();
 

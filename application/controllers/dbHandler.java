@@ -10,7 +10,7 @@ public class dbHandler {
 	// private final static String username = "uhrz0o1aoalvkhor";
 	// private final static String pass = "v2PhvwmtuGEqTtMXhfFx";
 
-	private final static String url = "jdbc:mariadb://127.0.0.1:3307/b9vpudlz4yz3pd30claw?useSSL=false&serverTimezone=UTC";
+	private final static String url = "jdbc:mariadb://127.0.0.1:3310/b9vpudlz4yz3pd30claw?useSSL=false&serverTimezone=UTC";
 	private final static String username = "root";
 	private final static String pass = "";
 
