@@ -130,6 +130,21 @@
                   <ComboBox fx:id="ComboSTypes" layoutX="52.0" layoutY="233.0" onAction="#onUpdateComboBox" prefHeight="25.0" prefWidth="227.0" />
                </children>
             </Pane>
+            <Pane fx:id="nextRegPanel" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="538.0" visible="false">
+               <children>
+                  <ComboBox fx:id="ComboSTypes" layoutX="51.0" layoutY="291.0" prefHeight="44.0" prefWidth="341.0" promptText="Select" stylesheets="@../css/fullpackstyling.css" visibleRowCount="4" />
+                  <Text fill="#1b4459" layoutX="52.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0" text="What services will you be providing?">
+                     <font>
+                        <Font name="Lexend Deca Regular" size="23.0" />
+                     </font>
+                  </Text>
+                  <Button layoutX="57.0" layoutY="397.0" mnemonicParsing="false" onMouseClicked="#RegisterServiceProvider" styleClass="button-sign-in" stylesheets="@../css/loginRegisterModule.css" text="SIGN UP">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="15.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
          </children>
       </AnchorPane>
    </center>

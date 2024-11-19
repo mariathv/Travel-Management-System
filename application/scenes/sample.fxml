@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="ConfirmBooking" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="531.0" prefWidth="886.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox layoutX="30.0" layoutY="277.0" prefHeight="220.0" prefWidth="822.0">
+         <children>
+            <Line endX="184.48883056640625" endY="277.5555419921875" startX="182.87265014648438" startY="497.5151062011719" />
+            <Line endX="184.48883056640625" endY="277.5555419921875" startX="182.87265014648438" startY="497.5151062011719" />
+            <VBox prefHeight="220.0" prefWidth="411.0">
+               <children>
+                  <Text fill="#177b8f" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="  Departure Details:" wrappingWidth="402.6603698730469">
+                     <font>
+                        <Font name="Lexend Deca ExtraBold" size="26.0" />
+                     </font>
+                  </Text>
+                  <Line endX="583.7060546875" endY="497.7221984863281" startX="182.87265014648438" startY="497.5151062011719" />
+                  <HBox alignment="CENTER" prefHeight="80.0" prefWidth="464.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" wrappingWidth="185.3367156982422">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="20.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="Dloc" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="185.3367156982422">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="20.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="80.0" prefWidth="464.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date" wrappingWidth="185.3367156982422">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="20.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="Ddate" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="185.3367156982422">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="20.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="80.0" prefWidth="464.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time" wrappingWidth="185.3367156982422">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="20.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="Dtime" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="185.3367156982422">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="20.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <Line endX="184.48883056640625" endY="277.5555419921875" startX="182.87265014648438" startY="497.5151062011719" />
+            <Line endX="184.48883056640625" endY="277.5555419921875" startX="182.87265014648438" startY="497.5151062011719" />
+            <VBox prefHeight="220.0" prefWidth="411.0">
+               <children>
+                  <Text fill="#177b8f" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="  Arrival Details" wrappingWidth="402.6603407859802">
+                     <font>
+                        <Font name="Lexend Deca ExtraBold" size="26.0" />
+                     </font>
+                  </Text>
+                  <Line endX="583.7060546875" endY="497.7221984863281" startX="182.87265014648438" startY="497.5151062011719" />
+                  <HBox alignment="CENTER" prefHeight="80.0" prefWidth="464.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" wrappingWidth="185.3367156982422">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="20.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="Aloc" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="185.3367156982422">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="20.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="80.0" prefWidth="464.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date" wrappingWidth="185.3367156982422">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="20.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="ADate" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="185.3367156982422">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="20.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="80.0" prefWidth="464.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time" wrappingWidth="185.3367156982422">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="20.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="Atime" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="185.3367156982422">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="20.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <Line endX="184.48883056640625" endY="277.5555419921875" startX="182.87265014648438" startY="497.5151062011719" />
+            <Line endX="184.48883056640625" endY="277.5555419921875" startX="182.87265014648438" startY="497.5151062011719" />
+         </children>
+      </HBox>
+      <Pane layoutX="28.0" layoutY="27.0" prefHeight="205.0" prefWidth="302.0" style="-fx-background-radius: 20;" styleClass="linear-grad" stylesheets="@../css/fullpackstyling.css">
+         <children>
+            <VBox layoutY="7.0" prefHeight="196.0" prefWidth="187.0">
+               <children>
+                  <ImageView fx:id="imageViewInfo" fitHeight="159.0" fitWidth="292.0" pickOnBounds="true" preserveRatio="true" />
+                  <HBox>
+                     <children>
+                        <Text fx:id="ServiceNo1" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="         " wrappingWidth="90.91574144363403">
+                           <font>
+                              <Font name="Lexend Deca Bold" size="23.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="ServiceNo" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="ServiceNO" wrappingWidth="138.915749669075">
+                           <font>
+                              <Font name="Lexend Deca Bold" size="23.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </Pane>
+      <VBox layoutX="361.0" layoutY="20.0" prefHeight="217.0" prefWidth="291.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="464.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Station Name" wrappingWidth="164.89215850830078">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="20.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="StaName" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="188.0033416748047">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="20.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="464.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Station loc" wrappingWidth="164.0033721923828">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="20.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="Staloc" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="188.0033416748047">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="20.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="464.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Price" wrappingWidth="164.00349336862564">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="20.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="Price" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="188.0033416748047">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="20.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="464.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Agency Name" wrappingWidth="162.22566175460815">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="20.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="Agency" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="188.0033416748047">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="20.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <Button layoutX="712.0" layoutY="59.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="155.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Confirm" textFill="WHITE">
+         <font>
+            <Font name="Lexend Deca Medium" size="18.0" />
+         </font>
+      </Button>
+      <Button layoutX="712.0" layoutY="116.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="155.0" stylesheets="@../css/fullpackstyling.css" text="Back" textFill="WHITE">
+         <font>
+            <Font name="Lexend Deca Medium" size="18.0" />
+         </font>
+         <styleClass>
+            <String fx:value="chart-pie" />
+            <String fx:value="button2" />
+         </styleClass>
+      </Button>
+   </children>
+</AnchorPane>
