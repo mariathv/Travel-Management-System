@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<HBox fx:id="sampleHBOX" alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="506.0" spacing="30.0" style="-fx-background-color: #CCD1D3;" styleClass="bookingDetail" stylesheets="@../../css/fullpackstyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.bookingItemController">
+   <children>
+      <Text fx:id="userID" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="   #" textAlignment="CENTER">
+         <font>
+            <Font name="Lexend Deca Medium" size="15.0" />
+         </font>
+      </Text>
+      <Text fx:id="username" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" textAlignment="CENTER" wrappingWidth="119.20999908447266">
+         <font>
+            <Font name="Lexend Deca Medium" size="15.0" />
+         </font>
+      </Text>
+      <Text fx:id="bookingDate" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="Booking Date" textAlignment="CENTER" wrappingWidth="122.45497179031372">
+         <font>
+            <Font name="Lexend Deca Medium" size="15.0" />
+         </font>
+      </Text>
+      <Text fx:id="price" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" textAlignment="CENTER" wrappingWidth="74.04505205154419">
+         <font>
+            <Font name="Lexend Deca Medium" size="15.0" />
+         </font>
+      </Text>
+      <FontAwesomeIcon fx:id="icon" fill="#3c8c2c" glyphName="CIRCLE" selectionFill="#b76363" size="1.5em" />
+   </children>
+</HBox>

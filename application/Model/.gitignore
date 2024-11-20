@@ -4,4 +4,10 @@
 /BusService.class
 /TrainService.class
 /FlightService.class
+<<<<<<< HEAD
+/HotelService.class
+/HotelBooking.class
+/TravelBooking.class
+=======
 /Customer.class
+>>>>>>> temp-2

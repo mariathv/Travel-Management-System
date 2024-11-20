@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<HBox prefHeight="63.0" prefWidth="534.0" style="-fx-background-radius: 40;" styleClass="hbox" stylesheets="@../../css/fullpackstyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.HotelServiceItemController">
+   <children>
+      <ImageView fx:id="serviceImage" fitHeight="60.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../assets/images/pngs/hotel.png" />
+         </image></ImageView>
+      <Pane prefHeight="65.0" prefWidth="22.0" />
+      <VBox alignment="CENTER" prefHeight="60.0" prefWidth="194.0">
+         <children>
+            <Text fx:id="HotelName" strokeType="OUTSIDE" strokeWidth="0.0" text="Hotel Name">
+               <font>
+                  <Font name="Lexend Deca Regular" size="23.0" />
+               </font>
+            </Text>
+            <HBox fx:id="starBox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" />
+         </children>
+      </VBox>
+      <VBox prefHeight="60.0" prefWidth="203.0">
+         <children>
+            <HBox prefHeight="27.0" prefWidth="210.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location:   ">
+                     <font>
+                        <Font name="Lexend Deca Regular" size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="HotelLoc" strokeType="OUTSIDE" strokeWidth="0.0" text="Location:   " wrappingWidth="192.1079559326172">
+                     <font>
+                        <Font name="Lexend Deca Regular" size="14.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox prefHeight="27.0" prefWidth="210.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Basic Room Price  " wrappingWidth="143.78395080566406">
+                     <font>
+                        <Font name="Lexend Deca Regular" size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="BRPrice" strokeType="OUTSIDE" strokeWidth="0.0" text="BR PRICE" wrappingWidth="118.18403635024879">
+                     <font>
+                        <Font name="Lexend Deca Regular" size="14.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox prefHeight="27.0" prefWidth="210.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Double Room Price  " wrappingWidth="145.38392639160156">
+                     <font>
+                        <Font name="Lexend Deca Regular" size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="DRPrice" strokeType="OUTSIDE" strokeWidth="0.0" text="DR PRICE" wrappingWidth="125.38398742675781">
+                     <font>
+                        <Font name="Lexend Deca Regular" size="14.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</HBox>

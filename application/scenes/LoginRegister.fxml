@@ -85,6 +85,11 @@
                         <Image url="@../assets/images/pngs/close-black.png" />
                      </image>
                   </ImageView>
+                  <Text fx:id="errTextLogin" fill="#c42c2c" layoutX="56.0" layoutY="393.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="408.53333282470703">
+                     <font>
+                        <Font name="Lexend Deca Light" size="14.0" />
+                     </font>
+                  </Text>
                </children>
             </Pane>
          </children>

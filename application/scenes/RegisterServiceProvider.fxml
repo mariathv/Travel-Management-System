@@ -66,7 +66,7 @@
                   </TextField>
                   <FontAwesomeIcon fill="#1a454e" glyphName="USER" layoutX="49.0" layoutY="218.0" selectionFill="BLACK" size="2em" />
                   <FontAwesomeIcon fill="#1a454e" glyphName="KEY" layoutX="51.0" layoutY="349.0" selectionFill="BLACK" size="2em" />
-                  <Button layoutX="60.0" layoutY="515.0" mnemonicParsing="false" onMouseClicked="#selectServiceType" styleClass="button-sign-in" stylesheets="@../css/loginRegisterModule.css" text="NEXT">
+                  <Button layoutX="65.0" layoutY="453.0" mnemonicParsing="false" onMouseClicked="#selectServiceType" styleClass="button-sign-in" stylesheets="@../css/loginRegisterModule.css" text="NEXT">
                      <font>
                         <Font name="Lexend Deca Medium" size="15.0" />
                      </font>
@@ -88,22 +88,46 @@
                         <Font name="Lexend Deca Regular" size="16.0" />
                      </font>
                   </PasswordField>
-                  <Text layoutX="60.0" layoutY="406.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Your Travel Agency Name:">
-                     <font>
-                        <Font name="Lexend Deca Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <TextField id="username-text" fx:id="agencyName" layoutX="79.0" layoutY="420.0" prefHeight="33.0" prefWidth="350.0" styleClass="text-field-with-bottom-border" stylesheets="@../css/loginRegisterModule.css">
-                     <font>
-                        <Font name="Lexend Deca Regular" size="16.0" />
-                     </font>
-                  </TextField>
-                  <FontAwesomeIcon fill="#1a454e" glyphName="BUS" layoutX="50.0" layoutY="449.0" selectionFill="BLACK" size="2em" />
                   <TextField id="username-text" fx:id="email" layoutX="84.0" layoutY="235.0" prefHeight="33.0" prefWidth="350.0" promptText="Email" styleClass="text-field-with-bottom-border" stylesheets="@../css/loginRegisterModule.css">
                      <font>
                         <Font name="Lexend Deca Regular" size="16.0" />
                      </font>
                   </TextField>
+                  <Text fx:id="errText" fill="#d71b1b" layoutX="74.0" layoutY="399.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="375.3492965698242">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="14.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane fx:id="nextRegPanel" layoutX="10.0" layoutY="4.0" prefHeight="607.0" prefWidth="538.0" visible="false">
+               <children>
+                  <Text fill="#1b4459" layoutX="48.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="What services will you be providing?">
+                     <font>
+                        <Font name="Lexend Deca Regular" size="23.0" />
+                     </font>
+                  </Text>
+                  <Button layoutX="55.0" layoutY="461.0" mnemonicParsing="false" onMouseClicked="#RegisterServiceProvider" styleClass="button-sign-in" stylesheets="@../css/loginRegisterModule.css" text="SIGN UP">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="15.0" />
+                     </font>
+                  </Button>
+                  <Pane fx:id="serviceInfoPane" layoutX="26.0" layoutY="322.0" prefHeight="105.0" prefWidth="435.0" visible="false">
+                     <children>
+                        <FontAwesomeIcon fx:id="serviceEnterImage" fill="#1a454e" glyphName="BUS" layoutX="26.0" layoutY="36.0" selectionFill="BLACK" size="2em" />
+                        <Text fx:id="serviceEnterText" layoutX="67.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Your Travel Agency Name:">
+                           <font>
+                              <Font name="Lexend Deca Light" size="18.0" />
+                           </font>
+                        </Text>
+                        <TextField id="username-text" fx:id="agencyName" layoutX="23.0" layoutY="57.0" prefHeight="33.0" prefWidth="350.0" styleClass="text-field-with-bottom-border" stylesheets="@../css/loginRegisterModule.css">
+                           <font>
+                              <Font name="Lexend Deca Regular" size="16.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </Pane>
+                  <ComboBox fx:id="ComboSTypes" layoutX="52.0" layoutY="233.0" onAction="#onUpdateComboBox" prefHeight="25.0" prefWidth="227.0" />
                </children>
             </Pane>
             <Pane fx:id="nextRegPanel" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="538.0" visible="false">

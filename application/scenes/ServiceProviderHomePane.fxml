@@ -7,41 +7,37 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="mainPanel" prefHeight="531.0" prefWidth="886.0" style="-fx-background-color: #DDDDDD; -fx-background-radius: 10;" stylesheets="@../css/fullpackstyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="531.0" prefWidth="886.0" style="-fx-background-color: #DDDDDD; -fx-background-radius: 10;" stylesheets="@../css/fullpackstyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane layoutX="569.0" layoutY="46.0" prefHeight="297.0" prefWidth="270.0" style="-fx-background-radius: 20;" styleClass="linear-grad" stylesheets="@../css/fullpackstyling.css">
          <children>
-            <ImageView fitHeight="175.0" fitWidth="172.0" layoutX="45.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../assets/images/pngs/profile-user.png" />
-               </image>
-            </ImageView>
-            <Text fill="WHITE" layoutX="72.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\@username">
-               <font>
-                  <Font name="Lexend Deca Regular" size="20.0" />
-               </font>
-            </Text>
-            <Text fill="WHITE" layoutX="32.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Travel Agency Name">
-               <font>
-                  <Font name="Lexend Deca Regular" size="20.0" />
-               </font>
-            </Text>
+            <VBox alignment="CENTER" prefHeight="298.0" prefWidth="270.0">
+               <children>
+                  <ImageView fitHeight="175.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/images/pngs/profile-user.png" />
+                     </image>
+                  </ImageView>
+                  <Text fx:id="usernameProfilePane" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="\@username">
+                     <font>
+                        <Font name="Lexend Deca Regular" size="20.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="agencyProfilePane" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Travel Agency Name">
+                     <font>
+                        <Font name="Lexend Deca Regular" size="20.0" />
+                     </font>
+                  </Text>
+               </children>
+            </VBox>
          </children>
       </Pane>
       <Line endX="100.0" layoutX="445.0" layoutY="54.0" startX="100.0" startY="418.0" stroke="#b9b1b1" strokeDashOffset="2.0" />
-      <BorderPane layoutX="569.0" layoutY="404.0" prefHeight="66.0" prefWidth="270.0">
-         <center>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="194.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Manage Profile" textFill="WHITE" BorderPane.alignment="CENTER">
-               <font>
-                  <Font name="Lexend Deca Medium" size="18.0" />
-               </font>
-            </Button>
-         </center>
-      </BorderPane>
       <Line endX="323.0" endY="-1.399993896484375" layoutX="190.0" layoutY="246.0" startX="-135.0" startY="-1.399993896484375" stroke="#00adb4" />
       <BorderPane layoutX="24.0" layoutY="47.0" prefHeight="187.0" prefWidth="503.0">
          <top>
@@ -87,5 +83,26 @@
             </AnchorPane>
          </items>
       </SplitPane>
+      <VBox alignment="CENTER" layoutX="577.0" layoutY="377.0" prefHeight="112.0" prefWidth="244.0" spacing="10.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="194.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Manage Profile" textFill="WHITE">
+               <font>
+                  <Font name="Lexend Deca Medium" size="18.0" />
+               </font>
+            </Button>
+            <Button alignment="CENTER" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="194.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Logout" textFill="WHITE">
+               <font>
+                  <Font name="Lexend Deca Medium" size="18.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="18.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/images/pngs/logout.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

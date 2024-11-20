@@ -26,6 +26,13 @@
                     <sub><b>Maria Naeem Khokhar</b></sub>
                 </a>
             </td>
+            <td align="center">
+                <a href="https://github.com/AmmarSyed11">
+                    <img src="https://avatars.githubusercontent.com/u/187848068?v=4" width="100;" alt="AmmarSyed11"/>
+                    <br />
+                    <sub><b>AmmarSyed11</b></sub>
+                </a>
+            </td>
 		</tr>
 	<tbody>
 </table>
