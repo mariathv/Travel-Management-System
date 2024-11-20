@@ -56,22 +56,37 @@ public class BookingController {
             HotelBookings = dao.getHotelBookingsByServiceProvider(serviceID);
 
         System.out.println("Loading Data");
-
-        if (bookings.isEmpty()) {
+        int serlnum = 1;
+        if ((tFlag && bookings.isEmpty()) || (!tFlag && HotelBookings.isEmpty())) {
             Text noBookingsText = new Text("No bookings available for this service provider.");
             vBoxBookings.getChildren().add(noBookingsText);
         } else {
-            for (TravelBooking booking : bookings) {
-                FXMLLoader fxmlloader = new FXMLLoader();
-                fxmlloader.setLocation(getClass().getResource("../scenes/components/booking_item.fxml"));
-                HBox hbox = fxmlloader.load(); // Load the FXML for each booking item
+            if (tFlag) {
+                for (TravelBooking booking : bookings) {
+                    FXMLLoader fxmlloader = new FXMLLoader();
+                    fxmlloader.setLocation(getClass().getResource("../scenes/components/booking_item.fxml"));
+                    HBox hbox = fxmlloader.load(); // Load the FXML for each booking item
 
-                bookingItemController itemController = fxmlloader.getController();
+                    bookingItemController itemController = fxmlloader.getController();
 
-                itemController.setData(booking.getBookingID(), booking.getUsername(),
-                        booking.getBookingDate(), String.valueOf(booking.getTotalPrice()));
+                    itemController.setData(serlnum++, booking.getUsername(),
+                            booking.getBookingDate(), String.valueOf(booking.getTotalPrice()));
 
-                vBoxBookings.getChildren().add(hbox);
+                    vBoxBookings.getChildren().add(hbox);
+                }
+            } else {
+                for (HotelBooking booking : HotelBookings) {
+                    FXMLLoader fxmlloader = new FXMLLoader();
+                    fxmlloader.setLocation(getClass().getResource("../scenes/components/booking_item.fxml"));
+                    HBox hbox = fxmlloader.load(); // Load the FXML for each booking item
+
+                    bookingItemController itemController = fxmlloader.getController();
+
+                    itemController.setData(serlnum++, booking.getUsername(),
+                            booking.getBookingDate(), String.valueOf(booking.getTotalPrice()));
+
+                    vBoxBookings.getChildren().add(hbox);
+                }
             }
         }
     }

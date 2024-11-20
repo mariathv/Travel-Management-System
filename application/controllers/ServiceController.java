@@ -7,18 +7,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
+import application.DAO.BookingDAO;
+import application.DAO.ServiceDAO;
 import application.Model.BusService;
 import application.Model.FlightService;
 import application.Model.HotelService;
 import application.Model.ServiceProvider;
 import application.Model.TrainService;
+import application.Model.TravelBooking;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -30,17 +35,19 @@ import javafx.scene.text.Text;
 public class ServiceController {
 	ServiceProvider serviceProvider;
 	@FXML
-	private Pane addServicePane, sideInfoPane, addHotelListingPane, hotelServicePane, bookingsDisplayPane;
+	private Pane addServicePane, sideInfoPane, addHotelListingPane, hotelServicePane, bookingsDisplayPane,
+			feedbacksDisplayPane;
 	@FXML
-	private ScrollPane viewServicePane;
+	private ScrollPane viewServicePane, feedbacksScroll;
 	@FXML
 	private Text serviceNumber, PlatformNameTxt, PlatformLocTxt;
 	@FXML
-	private VBox servicesCont;
+	private VBox servicesCont, vBoxFeedbacks;
 	@FXML
 	private HBox GateInfo;
 	@FXML
-	private Button addNewServiceBtn, removeButton, viewBookings;
+	private Button addNewServiceBtn, removeButton, viewBookings, viewFeedbacks, removeButton1, viewBookings1,
+			viewFeedbacks1;
 	@FXML
 	private TextField depLoc, depTime, depDate, arvLoc, arvTime, arvDate, SBusNo, BStationName, BStationLoc, StktPrice,
 			GNumber;
@@ -50,8 +57,6 @@ public class ServiceController {
 	private FontAwesomeIcon goBackView;
 	@FXML
 	private Text critBusNo;
-	@FXML
-	private ImageView imageViewInfo;
 	@FXML
 	private TextField HotelName, HotelLocation, BasicPrice, DoublePrice, City;
 	@FXML
@@ -65,8 +70,8 @@ public class ServiceController {
 	public ArrayList<TrainService> TrainServices = new ArrayList<>();
 	public ArrayList<HotelService> HotelServices = new ArrayList<>();
 
-	boolean bookingsLoaded = false;
-	int bookingsLoadedFr = -1;
+	boolean bookingsLoaded = false, feedbacksLoaded = false;
+	int bookingsLoadedFr = -1, feedbacksLoadedFr = -1;
 
 	public void clearAllServices() {
 		BusServices.clear();
@@ -125,8 +130,15 @@ public class ServiceController {
 		bookingsDisplayPane.setVisible(false);
 		viewServicePane.setVisible(true);
 		addNewServiceBtn.setVisible(true);
-		viewBookings.setVisible(true);
+		if (serviceProvider.getServiceType().equals("Hotel")) {
+			viewFeedbacks1.setVisible(true);
+			viewBookings1.setVisible(true);
+		} else {
+			viewFeedbacks.setVisible(true);
+			viewBookings.setVisible(true);
+		}
 		goBackView.setVisible(false);
+		feedbacksDisplayPane.setVisible(false);
 		if (infoSideVisibleWas && !serviceProvider.getServiceType().equals("Hotel"))
 			sideInfoPane.setVisible(true);
 		else if (infoSideVisibleWas && serviceProvider.getServiceType().equals("Hotel"))
@@ -245,45 +257,106 @@ public class ServiceController {
 
 	}
 
-	public void removeService(int serviceID) throws SQLException, ClassNotFoundException {
+	public void removeService(int serviceID, boolean isTravelService) throws SQLException, ClassNotFoundException {
 		Connection connection = dbHandler.connect();
 
-		String deleteServiceDetailsQuery = "";
+		try {
+			connection.setAutoCommit(false);
 
-		if (serviceProvider.getServiceType().equals("Bus")) {
-			deleteServiceDetailsQuery = "DELETE FROM BusService WHERE ServiceID = ?";
-		} else if (serviceProvider.getServiceType().equals("Train")) {
-			deleteServiceDetailsQuery = "DELETE FROM TrainService WHERE ServiceID = ?";
-		} else if (serviceProvider.getServiceType().equals("Flight")) {
-			deleteServiceDetailsQuery = "DELETE FROM FlightService WHERE ServiceID = ?";
-		}
+			if (isTravelService) {
+				String deleteFeedbackQuery = "DELETE FROM servicefeedback WHERE serviceID = ?";
+				try (PreparedStatement prepFeedback = connection.prepareStatement(deleteFeedbackQuery)) {
+					prepFeedback.setInt(1, serviceID);
+					int affectedFeedbackRows = prepFeedback.executeUpdate();
+					System.out.println("Feedback rows deleted: " + affectedFeedbackRows);
+				}
 
-		PreparedStatement prepStatement1 = connection.prepareStatement(deleteServiceDetailsQuery);
-		prepStatement1.setInt(1, serviceID);
+				// Delete from travelbooking
+				String deleteBookingQuery = "DELETE FROM travelbooking WHERE serviceID = ?";
+				try (PreparedStatement prepBooking = connection.prepareStatement(deleteBookingQuery)) {
+					prepBooking.setInt(1, serviceID);
+					int affectedBookingRows = prepBooking.executeUpdate();
+					System.out.println("Booking rows deleted: " + affectedBookingRows);
+				}
 
-		int affectedRows1 = prepStatement1.executeUpdate();
+				// Delete from specific service details table (Bus, Train, Flight)
+				String deleteServiceDetailsQuery = "";
+				if (serviceProvider.getServiceType().equals("Bus")) {
+					deleteServiceDetailsQuery = "DELETE FROM BusService WHERE ServiceID = ?";
+				} else if (serviceProvider.getServiceType().equals("Train")) {
+					deleteServiceDetailsQuery = "DELETE FROM TrainService WHERE ServiceID = ?";
+				} else if (serviceProvider.getServiceType().equals("Flight")) {
+					deleteServiceDetailsQuery = "DELETE FROM FlightService WHERE ServiceID = ?";
+				}
 
-		if (affectedRows1 > 0) {
-			String deleteServiceQuery = "DELETE FROM TravelService WHERE ServiceID = ?";
-			PreparedStatement prepStatement2 = connection.prepareStatement(deleteServiceQuery);
-			prepStatement2.setInt(1, serviceID);
+				try (PreparedStatement prepServiceDetails = connection.prepareStatement(deleteServiceDetailsQuery)) {
+					prepServiceDetails.setInt(1, serviceID);
+					int affectedServiceDetailsRows = prepServiceDetails.executeUpdate();
+					if (affectedServiceDetailsRows > 0) {
+						// Delete from TravelService table
+						String deleteServiceQuery = "DELETE FROM TravelService WHERE ServiceID = ?";
+						try (PreparedStatement prepService = connection.prepareStatement(deleteServiceQuery)) {
+							prepService.setInt(1, serviceID);
+							int affectedServiceRows = prepService.executeUpdate();
 
-			int affectedRows2 = prepStatement2.executeUpdate();
-
-			if (affectedRows2 > 0) {
-				System.out.println("Successfully removed service with ID: " + serviceID);
-				initServicesFS();
-				displayServices();
+							if (affectedServiceRows > 0) {
+								System.out.println("Successfully removed travel service with ID: " + serviceID);
+								connection.commit();
+								initServicesFS();
+								displayServices();
+							} else {
+								System.out.println("Failed to remove service from TravelService table.");
+								connection.rollback();
+							}
+						}
+					} else {
+						System.out
+								.println("Failed to remove service details from service-specific table: " + serviceID);
+						connection.rollback();
+					}
+				}
 			} else {
-				System.out.println("Failed to remove service from TravelService table.");
-			}
-			prepStatement2.close();
-		} else {
-			System.out.println("Failed to remove service details from service-specific table." + serviceID);
-		}
 
-		prepStatement1.close();
-		connection.close();
+				// Delete from servicefeedback (for hotel)
+				String deleteFeedbackQuery = "DELETE FROM servicefeedback WHERE serviceID = ?";
+				try (PreparedStatement prepFeedback = connection.prepareStatement(deleteFeedbackQuery)) {
+					prepFeedback.setInt(1, serviceID);
+					int affectedFeedbackRows = prepFeedback.executeUpdate();
+					System.out.println("Feedback rows deleted: " + affectedFeedbackRows);
+				}
+
+				// Delete from hotelbooking
+				String deleteBookingQuery = "DELETE FROM hotelbooking WHERE listingID = ?";
+				try (PreparedStatement prepBooking = connection.prepareStatement(deleteBookingQuery)) {
+					prepBooking.setInt(1, serviceID);
+					int affectedBookingRows = prepBooking.executeUpdate();
+					System.out.println("Booking rows deleted: " + affectedBookingRows);
+				}
+
+				// Delete from hotelservice table
+				String deleteHotelServiceQuery = "DELETE FROM hotelservice WHERE HotelServiceID = ?";
+				try (PreparedStatement prepHotelService = connection.prepareStatement(deleteHotelServiceQuery)) {
+					prepHotelService.setInt(1, serviceID);
+					int affectedHotelServiceRows = prepHotelService.executeUpdate();
+					if (affectedHotelServiceRows > 0) {
+						System.out.println("Successfully removed hotel service with ID: " + serviceID);
+						connection.commit();
+						initServicesFS();
+						displayServices();
+					} else {
+						System.out.println("Failed to remove service from HotelService table.");
+						connection.rollback();
+					}
+				}
+			}
+		} catch (SQLException e) {
+			System.out.println("Error while removing service: " + e.getMessage());
+			connection.rollback();
+			throw e;
+		} finally {
+			connection.setAutoCommit(true); // Restore auto-commit
+			connection.close();
+		}
 	}
 
 	public void addNewHotelListing() throws SQLException, ClassNotFoundException {
@@ -533,7 +606,13 @@ public class ServiceController {
 					});
 
 					servicesCont.getChildren().add(hbox);
+					Separator separator = new Separator();
+					separator.setPrefWidth(100); // Set the width of the separator
+					separator.setStyle("-fx-background-color: transparent; "
+							+ "-fx-border-color: gray; "
+							+ "-fx-border-width: 0 0 1 0;"); // Gray line at the bottom
 
+					servicesCont.getChildren().add(separator);
 					// removeButton.setOnAction(event -> {
 					// if (selectedServiceID != -1) {
 					// try {
@@ -576,6 +655,7 @@ public class ServiceController {
 					sHItemC.setData(HotelName, HotelLocation, BasicRoomPrice, DoubleRoomPrice, rating);
 
 					hbox.setOnMouseClicked(event -> {
+						selectedServiceID = HotelServiceID;
 						showHotelServiceDetails(hotelService);
 					});
 					System.out.println("addiing");
@@ -591,10 +671,15 @@ public class ServiceController {
 	@SuppressWarnings("unused")
 	public void removeSelectedService() throws ClassNotFoundException, SQLException {
 		System.out.println("trying to remove service");
-		removeService(selectedServiceID);
+		if (serviceProvider.getServiceType().equals("Hotel"))
+			removeService(selectedServiceID, false);
+		else
+			removeService(selectedServiceID, true);
 		removeServiceFromView(selectedServiceID);
 		if (!serviceProvider.getServiceType().equals("Hotel"))
 			sideInfoPane.setVisible(false);
+		else
+			hotelServicePane.setVisible(false);
 	}
 
 	private void showServiceDetails(String serviceType, String Number, String arrivalLoc, String depLoc) {
@@ -618,7 +703,6 @@ public class ServiceController {
 			image = new Image(getClass().getResourceAsStream("../assets/images/pngs/inverted_hotel.png"));
 		}
 
-		imageViewInfo.setImage(image);
 	}
 
 	void showHotelServiceDetails(HotelService hotel) {
@@ -654,15 +738,17 @@ public class ServiceController {
 	public void displayBookings() throws IOException, ClassNotFoundException, SQLException {
 		if (bookingsLoaded && selectedServiceID == bookingsLoadedFr) {
 			viewBookings.setVisible(false);
-			hideServicePanels();
+			viewBookings1.setVisible(false);
+			hideServicePanels("bookings");
 			if (!bookingsDisplayPane.isVisible()) {
 				bookingsDisplayPane.setVisible(true);
 			}
 			return; // Exit early since bookings are already loaded for the selected service
 		}
 
-		hideServicePanels();
+		hideServicePanels("bookings");
 		viewBookings.setVisible(false);
+		viewBookings1.setVisible(false);
 
 		FXMLLoader fxmlloader = new FXMLLoader();
 		fxmlloader.setLocation(getClass().getResource("../scenes/ServiceBookings.fxml"));
@@ -684,12 +770,91 @@ public class ServiceController {
 	}
 
 	// Helper method to hide all service-related panels
-	private void hideServicePanels() {
-		addNewServiceBtn.setVisible(false);
-		viewServicePane.setVisible(false);
-		addServicePane.setVisible(false);
-		addHotelListingPane.setVisible(false);
-		goBackView.setVisible(true);
+	private void hideServicePanels(String forr) {
+		if (forr.equals("bookings")) {
+			addNewServiceBtn.setVisible(false);
+			viewServicePane.setVisible(false);
+			addServicePane.setVisible(false);
+			addHotelListingPane.setVisible(false);
+			feedbacksDisplayPane.setVisible(false);
+			goBackView.setVisible(true);
+		} else if (forr.equals("feedbacks")) {
+			addNewServiceBtn.setVisible(false);
+			viewServicePane.setVisible(false);
+			addServicePane.setVisible(false);
+			addHotelListingPane.setVisible(false);
+			bookingsDisplayPane.setVisible(false);
+			goBackView.setVisible(true);
+		}
+	}
+
+	public void displayFeedbacks() throws IOException, ClassNotFoundException, SQLException {
+		System.out.println("view VBOX");
+		if (feedbacksLoaded && selectedServiceID == feedbacksLoadedFr) {
+			viewFeedbacks.setVisible(false);
+			viewFeedbacks1.setVisible(false);
+			hideServicePanels("feedbacks");
+			if (!feedbacksDisplayPane.isVisible()) {
+				feedbacksDisplayPane.setVisible(true);
+			}
+			return; // Exit early since bookings are already loaded for the selected service
+		}
+
+		hideServicePanels("feedbacks");
+		viewFeedbacks.setVisible(false);
+		viewFeedbacks1.setVisible(false);
+
+		FXMLLoader fxmlloader = new FXMLLoader();
+		fxmlloader.setController(this);
+		fxmlloader.setLocation(getClass().getResource("../scenes/ServiceFeedbacks.fxml"));
+		Pane pane = fxmlloader.load();
+		if (serviceProvider.getServiceType().equals("Hotel"))
+			loadFeedbackData(selectedServiceID, false);
+		else
+			loadFeedbackData(selectedServiceID, true);
+
+		feedbacksDisplayPane.getChildren().clear();
+		feedbacksDisplayPane.getChildren().add(pane);
+
+		feedbacksScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+		feedbacksLoaded = true;
+		feedbacksLoadedFr = selectedServiceID;
+		feedbacksDisplayPane.setVisible(true);
+	}
+
+	public void loadFeedbackData(int serviceID, boolean tFLag)
+			throws IOException, ClassNotFoundException, SQLException {
+		System.out.println("clearing VBOX");
+		vBoxFeedbacks.getChildren().clear();
+
+		// Create an instance of ServiceDAO to fetch feedbacks for the given serviceID
+		ServiceDAO dao = new ServiceDAO();
+		List<ServiceDAO.Feedback> feedbacks;
+		if (tFLag)
+			feedbacks = dao.getFeedbacksByServiceID(serviceID); // Get the list of feedbacks from
+		else
+			feedbacks = dao.getHotelFeedbacksByServiceID(serviceID); // the DAO
+
+		System.out.println("Fetching Data");
+
+		// If no feedbacks are available, show a message
+		if (feedbacks.isEmpty()) {
+			Text noFeedbacksText = new Text("No feedbacks available for this service.");
+			vBoxFeedbacks.getChildren().add(noFeedbacksText);
+		} else {
+			for (ServiceDAO.Feedback feedback : feedbacks) {
+				FXMLLoader fxmlloader = new FXMLLoader();
+				fxmlloader.setLocation(getClass().getResource("../scenes/components/feedback_item.fxml"));
+				VBox vbox = fxmlloader.load();
+				feedbackItemController feedbackItemController = fxmlloader.getController();
+
+				feedbackItemController.setData(feedback.getCustomerUsername(), feedback.getComment(),
+						feedback.getRating());
+
+				vBoxFeedbacks.getChildren().add(vbox);
+			}
+		}
 	}
 
 }
