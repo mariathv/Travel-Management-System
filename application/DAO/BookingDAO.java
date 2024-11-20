@@ -45,7 +45,7 @@ public class BookingDAO {
     public List<HotelBooking> getHotelBookingsByServiceProvider(int serviceID)
             throws ClassNotFoundException, SQLException {
         Connection connection = dbHandler.connect();
-        String sql = "SELECT * FROM HotelBooking WHERE serviceID = ?";
+        String sql = "SELECT * FROM HotelBooking WHERE listingID = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, serviceID);

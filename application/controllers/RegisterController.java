@@ -12,12 +12,12 @@ public class RegisterController {
 
 	@FXML
 	public void goBackLogin(MouseEvent event) throws SQLException, ClassNotFoundException, IOException {
-		screenController.switchToLoginScene(event);
+		screenController.switchToLoginScene(event, false);
 	}
 
 	@FXML
 	public void RegisterAsServiceProvider(MouseEvent event) throws SQLException, ClassNotFoundException, IOException {
-		screenController.switchToSPRegister(event);
+		screenController.switchToSPRegister(event, false);
 	}
 
 	@FXML

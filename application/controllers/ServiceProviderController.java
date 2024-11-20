@@ -1,10 +1,13 @@
 package application.controllers;
 
+import java.io.IOException;
+
 import application.Model.ServiceProvider;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -13,13 +16,15 @@ public class ServiceProviderController {
 	@FXML
 	private AnchorPane mainPanel;
 	@FXML
-	private Button nav_home, nav_notifs, nav_profile, nav_service;
+	private Button nav_home, nav_notifs, nav_profile, nav_service, logoutBtn;
 	@FXML
 	private Text profileUsername, profileAgencyName, profileEmail, profileName, profilePhoneNum;
 
 	@FXML
 	private Pane modify_basePane, modify_passwordPane, modify_phonePane;
 	private ServiceProvider serviceProvider;
+
+	ScreenController screenController = new ScreenController();
 
 	boolean flagFirst = true;
 	int currentTab = 1;
@@ -91,12 +96,20 @@ public class ServiceProviderController {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../scenes/ServiceProviderHomePane.fxml"));
 			loader.setController(this);
+
 			AnchorPane newPanel = loader.load();
 			mainPanel.getChildren().setAll(newPanel);
 			changeBackButtonBG();
 			nav_home.setStyle("-fx-background-color:  #212832;");
 			updateDashboard();
 			currentTab = 1;
+			logoutBtn.setOnMouseClicked(arg0 -> {
+				try {
+					logout(arg0);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -148,6 +161,13 @@ public class ServiceProviderController {
 				System.out.println("changed bg color");
 				break;
 		}
+	}
+
+	private void logout(MouseEvent event) throws IOException {
+		System.out.println("logging out");
+		serviceProvider = null;
+		screenController.switchToLoginScene(event, true);
+
 	}
 
 }
