@@ -9,14 +9,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import application.DAO.BookingDAO;
-import application.DAO.ServiceDAO;
+import application.Managers.ServiceManager;
 import application.Model.BusService;
 import application.Model.FlightService;
 import application.Model.HotelService;
 import application.Model.ServiceProvider;
 import application.Model.TrainService;
-import application.Model.TravelBooking;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,8 +23,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -34,6 +30,7 @@ import javafx.scene.text.Text;
 
 public class ServiceController {
 	ServiceProvider serviceProvider;
+	ServiceManager serviceManager = new ServiceManager();
 	@FXML
 	private Pane addServicePane, sideInfoPane, addHotelListingPane, hotelServicePane, bookingsDisplayPane,
 			feedbacksDisplayPane;
@@ -44,17 +41,19 @@ public class ServiceController {
 	@FXML
 	private VBox servicesCont, vBoxFeedbacks;
 	@FXML
-	private HBox GateInfo;
+	private HBox GateInfo, tabPane;
 	@FXML
 	private Button addNewServiceBtn, removeButton, viewBookings, viewFeedbacks, removeButton1, viewBookings1,
-			viewFeedbacks1;
+			viewFeedbacks1, ongoingBTN, doneBTN, addBtn;
 	@FXML
 	private TextField depLoc, depTime, depDate, arvLoc, arvTime, arvDate, SBusNo, BStationName, BStationLoc, StktPrice,
 			GNumber;
 	@FXML
-	private Text infoServiceType, infoBusNo, depLocInfo, arvLocInfo; // dynamically updated info upon mouse click
+	private Text infoServiceType, infoBusNo, depLocInfo, arvLocInfo, depTimeInfo, arvTimeInfo, dateInfo; // dynamically
+	// updated
+	// info upon mouse click
 	@FXML
-	private FontAwesomeIcon goBackView;
+	private FontAwesomeIcon goBackView, markDoneBtn;
 	@FXML
 	private Text critBusNo;
 	@FXML
@@ -73,6 +72,51 @@ public class ServiceController {
 	boolean bookingsLoaded = false, feedbacksLoaded = false;
 	int bookingsLoadedFr = -1, feedbacksLoadedFr = -1;
 
+	int selectedTab = -1;
+	boolean isEditing = false;
+
+	@FXML
+	public void initialize() {
+
+		ongoingBTN.setStyle("-fx-background-color: black; -fx-text-fill: white;");
+		doneBTN.setStyle("-fx-background-color: transparent; -fx-text-fill: black;");
+
+		sideInfoPane.setVisible(false);
+		hotelServicePane.setVisible(false);
+		addServicePane.setVisible(false);
+
+		ongoingBTN.setOnMouseClicked(event -> {
+			try {
+				toggleButtonState(ongoingBTN, doneBTN, 1);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		});
+		doneBTN.setOnMouseClicked(event -> {
+			try {
+				toggleButtonState(doneBTN, ongoingBTN, 2);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
+	private void toggleButtonState(Button activeBtn, Button inactiveBtn, int tabNumber)
+			throws ClassNotFoundException, SQLException {
+		if (selectedTab == tabNumber)
+			return;
+		activeBtn.setStyle("-fx-background-color: black; -fx-text-fill: white;");
+
+		inactiveBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: black;");
+
+		selectedTab = tabNumber;
+		initServicesFS();
+	}
+
 	public void clearAllServices() {
 		BusServices.clear();
 		FlightServices.clear();
@@ -82,15 +126,20 @@ public class ServiceController {
 
 	public void setServiceProvider(ServiceProvider serviceProvider) {
 		this.serviceProvider = serviceProvider;
+
+		if (serviceProvider.getServiceType().equals("Hotel")) {
+			tabPane.setVisible(false);
+		}
 	}
 
-	public void addNewServiceForm() {
+	public void editServiceForm() {
 		if (serviceProvider.getServiceType().equals("Hotel")) {
 			addHotelListingPane.setVisible(true);
 			addServicePane.setVisible(false);
 			viewServicePane.setVisible(false);
 			addNewServiceBtn.setVisible(false);
 			bookingsDisplayPane.setVisible(false);
+
 			goBackView.setVisible(true);
 			if (hotelServicePane.isVisible()) {
 				infoSideVisibleWas = true;
@@ -109,7 +158,112 @@ public class ServiceController {
 				PlatformNameTxt.setText(" Airport Name");
 				PlatformLocTxt.setText(" Airport Location");
 			}
+			tabPane.setVisible(false);
+			addServicePane.setVisible(true);
+			viewServicePane.setVisible(false);
+			addNewServiceBtn.setVisible(false);
+			bookingsDisplayPane.setVisible(false);
+			goBackView.setVisible(true);
+			if (sideInfoPane.isVisible()) {
+				infoSideVisibleWas = true;
+			} else
+				infoSideVisibleWas = false;
+			sideInfoPane.setVisible(false);
+		}
 
+		// extra stuff
+		updateServiceProviderData();
+	}
+
+	public void updateServiceProviderData() {
+		isEditing = true;
+
+		addBtn.setOnAction(event -> {
+			updateService();
+		});
+
+		if (serviceProvider.getServiceType().equals("Bus")) {
+			BusService bs = null;
+			for (int i = 0; i < BusServices.size(); i++) {
+				if (BusServices.get(i).getServiceID() == selectedServiceID) {
+					bs = BusServices.get(i);
+					break;
+				}
+			}
+			if (bs == null) {
+				System.out.println("Service not found, error");
+				return;
+			}
+
+			depLoc.setText(bs.getDepartureLocation());
+			depTime.setText(bs.getDepartureTime());
+			depDate.setText(bs.getDepartureDate());
+			arvTime.setText(bs.getArrivalTime());
+			arvLoc.setText(bs.getArrivalLocation());
+			arvDate.setText(bs.getArrivalDate());
+			SBusNo.setText(bs.getBusNumber());
+			BStationName.setText(bs.getStationName());
+			BStationLoc.setText(bs.getStationLocation());
+			StktPrice.setText("" + bs.getPrice());
+
+			addBtn.setText("Done");
+
+		}
+	}
+
+	public void switchBackFromEdit() {
+		addBtn.setText("Add");
+		isEditing = false;
+
+		addBtn.setOnAction(event -> {
+			try {
+				addNewService();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		});
+
+		depLoc.clear();
+		depTime.clear();
+		depDate.clear();
+		arvTime.clear();
+		arvLoc.clear();
+		arvDate.clear();
+		SBusNo.clear();
+		BStationName.clear();
+		BStationLoc.clear();
+		StktPrice.clear();
+	}
+
+	public void addNewServiceForm() {
+		if (serviceProvider.getServiceType().equals("Hotel")) {
+			addHotelListingPane.setVisible(true);
+			addServicePane.setVisible(false);
+			viewServicePane.setVisible(false);
+			addNewServiceBtn.setVisible(false);
+			bookingsDisplayPane.setVisible(false);
+
+			goBackView.setVisible(true);
+			if (hotelServicePane.isVisible()) {
+				infoSideVisibleWas = true;
+			} else
+				infoSideVisibleWas = false;
+			hotelServicePane.setVisible(false);
+
+		} else {
+			if (serviceProvider.getServiceType().equals("Train")) {
+				critBusNo.setText("Train Number:");
+				SBusNo.setPromptText("TRAIN NO");
+			} else if (serviceProvider.getServiceType().equals("Flight")) {
+				GateInfo.setVisible(true);
+				SBusNo.setPromptText("FLIGHT NO");
+				critBusNo.setText("Flight Number:");
+				PlatformNameTxt.setText(" Airport Name");
+				PlatformLocTxt.setText(" Airport Location");
+			}
+			tabPane.setVisible(false);
 			addServicePane.setVisible(true);
 			viewServicePane.setVisible(false);
 			addNewServiceBtn.setVisible(false);
@@ -130,10 +284,13 @@ public class ServiceController {
 		bookingsDisplayPane.setVisible(false);
 		viewServicePane.setVisible(true);
 		addNewServiceBtn.setVisible(true);
+		isEditing = false;
 		if (serviceProvider.getServiceType().equals("Hotel")) {
+			tabPane.setVisible(false);
 			viewFeedbacks1.setVisible(true);
 			viewBookings1.setVisible(true);
 		} else {
+			tabPane.setVisible(true);
 			viewFeedbacks.setVisible(true);
 			viewBookings.setVisible(true);
 		}
@@ -144,6 +301,40 @@ public class ServiceController {
 		else if (infoSideVisibleWas && serviceProvider.getServiceType().equals("Hotel"))
 			hotelServicePane.setVisible(true);
 
+	}
+
+	public void updateService() {
+		if (depLoc.getText().isEmpty() ||
+				depTime.getText().isEmpty() ||
+				depDate.getText().isEmpty() ||
+				arvLoc.getText().isEmpty() ||
+				arvTime.getText().isEmpty() ||
+				arvDate.getText().isEmpty() ||
+				SBusNo.getText().isEmpty() ||
+				BStationName.getText().isEmpty() ||
+				BStationLoc.getText().isEmpty() ||
+				StktPrice.getText().isEmpty()) {
+			System.out.println("One or more fields are empty. Please fill all fields.");
+			return;
+		}
+		try {
+			int serviceID = selectedServiceID;
+
+			boolean flag = serviceManager.updateService(serviceID, depLoc.getText(), depTime.getText(),
+					depDate.getText(),
+					arvLoc.getText(), arvTime.getText(), arvDate.getText(),
+					SBusNo.getText(), BStationName.getText(), BStationLoc.getText(),
+					StktPrice.getText(), GNumber.getText(),
+					serviceProvider.getServiceType());
+
+			if (flag) {
+				initServicesFS();
+				displayServices();
+				switchBackFromEdit();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void addNewService() throws SQLException, ClassNotFoundException {
@@ -162,191 +353,81 @@ public class ServiceController {
 			System.out.println("One or more fields are empty. Please fill all fields.");
 			return;
 		}
+		try {
+			boolean flag = serviceManager.addNewService(serviceProvider, depLoc.getText(), depTime.getText(),
+					depDate.getText(),
+					arvLoc.getText(), arvTime.getText(), arvDate.getText(),
+					SBusNo.getText(), BStationName.getText(), BStationLoc.getText(),
+					StktPrice.getText(), GNumber.getText());
 
-		String depLoc = this.depLoc.getText(); // Departure Location
-		String depTime = this.depTime.getText(); // Departure Time
-		String depDate = this.depDate.getText(); // Departure Date
-		String arvLoc = this.arvLoc.getText(); // Arrival Location
-		String arvTime = this.arvTime.getText(); // Arrival Time
-		String arvDate = this.arvDate.getText(); // Arrival Date
-		String SBusNo = this.SBusNo.getText(); // Bus Number
-		String BStationName = this.BStationName.getText(); // Bus Station Name
-		String BStationLoc = this.BStationLoc.getText(); // Bus Station Location
-		String StktPrice = this.StktPrice.getText(); // Ticket Price
-		String GNumber = this.GNumber.getText();
-
-		String description = String.format(
-				"Bus No. %s from %s to %s departing on %s at %s and arriving on %s at %s. \nTicket Price: PKR %s. \nBus station: %s located at %s.",
-				SBusNo, depLoc, arvLoc, depDate, depTime, arvDate, arvTime, StktPrice, BStationName, BStationLoc);
-
-		Connection connection = dbHandler.connect();
-
-		String insertQuery = "INSERT INTO TravelService(serviceProviderID, description, serviceType, arrivalTime, departureTime, arrivalLocation, departureLocation, departureDate, arrivalDate, ticketPrice) VALUES (?,?,?,?,?,?,?,?,?,?)";
-
-		PreparedStatement prepStatement = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
-
-		prepStatement.setInt(1, serviceProvider.getServiceProviderID());
-		prepStatement.setString(2, description);
-		if (serviceProvider.getServiceType().equals("Bus"))
-			prepStatement.setString(3, "Bus");
-		else if (serviceProvider.getServiceType().equals("Train"))
-			prepStatement.setString(3, "Train");
-		else
-			prepStatement.setString(3, "Flight");
-		prepStatement.setString(4, arvTime);
-		prepStatement.setString(5, depTime);
-		prepStatement.setString(6, arvLoc);
-		prepStatement.setString(7, depLoc);
-		prepStatement.setString(8, depDate);
-		prepStatement.setString(9, arvDate);
-		prepStatement.setInt(10, Integer.parseInt(StktPrice));
-
-		int serviceID = -1;
-
-		System.out.println("Adding new service > Executing Statement");
-		int affectedRows = prepStatement.executeUpdate();
-
-		if (affectedRows > 0) {
-
-			ResultSet generatedKeys = prepStatement.getGeneratedKeys();
-
-			if (generatedKeys.next()) {
-				serviceID = generatedKeys.getInt(1);
-			} else {
-				System.out.println("Key generation error");
-				return;
-			}
-			prepStatement.close();
-
-			String insertQuery1;
-			if (serviceProvider.getServiceType().equals("Bus")) {
-				insertQuery1 = "INSERT INTO BusService(ServiceID, StationName, StationLocation, BusNo) VALUES (?,?,?,?)";
-			} else if (serviceProvider.getServiceType().equals("Train")) {
-				insertQuery1 = "INSERT INTO TrainService(ServiceID, StationName, StationLocation, TrainNumber) VALUES (?,?,?,?)";
-			} else {
-				insertQuery1 = "INSERT INTO FlightService(ServiceID, AirportName, AirportLocation, FlightNumber, GateNumber) VALUES (?,?,?,?,?)";
-			}
-
-			PreparedStatement prepStatement1 = connection.prepareStatement(insertQuery1);
-
-			prepStatement1.setInt(1, serviceID);
-			prepStatement1.setString(2, BStationName);
-			prepStatement1.setString(3, BStationLoc);
-			prepStatement1.setString(4, SBusNo);
-
-			if (serviceProvider.getServiceType().equals("Flight")) {
-				prepStatement1.setString(5, GNumber);
-			}
-
-			int affectedRows1 = prepStatement1.executeUpdate();
-
-			if (affectedRows1 > 0) {
-				System.out.println("Adding new service > Successfully Added New Service");
+			if (flag) {
 				initServicesFS();
 				displayServices();
-
-			} else {
-				System.out.println("Adding new service > Failure Adding New Service > 2");
 			}
-		} else {
-			System.out.println("Adding new service > Failure Adding New Service > 1");
-			prepStatement.close();
-			connection.close();
-			return;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
 	}
 
 	public void removeService(int serviceID, boolean isTravelService) throws SQLException, ClassNotFoundException {
+
 		Connection connection = dbHandler.connect();
 
 		try {
 			connection.setAutoCommit(false);
 
 			if (isTravelService) {
-				String deleteFeedbackQuery = "DELETE FROM servicefeedback WHERE serviceID = ?";
-				try (PreparedStatement prepFeedback = connection.prepareStatement(deleteFeedbackQuery)) {
-					prepFeedback.setInt(1, serviceID);
-					int affectedFeedbackRows = prepFeedback.executeUpdate();
-					System.out.println("Feedback rows deleted: " + affectedFeedbackRows);
+				serviceManager.deleteServiceFeedback(serviceID);
+				try {
+					String cancellationMessage = "Your booking has been cancelled due to service unavailability ("
+							+ serviceID + "), you have been refunded";
+					int notificationsSent = serviceManager.addCancellationNotifications(serviceID,
+							cancellationMessage, true);
+					System.out.println("Notifications sent: " + notificationsSent);
+				} catch (SQLException | ClassNotFoundException e) {
+					e.printStackTrace();
 				}
+				serviceManager.deleteTravelBooking(serviceID);
 
-				// Delete from travelbooking
-				String deleteBookingQuery = "DELETE FROM travelbooking WHERE serviceID = ?";
-				try (PreparedStatement prepBooking = connection.prepareStatement(deleteBookingQuery)) {
-					prepBooking.setInt(1, serviceID);
-					int affectedBookingRows = prepBooking.executeUpdate();
-					System.out.println("Booking rows deleted: " + affectedBookingRows);
-				}
+				// Assuming serviceProvider is accessible here
+				String serviceType = serviceProvider.getServiceType();
+				if (serviceManager.deleteServiceDetails(serviceID, serviceType) > 0) {
+					if (serviceManager.deleteTravelService(serviceID) > 0) {
+						System.out.println("Successfully removed travel service with ID: " + serviceID);
 
-				// Delete from specific service details table (Bus, Train, Flight)
-				String deleteServiceDetailsQuery = "";
-				if (serviceProvider.getServiceType().equals("Bus")) {
-					deleteServiceDetailsQuery = "DELETE FROM BusService WHERE ServiceID = ?";
-				} else if (serviceProvider.getServiceType().equals("Train")) {
-					deleteServiceDetailsQuery = "DELETE FROM TrainService WHERE ServiceID = ?";
-				} else if (serviceProvider.getServiceType().equals("Flight")) {
-					deleteServiceDetailsQuery = "DELETE FROM FlightService WHERE ServiceID = ?";
-				}
-
-				try (PreparedStatement prepServiceDetails = connection.prepareStatement(deleteServiceDetailsQuery)) {
-					prepServiceDetails.setInt(1, serviceID);
-					int affectedServiceDetailsRows = prepServiceDetails.executeUpdate();
-					if (affectedServiceDetailsRows > 0) {
-						// Delete from TravelService table
-						String deleteServiceQuery = "DELETE FROM TravelService WHERE ServiceID = ?";
-						try (PreparedStatement prepService = connection.prepareStatement(deleteServiceQuery)) {
-							prepService.setInt(1, serviceID);
-							int affectedServiceRows = prepService.executeUpdate();
-
-							if (affectedServiceRows > 0) {
-								System.out.println("Successfully removed travel service with ID: " + serviceID);
-								connection.commit();
-								initServicesFS();
-								displayServices();
-							} else {
-								System.out.println("Failed to remove service from TravelService table.");
-								connection.rollback();
-							}
-						}
-					} else {
-						System.out
-								.println("Failed to remove service details from service-specific table: " + serviceID);
-						connection.rollback();
-					}
-				}
-			} else {
-
-				// Delete from servicefeedback (for hotel)
-				String deleteFeedbackQuery = "DELETE FROM servicefeedback WHERE serviceID = ?";
-				try (PreparedStatement prepFeedback = connection.prepareStatement(deleteFeedbackQuery)) {
-					prepFeedback.setInt(1, serviceID);
-					int affectedFeedbackRows = prepFeedback.executeUpdate();
-					System.out.println("Feedback rows deleted: " + affectedFeedbackRows);
-				}
-
-				// Delete from hotelbooking
-				String deleteBookingQuery = "DELETE FROM hotelbooking WHERE listingID = ?";
-				try (PreparedStatement prepBooking = connection.prepareStatement(deleteBookingQuery)) {
-					prepBooking.setInt(1, serviceID);
-					int affectedBookingRows = prepBooking.executeUpdate();
-					System.out.println("Booking rows deleted: " + affectedBookingRows);
-				}
-
-				// Delete from hotelservice table
-				String deleteHotelServiceQuery = "DELETE FROM hotelservice WHERE HotelServiceID = ?";
-				try (PreparedStatement prepHotelService = connection.prepareStatement(deleteHotelServiceQuery)) {
-					prepHotelService.setInt(1, serviceID);
-					int affectedHotelServiceRows = prepHotelService.executeUpdate();
-					if (affectedHotelServiceRows > 0) {
-						System.out.println("Successfully removed hotel service with ID: " + serviceID);
 						connection.commit();
 						initServicesFS();
 						displayServices();
 					} else {
-						System.out.println("Failed to remove service from HotelService table.");
+						System.out.println("Failed to remove service from TravelService table.");
 						connection.rollback();
 					}
+				} else {
+					System.out.println("Failed to remove service details for service ID: " + serviceID);
+					connection.rollback();
+				}
+			} else {
+				serviceManager.deleteHotelFeedback(serviceID);
+				String cancellationMessage = "Your booking has been cancelled due to service unavailability ("
+						+ serviceID + "), you have been refunded";
+				try {
+					int notificationsSent = serviceManager.addCancellationNotifications(serviceID,
+							cancellationMessage, false);
+					System.out.println("Notifications sent: " + notificationsSent);
+				} catch (SQLException | ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+				serviceManager.deleteHotelBooking(serviceID);
+
+				if (serviceManager.deleteHotelService(serviceID) > 0) {
+					System.out.println("Successfully removed hotel service with ID: " + serviceID);
+
+					connection.commit();
+					initServicesFS();
+					displayServices();
+				} else {
+					System.out.println("Failed to remove service from HotelService table.");
+					connection.rollback();
 				}
 			}
 		} catch (SQLException e) {
@@ -444,7 +525,9 @@ public class ServiceController {
 					"bs.StationLocation, " +
 					"bs.BusNo, " +
 					"ts.DepartureDate, " +
-					"ts.ArrivalDate " +
+					"ts.ArrivalDate, " +
+					"ts.status, " +
+					"ts.ticketPrice " +
 					"FROM TravelService ts " +
 					"JOIN BusService bs ON ts.ServiceID = bs.ServiceID " +
 					"WHERE ts.ServiceProviderID = ?;";
@@ -463,7 +546,9 @@ public class ServiceController {
 					"fs.FlightNumber, " +
 					"fs.GateNumber, " +
 					"ts.DepartureDate, " +
-					"ts.ArrivalDate " +
+					"ts.ArrivalDate, " +
+					"ts.status, " +
+					"ts.ticketPrice " +
 					"FROM TravelService ts " +
 					"JOIN FlightService fs ON ts.ServiceID = fs.ServiceID " +
 					"WHERE ts.ServiceProviderID = ?;";
@@ -481,7 +566,9 @@ public class ServiceController {
 					"bs.StationLocation, " +
 					"bs.TrainNumber, " +
 					"ts.DepartureDate, " +
-					"ts.ArrivalDate " +
+					"ts.ArrivalDate, " +
+					"ts.status, " +
+					"ts.ticketPrice " +
 					"FROM TravelService ts " +
 					"JOIN TrainService bs ON ts.ServiceID = bs.ServiceID " +
 					"WHERE ts.ServiceProviderID = ?;";
@@ -513,7 +600,22 @@ public class ServiceController {
 		}
 
 		do {
+			if (selectedTab == 1 || selectedTab == -1) {
+				// Show ongoing services
+				if (!serviceProvider.getServiceType().equals("Hotel")
+						&& !resultSet.getString("status").equals("ONGOING")) {
+					continue;
+				}
+			}
+			if (selectedTab == 2) {
+				// Show done services
+				if (!serviceProvider.getServiceType().equals("Hotel")
+						&& !resultSet.getString("status").equals("DONE")) {
+					continue;
+				}
+			}
 			// Store the result set values into local variables
+
 			if (!serviceProvider.getServiceType().equals("Hotel")) {
 				int serviceID = resultSet.getInt(1);
 				String serviceType = resultSet.getString(4);
@@ -523,14 +625,20 @@ public class ServiceController {
 				String departureTime = resultSet.getString(5);
 				String departureLocation = resultSet.getString(7);
 				String arrivalLocation = resultSet.getString(8);
+				String status;
 				String departureDate;
 				String arrivalDate;
+				int price;
 				if (serviceProvider.getServiceType().equals("Flight")) {
 					departureDate = resultSet.getString(13);
 					arrivalDate = resultSet.getString(14);
+					status = resultSet.getString(15);
+					price = resultSet.getInt(16);
 				} else {
 					departureDate = resultSet.getString(12);
 					arrivalDate = resultSet.getString(13);
+					status = resultSet.getString(14);
+					price = resultSet.getInt(15);
 				}
 
 				System.out.println(serviceProvider.getServiceType() + " is the service type of SP");
@@ -549,6 +657,8 @@ public class ServiceController {
 							arrivalLocation, // arrivalLocation
 							departureDate, // serviceDate
 							arrivalDate);
+					busService.setStatus(status);
+					busService.setPrice(price);
 					BusServices.add(busService);
 				} else if (serviceProvider.getServiceType().equals("Train")) {
 					TrainService trainService = new TrainService(
@@ -565,6 +675,8 @@ public class ServiceController {
 							arrivalLocation, // arrivalLocation
 							departureDate, // serviceDate
 							arrivalDate);
+					trainService.setStatus(status);
+					trainService.setPrice(price);
 					TrainServices.add(trainService);
 				} else if (serviceProvider.getServiceType().equals("Flight")) {
 					FlightService flightService = new FlightService(
@@ -584,7 +696,8 @@ public class ServiceController {
 							resultSet.getString(10)
 
 					);
-					System.out.println("added flight service object");
+					flightService.setStatus(status);
+					flightService.setPrice(price);
 					FlightServices.add(flightService);
 				}
 
@@ -601,7 +714,8 @@ public class ServiceController {
 							serviceProvider.getServiceType(), serviceID);
 
 					hbox.setOnMouseClicked(event -> {
-						showServiceDetails(serviceType, busNo, arrivalLocation, departureLocation);
+						showServiceDetails(serviceType, busNo, arrivalLocation, departureLocation, arrivalTime,
+								departureTime);
 						selectedServiceID = serviceID;
 					});
 
@@ -668,7 +782,6 @@ public class ServiceController {
 		} while (resultSet.next());
 	}
 
-	@SuppressWarnings("unused")
 	public void removeSelectedService() throws ClassNotFoundException, SQLException {
 		System.out.println("trying to remove service");
 		if (serviceProvider.getServiceType().equals("Hotel"))
@@ -682,26 +795,20 @@ public class ServiceController {
 			hotelServicePane.setVisible(false);
 	}
 
-	private void showServiceDetails(String serviceType, String Number, String arrivalLoc, String depLoc) {
+	private void showServiceDetails(String serviceType, String busNo, String arrivalLocation, String departureLocation,
+			String arrivalTime,
+			String departureTime) {
 
 		serviceProvider.printDetails();
 		if (!sideInfoPane.isVisible()) {
 			sideInfoPane.setVisible(true);
 		}
-		depLocInfo.setText(depLoc);
-		arvLocInfo.setText(arrivalLoc);
+		depLocInfo.setText(departureLocation);
+		arvLocInfo.setText(arrivalLocation);
 		infoServiceType.setText(serviceType);
-		infoBusNo.setText("  " + Number);
-		Image image;
-		if (serviceType.equals("Bus")) {
-			image = new Image(getClass().getResourceAsStream("../assets/images/pngs/inverted_bus.png"));
-		} else if (serviceType.equals("Train")) {
-			image = new Image(getClass().getResourceAsStream("../assets/images/pngs/inverted_train.png"));
-		} else if (serviceType.equals("Flight")) {
-			image = new Image(getClass().getResourceAsStream("../assets/images/pngs/inverted_flight.png"));
-		} else {
-			image = new Image(getClass().getResourceAsStream("../assets/images/pngs/inverted_hotel.png"));
-		}
+		infoBusNo.setText("  " + busNo);
+		depTimeInfo.setText(departureTime);
+		arvTimeInfo.setText(arrivalTime);
 
 	}
 
@@ -829,8 +936,8 @@ public class ServiceController {
 		vBoxFeedbacks.getChildren().clear();
 
 		// Create an instance of ServiceDAO to fetch feedbacks for the given serviceID
-		ServiceDAO dao = new ServiceDAO();
-		List<ServiceDAO.Feedback> feedbacks;
+		ServiceManager dao = new ServiceManager();
+		List<ServiceManager.Feedback> feedbacks;
 		if (tFLag)
 			feedbacks = dao.getFeedbacksByServiceID(serviceID); // Get the list of feedbacks from
 		else
@@ -843,7 +950,7 @@ public class ServiceController {
 			Text noFeedbacksText = new Text("No feedbacks available for this service.");
 			vBoxFeedbacks.getChildren().add(noFeedbacksText);
 		} else {
-			for (ServiceDAO.Feedback feedback : feedbacks) {
+			for (ServiceManager.Feedback feedback : feedbacks) {
 				FXMLLoader fxmlloader = new FXMLLoader();
 				fxmlloader.setLocation(getClass().getResource("../scenes/components/feedback_item.fxml"));
 				VBox vbox = fxmlloader.load();
@@ -854,6 +961,16 @@ public class ServiceController {
 
 				vBoxFeedbacks.getChildren().add(vbox);
 			}
+		}
+	}
+
+	public void markServiceDone() throws ClassNotFoundException, SQLException {
+		if (selectedServiceID == -1)
+			return;
+		boolean flag = serviceManager.markServiceAsDone(selectedServiceID);
+		if (flag) {
+			System.out.println("Service marked done successfully");
+			initServicesFS();
 		}
 	}
 

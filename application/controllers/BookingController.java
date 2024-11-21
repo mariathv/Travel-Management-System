@@ -4,14 +4,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-import application.DAO.BookingDAO;
+import application.Managers.BookingManager;
 import application.Model.HotelBooking;
 import application.Model.TravelBooking;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
@@ -48,7 +45,7 @@ public class BookingController {
         vBoxBookings.getChildren().add(separator);
         separator.setStyle("-fx-border-color: #1e353f; -fx-border-width: 2;");
         // Get the list of bookings from the DAO based on the provided serviceID
-        BookingDAO dao = new BookingDAO();
+        BookingManager dao = new BookingManager();
         System.out.println("Fetching Data");
         if (tFlag)
             bookings = dao.getBookingsByServiceProvider(serviceID);
