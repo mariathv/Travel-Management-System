@@ -295,3 +295,13 @@
 .bookingDetail:hover {
     -fx-background-color: #69787F;
 }
+
+.transparent-bg-onactive-black {
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+}
+
+.transparent-bg-onactive-black:active,
+.transparent-bg-onactive-black:focus {
+    background-color: black;
+}
