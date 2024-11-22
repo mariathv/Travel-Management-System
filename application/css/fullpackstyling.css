@@ -223,7 +223,10 @@
 .button-black-white:hover {
     -fx-background-color: white;
     /* White background on hover */
+    -fx-border-radius: 5px;
     -fx-text-fill: black;
+    -fx-border-color: black;
+    -fx-border-width: 2px;
     /* Black text on hover */
     -fx-border-color: white;
     /* White border on hover */

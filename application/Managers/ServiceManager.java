@@ -360,4 +360,239 @@ public class ServiceManager {
         return false; // Failure in the operation.
     }
 
+    public int getTotalServices(int serviceProviderID) throws SQLException, ClassNotFoundException {
+        String query = "SELECT COUNT(*) AS totalServices FROM TravelService WHERE serviceProviderID = ?";
+        try (Connection connection = dbHandler.connect();
+                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, serviceProviderID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("totalServices");
+            }
+        }
+        return 0; // Default to 0 if no results
+    }
+
+    public int getOnGoingServices(int serviceProviderID) throws SQLException, ClassNotFoundException {
+        String query = "SELECT COUNT(*) AS onGoingServices FROM TravelService WHERE serviceProviderID = ? AND status = 'ONGOING'";
+        try (Connection connection = dbHandler.connect();
+                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, serviceProviderID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("onGoingServices");
+            }
+        }
+        return 0; // Default to 0 if no results
+    }
+
+    public int getTotalBookings(int serviceProviderID) throws SQLException, ClassNotFoundException {
+        String query = """
+                SELECT COUNT(*) AS totalBookings
+                FROM travelbooking
+                WHERE serviceID IN (
+                    SELECT serviceID
+                    FROM TravelService
+                    WHERE serviceProviderID = ?
+                )
+                """;
+        try (Connection connection = dbHandler.connect();
+                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, serviceProviderID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("totalBookings");
+            }
+        }
+        return 0; // Default to 0 if no results
+    }
+
+    public int getServiceProviderRating(int serviceProviderID) throws ClassNotFoundException, SQLException {
+        String query = "Select rating from ServiceProvider where serviceProviderID = ?";
+
+        try (Connection connection = dbHandler.connect();
+                PreparedStatement prepStatement = connection.prepareStatement(query)) {
+            prepStatement.setInt(1, serviceProviderID);
+            ResultSet resultSet = prepStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("rating");
+            }
+        }
+        return -1; // return -1 on no result
+    }
+
+    public int getTotalTravelFeedbacks(int serviceProviderID) {
+        String query = """
+                SELECT COUNT(*) AS totalFeedbacks
+                FROM servicefeedback sf
+                JOIN travelservice ts ON sf.serviceID = ts.serviceID
+                WHERE ts.serviceProviderID = ?
+                """;
+
+        int totalFeedbacks = 0;
+
+        try (Connection connection = dbHandler.connect();
+                PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+            pstmt.setInt(1, serviceProviderID);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                totalFeedbacks = rs.getInt("totalFeedbacks");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return totalFeedbacks;
+    }
+
+    public int getTotalHotelFeedbacks(int serviceProviderID) {
+        String query = """
+                SELECT COUNT(*) AS totalFeedbacks
+                FROM hotelfeedback sf
+                JOIN travelservice ts ON sf.serviceID = ts.serviceID
+                WHERE ts.serviceProviderID = ?
+                """;
+
+        int totalFeedbacks = 0;
+
+        try (Connection connection = dbHandler.connect();
+                PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+            pstmt.setInt(1, serviceProviderID);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                totalFeedbacks = rs.getInt("totalFeedbacks");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return totalFeedbacks;
+    }
+
+    public boolean setPhoneNumber(int serviceProviderID, String phoneNum) {
+        String query = "UPDATE ServiceProvider SET phoneNum = ? WHERE serviceProviderID = ?";
+
+        try (Connection connection = dbHandler.connect();
+                PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+            pstmt.setString(1, phoneNum);
+            pstmt.setInt(2, serviceProviderID);
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                return true;
+            } else
+                return false;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean isCurrentPassword(String pass, int serviceProviderID) {
+        String query = "SELECT 1 FROM serviceproviderauth WHERE userID = ? AND password = ?";
+
+        try (Connection connection = dbHandler.connect();
+                PreparedStatement prep = connection.prepareStatement(query)) {
+
+            prep.setInt(1, serviceProviderID);
+            prep.setString(2, pass);
+
+            try (ResultSet resultSet = prep.executeQuery()) {
+                return resultSet.next(); // returns true if a row exists, meaning the password is correct
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false; // Return false if there is an exception
+        }
+    }
+
+    public boolean setPassword(int serviceProviderID, String pass) {
+        String query = "UPDATE serviceproviderauth SET password = ? WHERE userID = ?";
+
+        try (Connection connection = dbHandler.connect();
+                PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+            pstmt.setString(1, pass);
+            pstmt.setInt(2, serviceProviderID);
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                return true;
+            } else
+                return false;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public String getBusNumber(int serviceID) throws ClassNotFoundException {
+        String sql = "SELECT BusNo FROM busservice WHERE ServiceID = ?";
+        String busNumber = "";
+        try (Connection connection = dbHandler.connect();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, serviceID);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                busNumber = rs.getString("BusNo");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return busNumber;
+    }
+
+    public String getTrainNumber(int serviceID) throws ClassNotFoundException {
+        String sql = "SELECT TrainNumber FROM trainservice WHERE ServiceID = ?";
+        String busNumber = "";
+        try (Connection connection = dbHandler.connect();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, serviceID);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                busNumber = rs.getString("BusNo");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return busNumber;
+    }
+
+    public String getFlightNumber(int serviceID) throws ClassNotFoundException {
+        String sql = "SELECT FlightNumber FROM flightservice WHERE ServiceID = ?";
+        String busNumber = "";
+        try (Connection connection = dbHandler.connect();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, serviceID);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                busNumber = rs.getString("BusNo");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return busNumber;
+    }
+
 }

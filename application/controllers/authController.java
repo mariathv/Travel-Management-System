@@ -154,9 +154,9 @@ public class authController {
 						String emailSP = resultSet3.getString("email");
 						String agencyName = resultSet3.getString("travelAgencyName");
 						String serviceType = resultSet3.getString("serviceType");
-
+						String phoneNum = resultSet3.getString("phoneNum");
 						serviceProvider = new ServiceProvider(id, emailSP, username.getText(), agencyName, serviceType);
-
+						serviceProvider.setPhoneNum(phoneNum);
 						// Redirect to the service provider home screen
 						screenController.switchToSPHome(event, serviceProvider);
 					} else {
