@@ -253,7 +253,7 @@
                         <Font name="Lexend Deca Medium" size="13.0" />
                      </font>
                   </Button>
-                  <Button fx:id="doneBTN" mnemonicParsing="false" style="-fx-background-color: transparent;" text="DONE">
+                  <Button fx:id="doneBTN" mnemonicParsing="false" style="-fx-background-color: transparent;" text="CLOSED">
                      <font>
                         <Font name="Lexend Deca Medium" size="13.0" />
                      </font>

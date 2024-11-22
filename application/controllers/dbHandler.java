@@ -14,6 +14,11 @@ public class dbHandler {
 	private final static String username = "root";
 	private final static String pass = "";
 
+	// private final static String url =
+	// "jdbc:sqlserver://MNK;Database=b9vpudlz4yz3pd30claw;IntegratedSecurity=true";
+	// private final static String username = "root";
+	// private final static String pass = "";
+
 	// method predefined for connecting to database to avoid redundancy
 	// adding static to make it available without creating an object
 	public static Connection connect() throws ClassNotFoundException, SQLException {
@@ -27,6 +32,7 @@ public class dbHandler {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection(url, username, pass);
+			// connection = DriverManager.getConnection(url);
 			System.out.println("success");
 		} catch (SQLException e) {
 			System.out.println("Error while connecting to the database: " + e.getMessage());
