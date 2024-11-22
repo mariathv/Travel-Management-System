@@ -90,7 +90,7 @@
                   <Font name="Lexend Deca Medium" size="18.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="194.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Logout" textFill="WHITE">
+            <Button alignment="CENTER" graphicTextGap="10.0" mnemonicParsing="false" onAction="#Logout" prefHeight="26.0" prefWidth="194.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Logout" textFill="WHITE">
                <font>
                   <Font name="Lexend Deca Medium" size="18.0" />
                </font>

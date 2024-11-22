@@ -1,13 +1,21 @@
 package application.controllers;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import application.Main;
 import application.Model.ServiceProvider;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class ServiceProviderController {
 	@FXML
@@ -20,6 +28,11 @@ public class ServiceProviderController {
 	@FXML
 	private Pane modify_basePane, modify_passwordPane, modify_phonePane;
 	private ServiceProvider serviceProvider;
+	
+	@FXML
+	private TextField newPhone;
+	@FXML
+	private PasswordField newPass;
 
 	boolean flagFirst = true;
 	int currentTab = 1;
@@ -37,26 +50,66 @@ public class ServiceProviderController {
 		modify_phonePane.setVisible(true);
 	}
 
-	public void confirmPasswordChange() {
+	public void confirmPasswordChange() throws ClassNotFoundException, SQLException {
 		// will be implementing backend later
 		modify_passwordPane.setVisible(false);
 		modify_basePane.setVisible(true);
+	    String query = "UPDATE serviceproviderauth SET password = ? WHERE userID = ?";
+	    try (Connection connection = dbHandler.connect();
+	         PreparedStatement statement = connection.prepareStatement(query)) {
+	        statement.setString(1, newPass.getText());
+	        statement.setInt(2, serviceProvider.getServiceProviderID());
+
+	        int rowsUpdated = statement.executeUpdate();
+	    }
 	}
 
-	public void confirmPhoneChange() {
+	public void confirmPhoneChange() throws ClassNotFoundException, SQLException {
 		// will be implementing backend later
+		serviceProvider.setPhoneNum(newPhone.getText());
 		modify_phonePane.setVisible(false);
 		modify_basePane.setVisible(true);
+		String query = "UPDATE serviceprovider SET phoneNum  = ? WHERE serviceProviderID = ?";
+	    try (Connection connection = dbHandler.connect();
+	         PreparedStatement statement = connection.prepareStatement(query)) {
+	        statement.setString(1, newPhone.getText());
+	        statement.setInt(2, serviceProvider.getServiceProviderID());
+	        statement.executeUpdate();
+	        
+	    }
+	    loadProfileData();
 	}
+	 
 
 	// util functions
-	void loadProfileData() {
+	public void loadProfileData() {
 		flagFirst = false;
 		profileUsername.setText(serviceProvider.getUsername());
 		profileAgencyName.setText(serviceProvider.getAgencyName());
 		profileEmail.setText(serviceProvider.getEmail());
 		profileName.setText(serviceProvider.getUsername());
-		profilePhoneNum.setText("---");
+		profilePhoneNum.setText(serviceProvider.getPhoneNum());
+	}
+	
+	public void Logout() {
+	    try {
+	        // Close the current stage
+	        Stage primaryStage = AppController.getPrimaryStage();
+	        primaryStage.close();
+
+	        // Restart the application
+	        Platform.runLater(() -> {
+	            try {
+	                Main mainApp = new Main();
+	                Stage newStage = new Stage();
+	                mainApp.start(newStage); // Call the start() method of Main
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            }
+	        });
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 
 	public void loadNewPanel() { // service pane

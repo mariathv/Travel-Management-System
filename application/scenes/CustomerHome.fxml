@@ -58,7 +58,7 @@
                         <Font name="Lexend Deca Medium" size="9.0" />
                      </font>
                   </Button>
-                  <Button fx:id="nav_profile_cus" contentDisplay="TOP" mnemonicParsing="false" prefHeight="66.0" prefWidth="74.0" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Profile" textFill="#00adb4">
+                  <Button fx:id="nav_profile_cus" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadProfilePane" prefHeight="66.0" prefWidth="74.0" styleClass="button3" stylesheets="@../css/fullpackstyling.css" text="Profile" textFill="#00adb4">
                      <graphic>
                         <FontAwesomeIcon fill="#00adb4" glyphName="USER" selectionFill="#fafafa" selectionStart="1" size="3em" wrappingWidth="32.47615098953247" />
                      </graphic>
