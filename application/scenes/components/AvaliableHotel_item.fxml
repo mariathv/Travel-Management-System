@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<HBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.HotelItemController">
+   <children>
+      <VBox>
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="57.0" prefWidth="575.0" spacing="30.0" style="-fx-background-color: #CCD1D3;" styleClass="bookingDetail" stylesheets="@../../css/fullpackstyling.css">
+               <children>
+                  <Text fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="20.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="serialNo" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="20.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="HotelName" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="Hotel Name" wrappingWidth="145.87666249275208">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="20.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="City" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="Location" wrappingWidth="115.34389543533325">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="20.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="HotelRating" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="Rating" wrappingWidth="89.15610551834106">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="20.0" />
+                     </font>
+                  </Text>
+                  <FontAwesomeIcon glyphName="BED" size="45" wrappingWidth="55.36502456665039" />
+               </children>
+            </HBox>
+            <Line endX="473.9595947265625" endY="-0.2071080356836319" startX="-100.0" strokeType="OUTSIDE" />
+         </children>
+      </VBox>
+   </children>
+</HBox>

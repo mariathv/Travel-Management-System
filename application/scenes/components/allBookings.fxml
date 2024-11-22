@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<HBox prefHeight="51.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.AllBookingItemController">
+   <children>
+      <VBox>
+         <children>
+            <HBox fx:id="sampleHBOX" alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="600.0" spacing="30.0" style="-fx-background-color: #CCD1D3;" styleClass="bookingDetail" stylesheets="@../../css/fullpackstyling.css">
+               <children>
+                  <Text fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="15.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="serialno" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="1" wrappingWidth="18.651789665222168">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="17.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="15.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="Bookingid" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="1" wrappingWidth="93.43225860595703">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="17.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="bookingDate" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="24-24-24" wrappingWidth="99.34380388259888">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="17.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="price" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="30000" wrappingWidth="68.71170854568481">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="17.0" />
+                     </font>
+                  </Text>
+                  <FontAwesomeIcon fx:id="icon" glyphName="BUS" size="25" wrappingWidth="53.42860221862793" />
+                  <Circle fx:id="circle" fill="#1ef40b" radius="11.0" stroke="BLACK" strokeType="INSIDE" />
+               </children>
+            </HBox>
+            <Line endX="513.4444580078125" endY="-23.666667938232422" startX="1112.7374267578125" startY="-23.990291595458984" />
+         </children>
+      </VBox>
+   </children>
+</HBox>

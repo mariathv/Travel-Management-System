@@ -1,6 +1,8 @@
 package application.Model;
 
 public class HotelService {
+	public HotelService() {}
+	
 	 public HotelService(int serviceID, int serviceProviderID, String hotelName, String hotelLocation,
              int rating, int basicRoomPrice, int doubleRoomPrice, String City) {
 		this.serviceID = serviceID;
