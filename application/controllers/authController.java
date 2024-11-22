@@ -41,7 +41,7 @@ public class authController {
 	@FXML
 	private TextField agencyName;
 	@FXML
-	private Pane mainRegPanel, nextRegPanel;
+	private Pane mainRegPanel, nextRegPanel, serviceInfoPane;;
 	@FXML
 	private ComboBox<String> ComboSTypes;
 	@FXML
@@ -56,7 +56,11 @@ public class authController {
 	private TextField reg_CUS_password;
 	@FXML
 	private TextField password_re_Cus;
-	
+	@FXML
+	private Text serviceEnterText;
+	@FXML
+	private FontAwesomeIcon serviceEnterImage;
+
 	@FXML
 	private Text errText, errTextLogin;
 
@@ -236,6 +240,21 @@ public class authController {
 
 		screenController.switchToSPHome(event, serviceProvider);
 
+	}
+
+	public void onUpdateComboBox() {
+		System.out.println("combo box value changed");
+		String selc = ComboSTypes.getValue();
+		if (!serviceInfoPane.isVisible()) {
+			serviceInfoPane.setVisible(true);
+		}
+		if (selc.equals("Hotel")) {
+			serviceEnterText.setText("Enter Your Hotel Name:");
+			serviceEnterImage.setGlyphName("HOTEL");
+		} else {
+			serviceEnterText.setText("Enter Your Travel Agency Name:");
+			serviceEnterImage.setGlyphName("BUS");
+		}
 	}
 
 	// utils

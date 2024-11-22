@@ -164,7 +164,7 @@ public class ServiceController {
 		String GNumber = this.GNumber.getText();
 
 		String description = String.format(
-				"Bus No. %s from %s to %s departing on %s at %s and arriving on %s at %s. \nTicket Price: PKR %s. \nBus station: %s located at %s.",
+				"Serial No. %s from %s to %s departing on %s at %s and arriving on %s at %s. \nTicket Price: PKR %s. \nBus station: %s located at %s.",
 				SBusNo, depLoc, arvLoc, depDate, depTime, arvDate, arvTime, StktPrice, BStationName, BStationLoc);
 
 		Connection connection = dbHandler.connect();

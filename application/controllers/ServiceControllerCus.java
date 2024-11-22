@@ -6,7 +6,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
+import application.Model.Customer;
+import application.Model.HotelBooking;
+import application.Model.HotelService;
+import application.Model.TravelBooking;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
@@ -24,22 +29,30 @@ public class ServiceControllerCus {
 	@FXML
 	private Text ServiceNo, From, To, Dtime, Atime, StationName, StationLoc, Price;
 	@FXML
-	private ComboBox<String> TypeInput;
+	private ComboBox<String> TypeInput,TypeInput1;
 	@FXML
 	private TextField FromInput, ToInput;
 	@FXML
-	private Pane sideInfoPane;
+	private Pane sideInfoPane,hotelServicePane1;
 	@FXML
-	private AnchorPane SearchPane,ConfirmBookingPane;
+	private AnchorPane SearchPane,ConfirmBookingPane,HotelBookingPane,PaymentTravel,PaymentHotel;
 	@FXML
 	private Text ServiceNo2, StaName, Staloc, Agency, Dloc, Ddate, Dtime1, Price1,Atime1,ADate,Aloc;
 	@FXML
-	private VBox servicesCont;
+	private VBox servicesCont,vBoxHotel;
 	@FXML
 	private ImageView imageViewInfo,imageViewInfo1;
 	
 	String Des,Arrival,Type;
+	Customer customer;
+	TravelBooking travel_Booking; 
+	HotelBooking hotel_booking;
+	HotelService hotelservice;
+	
 	boolean infoSideVisibleWas;
+	
+	@FXML
+	private Text infoHotelName2, infoLocationDetails1, infoBasicPrice1, infoDoublePrice1, infoRatingBox1;
 	
 	@FXML
     public void initialize() {
@@ -47,10 +60,16 @@ public class ServiceControllerCus {
         TypeInput.getItems().add("Bus");
         TypeInput.getItems().add("Train");
         TypeInput.getItems().add("Flight");
+        TypeInput1.getItems().add("Basic Room");
+        TypeInput1.getItems().add("Double Room");
     }
 	
 	public ServiceControllerCus() {
         // Initialization code here
+    }
+	
+	public void setCustomer(Customer c) {
+		customer = c;
     }
 	public void displayServices() {
 		if(infoSideVisibleWas)
@@ -61,6 +80,170 @@ public class ServiceControllerCus {
 		if(!ConfirmBookingPane.isVisible())
 			ConfirmBookingPane.setVisible(true);
 		SearchPane.setVisible(false);
+		HotelBookingPane.setVisible(false);
+		PaymentTravel.setVisible(false);
+		PaymentHotel.setVisible(false);
+
+
+	}
+	
+	public void DoPayment() {
+		if(!PaymentTravel.isVisible())
+			PaymentTravel.setVisible(true);
+		SearchPane.setVisible(false);
+		HotelBookingPane.setVisible(false);
+		ConfirmBookingPane.setVisible(false);
+		PaymentHotel.setVisible(false);
+	}
+	
+	public void DoPayment2() {
+		if(!PaymentHotel.isVisible())
+			PaymentHotel.setVisible(true);
+		SearchPane.setVisible(false);
+		HotelBookingPane.setVisible(false);
+		ConfirmBookingPane.setVisible(false);
+		PaymentTravel.setVisible(false);
+	}
+	
+	public void BackToSearch() {
+		if(!SearchPane.isVisible())
+			SearchPane.setVisible(true);
+		sideInfoPane.setVisible(false);
+		ConfirmBookingPane.setVisible(false);
+		HotelBookingPane.setVisible(false);
+		PaymentTravel.setVisible(false);
+		PaymentHotel.setVisible(false);
+	}
+	
+	
+	public void DoHotelPayment() {
+	    Connection conn = null; // Ensure you establish your database connection
+	    PreparedStatement pstmt = null;
+	    ResultSet resultSet = null;
+	    
+	    hotel_booking.setListingID(hotelservice.getServiceID());
+	    String roomType = TypeInput1.getValue(); // "Single" or "Double" (example inputs)
+
+	    int price = 0; // Default price initialization
+
+	    // Determine the price based on room type
+	    if (roomType.equalsIgnoreCase("Basic Room")) {
+	        price = hotelservice.getBasicRoomPrice(); // Fetch basic room price from hotelservice
+	    } else if (roomType.equalsIgnoreCase("Double Room")) {
+	        price = hotelservice.getDoubleRoomPrice(); // Fetch double room price from hotelservice
+	    } else {
+	        System.out.println("Invalid room type selected!");
+	    }
+
+	    // Assign values to the hotel_booking object
+	    hotel_booking.setRoomType(roomType);
+	    hotel_booking.setPrice(price);
+	    
+
+	    try {
+	        // 1. Connect to the database
+	        conn = dbHandler.connect(); // Replace with your database connection logic
+
+	        // 2. Retrieve the last booking ID
+	        String fetchLastIDQuery = "SELECT MAX(bookingID) AS lastID FROM hotelbooking";
+	        Statement stmt = conn.createStatement();
+	        resultSet = stmt.executeQuery(fetchLastIDQuery);
+
+	        int lastBookingID = 0;
+	        if (resultSet.next()) {
+	            lastBookingID = resultSet.getInt("lastID");
+	        }
+
+	        // 3. Assign new booking ID
+	        int newBookingID = lastBookingID + 1;
+	        hotel_booking.setBookingID(newBookingID); // `hotel_Booking` is the assumed object of HotelBooking
+	        hotel_booking.setStatus(1);
+	        // 4. Insert the booking into the database
+	        String insertQuery = "INSERT INTO hotelbooking (bookingID, customerID, listingID, price, roomType, bookingDate, username, status) VALUES (?, ?, ?, ?,?, ?, ?, ?)";
+	        pstmt = conn.prepareStatement(insertQuery);
+
+	        pstmt.setInt(1, hotel_booking.getBookingID());
+	        pstmt.setInt(2, hotel_booking.getCustomerID());
+	        pstmt.setInt(3, hotel_booking.getListingID());
+	        pstmt.setInt(4, hotel_booking.getPrice());
+	        pstmt.setString(5, hotel_booking.getRoomType());
+	        pstmt.setString(6, hotel_booking.getBookingDate());
+	        pstmt.setString(7, hotel_booking.getUsername());
+	        pstmt.setInt(8, hotel_booking.getStatus());
+
+	        int rowsInserted = pstmt.executeUpdate();
+	        if (rowsInserted > 0) {
+	            System.out.println("Hotel booking successfully added to the database!");
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        // 5. Close all resources
+	        try {
+	            if (resultSet != null) resultSet.close();
+	            if (pstmt != null) pstmt.close();
+	            if (conn != null) conn.close();
+	        } catch (Exception ex) {
+	            ex.printStackTrace();
+	        }
+	    }
+	}
+	
+	
+	public void DoBooking() {
+	    Connection conn = null; // Ensure you establish your database connection
+	    PreparedStatement pstmt = null;
+	    ResultSet resultSet = null;
+
+	    try {
+	        // 1. Connect to the database
+	        conn = dbHandler.connect(); // Replace with your database connection logic
+
+	        // 2. Retrieve the last booking ID
+	        String fetchLastIDQuery = "SELECT MAX(bookingID) AS lastID FROM travelbooking";
+	        Statement stmt = conn.createStatement();
+	        resultSet = stmt.executeQuery(fetchLastIDQuery);
+
+	        int lastBookingID = 0;
+	        if (resultSet.next()) {
+	            lastBookingID = resultSet.getInt("lastID");
+	        }
+
+	        // 3. Assign new booking ID
+	        int newBookingID = lastBookingID + 1;
+	        travel_Booking.setBookingID(newBookingID);
+	        travel_Booking.setStatus(1);
+	        // 5. Insert the booking into the database
+	        String insertQuery = "INSERT INTO travelbooking (bookingID, customerID, serviceID, totalPrice, serviceType, bookingDate, username,status) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
+	        pstmt = conn.prepareStatement(insertQuery);
+
+	        pstmt.setInt(1, travel_Booking.getBookingID());
+	        pstmt.setInt(2, travel_Booking.getCustomerID());
+	        pstmt.setInt(3, travel_Booking.getServiceID());
+	        pstmt.setInt(4, travel_Booking.getTotalPrice());
+	        pstmt.setString(5, travel_Booking.getServiceType());
+	        pstmt.setString(6, travel_Booking.getBookingDate());
+	        pstmt.setString(7, travel_Booking.getUsername());
+	        pstmt.setInt(8, travel_Booking.getStatus());
+
+	        int rowsInserted = pstmt.executeUpdate();
+	        if (rowsInserted > 0) {
+	            System.out.println("Booking successfully added to the database!");
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        // 6. Close all resources
+	        try {
+	            if (resultSet != null) resultSet.close();
+	            if (pstmt != null) pstmt.close();
+	            if (conn != null) conn.close();
+	        } catch (Exception ex) {
+	            ex.printStackTrace();
+	        }
+	    }
 	}
 	
 	public void BookingDetails(
@@ -75,44 +258,145 @@ public class ServiceControllerCus {
     String price,
     String departureDate,
     String arrivalDate,
-    String agency
-) {
-    try {
-        // Set Text values
-        ServiceNo2.setText(transportNumber); // Transport number (e.g., BusNo, FlightNumber, TrainNumber)
-        StaName.setText(stationName);       // Station/Airport name
-        Staloc.setText(stationLocation);    // Station/Airport location
-        Agency.setText(agency);             // Travel agency name
-        Dloc.setText(departureLocation);    // Departure location
-        Ddate.setText(departureDate);       // Departure date
-        Dtime1.setText(departureTime);      // Departure time
-        Price1.setText(price);              // Ticket price
-        Atime1.setText(arrivalTime);        // Arrival time
-        ADate.setText(arrivalDate);         // Arrival date
-        Aloc.setText(arrivalLocation);      // Arrival location
-
-        // Set Image based on service type
-        Image image;
-        switch (serviceType) {
-            case "Bus":
-                image = new Image(getClass().getResourceAsStream("../assets/images/pngs/bus.png"));
-                break;
-            case "Train":
-                image = new Image(getClass().getResourceAsStream("../assets/images/pngs/train.png"));
-                break;
-            case "Flight":
-                image = new Image(getClass().getResourceAsStream("../assets/images/pngs/flight.png"));
-                break;
-            default:
-                image = new Image(getClass().getResourceAsStream("../assets/images/pngs/hotel.png"));
-        }
-        imageViewInfo1.setImage(image);
-
-    } catch (Exception e) {
-        e.printStackTrace(); // Handle exceptions
-    }
-}
+    String agency,
+    int ServiceID
+	) {
+	    try {
+	        // Set Text values
+	        ServiceNo2.setText(transportNumber); // Transport number (e.g., BusNo, FlightNumber, TrainNumber)
+	        StaName.setText(stationName);       // Station/Airport name
+	        Staloc.setText(stationLocation);    // Station/Airport location
+	        Agency.setText(agency);             // Travel agency name
+	        Dloc.setText(departureLocation);    // Departure location
+	        Ddate.setText(departureDate);       // Departure date
+	        Dtime1.setText(departureTime);      // Departure time
+	        Price1.setText(price);              // Ticket price
+	        Atime1.setText(arrivalTime);        // Arrival time
+	        ADate.setText(arrivalDate);         // Arrival date
+	        Aloc.setText(arrivalLocation);      // Arrival location
+	        
+	        travel_Booking = new TravelBooking(
+	        		customer.getCustomerID(),
+	        		ServiceID,
+	        		Integer.parseInt(price),
+	        		serviceType,
+	        		customer.getUsername()
+	        		);
+	        
+	        
+	        // Set Image based on service type
+	        Image image;
+	        switch (serviceType) {
+	            case "Bus":
+	                image = new Image(getClass().getResourceAsStream("../assets/images/pngs/bus.png"));
+	                break;
+	            case "Train":
+	                image = new Image(getClass().getResourceAsStream("../assets/images/pngs/train.png"));
+	                break;
+	            case "Flight":
+	                image = new Image(getClass().getResourceAsStream("../assets/images/pngs/flight.png"));
+	                break;
+	            default:
+	                image = new Image(getClass().getResourceAsStream("../assets/images/pngs/hotel.png"));
+	        }
+	        imageViewInfo1.setImage(image);
 	
+	    } catch (Exception e) {
+	        e.printStackTrace(); // Handle exceptions
+	    }
+	}
+	
+	
+	public void BookHotelToo() throws ClassNotFoundException, SQLException {
+		if(!HotelBookingPane.isVisible())
+			HotelBookingPane.setVisible(true);
+		SearchPane.setVisible(false);
+		ConfirmBookingPane.setVisible(false);
+		PaymentTravel.setVisible(false);
+		PaymentHotel.setVisible(false);
+		hotelServicePane1.setVisible(false);
+
+
+		
+		vBoxHotel.getChildren().clear();
+		hotel_booking = new HotelBooking();
+		hotelservice = new HotelService();
+		Connection connection = dbHandler.connect();
+	    String query;
+	    
+	        query = "SELECT * FROM hotelservice WHERE city = ?;";
+	        PreparedStatement prepStatement = connection.prepareStatement(query);
+			prepStatement.setString(1, Arrival); // Set arrival location
+		
+			ResultSet resultSet = prepStatement.executeQuery();
+		
+			if (!resultSet.next()) {
+				System.out.println("No Hotel Found");
+			    return;
+			}
+	        int x = 1;
+			do {
+			    // Fetch values from the ResultSet
+			    int hotelServiceID = resultSet.getInt("HotelServiceID");
+			    int serviceProviderID = resultSet.getInt("ServiceProviderID");
+			    String hotelName = resultSet.getString("HotelName");
+			    String hotelLocation = resultSet.getString("HotelLocation");
+			    double rating = resultSet.getDouble("Rating");
+			    double basicRoomPrice = resultSet.getDouble("BasicRoomPrice");
+			    double doubleRoomPrice = resultSet.getDouble("DoubleRoomPrice");
+			    String Hotelcity = resultSet.getString("city"); // Assuming the city field exists in the table.
+			    
+
+			    infoHotelName2.setText(hotelName); // Hotel name in detailed view
+			    infoLocationDetails1.setText(hotelLocation); // City
+			    infoBasicPrice1.setText(String.valueOf(basicRoomPrice)); 
+			    infoDoublePrice1.setText(String.valueOf(doubleRoomPrice)); 
+			    infoRatingBox1.setText(String.format("%.1f ★", rating)); // Rating
+			    
+			    FXMLLoader fxmlloader = new FXMLLoader();
+		        fxmlloader.setLocation(getClass().getResource("../scenes/components/AvaliableHotel_item.fxml"));
+
+		        try {
+		            System.out.println("Hotel Details");
+		            HBox hbox = fxmlloader.load();
+		            HotelItemController h1 = fxmlloader.getController();
+
+		            // Pass the captured data to the controller
+		            h1.setData(x,hotelName,Hotelcity,rating);
+		            hbox.setOnMouseClicked(event -> {
+		            	if(!hotelServicePane1.isVisible()) {
+		            		hotelServicePane1.setVisible(true);
+		            	}
+		            		infoHotelName2.setText(hotelName); // Hotel name in detailed view
+		      			    infoLocationDetails1.setText(hotelLocation); // City
+		      			    infoBasicPrice1.setText(String.valueOf(basicRoomPrice)); 
+		      			    infoDoublePrice1.setText(String.valueOf(doubleRoomPrice)); 
+		      			    infoRatingBox1.setText(String.format("%.1f ★", rating)); // Rating
+		      			
+		      			hotel_booking.setCustomerID(customer.getCustomerID());      // Set customer ID
+		      			hotel_booking.setUsername(customer.getUsername());
+		      			
+		      			hotelservice.setServiceID(hotelServiceID);
+		      			hotelservice.setBasicRoomPrice((int) basicRoomPrice); // Cast double to int before setting
+		      			hotelservice.setCity(Hotelcity);
+		      			hotelservice.setHotelLocation(hotelLocation);
+		      			hotelservice.setServiceProviderID(serviceProviderID);
+		      			hotelservice.setDoubleRoomPrice((int) doubleRoomPrice); // Cast double to int before setting
+		      			hotelservice.setHotelName(hotelName); // Add this if HotelName also needs to be set
+		      			hotelservice.setRating((int) rating); // Add this if the rating should also be assigned
+		        		
+		            });
+
+		            vBoxHotel.getChildren().add(hbox);
+		        } catch (IOException io) {
+		            io.printStackTrace();
+		        }
+		        x++;
+			} while (resultSet.next());
+	        
+	        
+	        
+	}
 	public void initServicesFS() throws SQLException, ClassNotFoundException {
 		
 		servicesCont.getChildren().clear();
@@ -208,7 +492,7 @@ public class ServiceControllerCus {
 	    do {
 	        // Store the result set values into local variables
 	    	String serviceType = resultSet.getString("ServiceType");
-	    	String serviceDesc = resultSet.getString("Description");
+	    	int serviceId = resultSet.getInt("ServiceID");
 	    	String arrivalTime = resultSet.getString("ArrivalTime");
 	    	String departureTime = resultSet.getString("DepartureTime");
 	    	String departureLocation = resultSet.getString("DepartureLocation");
@@ -217,7 +501,7 @@ public class ServiceControllerCus {
 	    	String departureDate = resultSet.getString("DepartureDate");
 	    	String arrivalDate = resultSet.getString("ArrivalDate");
 	    	String agency = resultSet.getString("travelAgencyName");
-
+	    	int ServiceID = resultSet.getInt("ServiceID");
 	        
 	        String stationName;
 	        String stationLocation;
@@ -247,7 +531,7 @@ public class ServiceControllerCus {
 	            ServiceItemController sItemC = fxmlloader.getController();
 
 	            // Pass the captured data to the controller
-	            sItemC.setData(arrivalLocation, departureLocation, arrivalTime, departureTime, Type);
+	            sItemC.setData(arrivalLocation, departureLocation, arrivalTime, departureTime, Type, ServiceID);
 
 	            hbox.setOnMouseClicked(event -> {
 	            	showServiceDetails(
@@ -274,8 +558,11 @@ public class ServiceControllerCus {
 	                        price,
 	                        departureDate,
 	                        arrivalDate,
-	                        agency
+	                        agency,
+	                        serviceId
+	                        
 	                    );
+	            	
 	            });
 
 	            servicesCont.getChildren().add(hbox);
