@@ -6,12 +6,11 @@
 /AppController.class
 /ServiceController.class
 /ServiceItemController.class
-<<<<<<< HEAD
 /HotelServiceItemController.class
 /BookingController.class
 /bookingItemController.class
-=======
 /CustomerController.class
 /ServiceControllerCus.class
->>>>>>> temp-2
 /feedbackItemController.class
+/HotelItemController.class
+/AllBookingItemController.class

@@ -192,6 +192,7 @@ public class ScreenController {
 		CustomerController controller = loader.getController();
 
 		controller.setCustomer(cus);
+		controller.loadHomePane_cus();
 
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 

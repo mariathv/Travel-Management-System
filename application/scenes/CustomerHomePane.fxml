@@ -11,8 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane fx:id="mainPanel_cus" prefHeight="531.0" prefWidth="886.0" style="-fx-background-color: #DDDDDD; -fx-background-radius: 10;" stylesheets="@../css/fullpackstyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.CustomerController">
+<AnchorPane prefHeight="531.0" prefWidth="886.0" style="-fx-background-color: #DDDDDD; -fx-background-radius: 10;" stylesheets="@../css/fullpackstyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.CustomerController">
    <children>
       <Pane layoutX="569.0" layoutY="46.0" prefHeight="297.0" prefWidth="270.0" style="-fx-background-radius: 20;" styleClass="linear-grad" stylesheets="@../css/fullpackstyling.css">
          <children>
@@ -23,12 +22,12 @@
                         <Image url="@../assets/images/pngs/profile-user.png" />
                      </image>
                   </ImageView>
-                  <Text fx:id="Cus_username" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="\@username" textAlignment="CENTER" wrappingWidth="105.498046875">
+                  <Text fx:id="nameCus" boundsType="LOGICAL_VERTICAL_CENTER" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Name" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="147.72601318359375">
                      <font>
-                        <Font name="Lexend Deca Regular" size="20.0" />
+                        <Font name="Lexend Deca Bold" size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="Cus_name" boundsType="LOGICAL_VERTICAL_CENTER" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Name" textAlignment="CENTER" textOrigin="CENTER">
+                  <Text fx:id="usernameCus" boundsType="LOGICAL_VERTICAL_CENTER" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Name" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="147.72601318359375">
                      <font>
                         <Font name="Lexend Deca Bold" size="18.0" />
                      </font>
