@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox fx:id="sampleVBOX" prefHeight="98.0" prefWidth="506.0" style="-fx-background-color: #CCD1D3;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.feedbackItemController">
+   <children>
+      <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="506.0" spacing="30.0" style="-fx-background-color: #CCD1D3;" styleClass="bookingDetail" stylesheets="@../../css/fullpackstyling.css">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="8.0">
+               <children>
+                  <FontAwesomeIcon glyphName="USER" size="1.5em" wrappingWidth="13.5999755859375" />
+                  <Text fx:id="username" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" wrappingWidth="84.0099868774414">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="15.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox fx:id="ratingHBOX" alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="254.0" spacing="5.0">
+               <padding>
+                  <Insets right="8.0" />
+               </padding>
+            </HBox>
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets left="8.0" />
+         </padding>
+      </HBox>
+      <Text fx:id="message" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="Message" wrappingWidth="492.0099868774414">
+         <font>
+            <Font name="Lexend Regular" size="13.0" />
+         </font>
+         <VBox.margin>
+            <Insets left="5.0" />
+         </VBox.margin>
+      </Text>
+   </children>
+</VBox>

@@ -51,7 +51,7 @@ public class ScreenController {
 		stage.show();
 	}
 
-	public void switchToLoginScene(MouseEvent event) throws IOException {
+	public void switchToLoginScene(MouseEvent event, boolean lgFlag) throws IOException {
 		System.out.println("Switching Scenes");
 
 		setPrimaryStage(AppController.getPrimaryStage());
@@ -69,15 +69,22 @@ public class ScreenController {
 			primaryStage.setY(mouseEvent.getScreenY() - yOffset);
 		});
 		// get dimensions of the window
-		double width = stage.getWidth();
-		double height = stage.getHeight();
+		double width;
+		double height;
+		if (!lgFlag) {
+			width = stage.getWidth();
+			height = stage.getHeight();
+		} else {
+			width = 1100;
+			height = 600;
+		}
 		scene = new Scene(root, width, height);
 		scene.setFill(Color.TRANSPARENT);
 		stage.setScene(scene);
 		stage.show();
 	}
 
-	public void switchToSPRegister(MouseEvent event) throws IOException {
+	public void switchToSPRegister(MouseEvent event, boolean lgFlag) throws IOException {
 		System.out.println("Switching Scenes");
 
 		setPrimaryStage(AppController.getPrimaryStage());
@@ -95,8 +102,16 @@ public class ScreenController {
 			primaryStage.setY(mouseEvent.getScreenY() - yOffset);
 		});
 		// get dimensions of the window
-		double width = stage.getWidth();
-		double height = stage.getHeight();
+
+		double width;
+		double height;
+		if (!lgFlag) {
+			width = stage.getWidth();
+			height = stage.getHeight();
+		} else {
+			width = 1100;
+			height = 600;
+		}
 		scene = new Scene(root, width, height);
 		scene.setFill(Color.TRANSPARENT);
 		stage.setScene(scene);
