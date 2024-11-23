@@ -14,17 +14,35 @@
    <children>
       <Pane layoutX="20.0" layoutY="34.0" prefHeight="462.0" prefWidth="625.0">
          <children>
-            <Text layoutX="-3.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="  Booking History" wrappingWidth="336.5413055419922">
-               <font>
-                  <Font name="Lexend Deca Regular" size="30.0" />
-               </font>
-            </Text>
-            <Line endX="513.4444580078125" endY="-23.666667938232422" layoutX="129.0" layoutY="45.0" startX="513.4444580078125" startY="435.0" stroke="#bebdbd" />
-            <ScrollPane layoutX="-3.0" layoutY="49.0" prefHeight="416.0" prefWidth="627.0" style="-fx-border-color: transparent;">
-               <content>
-                  <VBox prefHeight="425.0" prefWidth="623.0">
+            <HBox prefHeight="47.0" prefWidth="618.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bookings" wrappingWidth="419.5413055419922">
+                     <font>
+                        <Font name="Lexend Deca Regular" size="30.0" />
+                     </font>
+                  </Text>
+                  <HBox fx:id="tabPane" alignment="CENTER" prefHeight="100.0" prefWidth="177.0" spacing="10.0">
                      <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="57.0" prefWidth="549.0" spacing="30.0" style="-fx-background-color: #393351;" styleClass="bookingDetail" stylesheets="@../css/fullpackstyling.css">
+                        <Button fx:id="ongoingBTN" mnemonicParsing="false" style="-fx-background-color: transparent;" text="ACTIVE">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="13.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="doneBTN" mnemonicParsing="false" style="-fx-background-color: transparent;" text="HISTORY">
+                           <font>
+                              <Font name="Lexend Deca Medium" size="13.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <Line endX="513.4444580078125" endY="-23.666667938232422" layoutX="129.0" layoutY="45.0" startX="513.4444580078125" startY="435.0" stroke="#bebdbd" />
+            <ScrollPane fx:id="scrollPaneBooking" layoutX="-3.0" layoutY="49.0" prefHeight="416.0" prefWidth="627.0" style="-fx-border-color: transparent;">
+               <content>
+                  <VBox prefHeight="412.0" prefWidth="623.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="57.0" prefWidth="549.0" spacing="30.0" style="-fx-background-color: #0F6F78;" styleClass="bookingDetail" stylesheets="@../css/fullpackstyling.css">
                            <children>
                               <Text fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0">
                                  <font>
@@ -33,37 +51,37 @@
                               </Text>
                               <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="#" wrappingWidth="1.0">
                                  <font>
-                                    <Font name="Lexend Deca Medium" size="20.0" />
+                                    <Font name="Lexend Deca Medium" size="15.0" />
                                  </font>
                               </Text>
                               <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="BookingId" wrappingWidth="104.98779225349426">
                                  <font>
-                                    <Font name="Lexend Deca Medium" size="20.0" />
+                                    <Font name="Lexend Deca Medium" size="15.0" />
                                  </font>
                               </Text>
                               <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="BookingDate" wrappingWidth="135.78835272789001">
                                  <font>
-                                    <Font name="Lexend Deca Medium" size="20.0" />
+                                    <Font name="Lexend Deca Medium" size="15.0" />
                                  </font>
                               </Text>
                               <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" wrappingWidth="51.82276201248169">
                                  <font>
-                                    <Font name="Lexend Deca Medium" size="20.0" />
+                                    <Font name="Lexend Deca Medium" size="15.0" />
                                  </font>
                               </Text>
                               <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Type" wrappingWidth="50.93378496170044">
                                  <font>
-                                    <Font name="Lexend Deca Medium" size="20.0" />
+                                    <Font name="Lexend Deca Medium" size="15.0" />
                                  </font>
                               </Text>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Statue" wrappingWidth="70.48941802978516">
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Status" wrappingWidth="70.48941802978516">
                                  <font>
-                                    <Font name="Lexend Deca Medium" size="20.0" />
+                                    <Font name="Lexend Deca Medium" size="15.0" />
                                  </font>
                               </Text>
                            </children>
                         </HBox>
-                        <VBox fx:id="vbox" prefHeight="347.0" prefWidth="648.0">
+                        <VBox fx:id="vbox" prefHeight="352.0" prefWidth="623.0">
                         <children>
                         </children>
                         </VBox>
@@ -78,7 +96,7 @@
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
         </content>
       </ScrollPane>
-      <Button layoutX="684.0" layoutY="449.0" mnemonicParsing="false" onAction="#cancelbooking" prefHeight="40.0" prefWidth="167.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Cancel Booking" textFill="WHITE">
+      <Button fx:id="cancel" layoutX="688.0" layoutY="306.0" mnemonicParsing="false" onAction="#cancelbooking" prefHeight="40.0" prefWidth="167.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Cancel Booking" textFill="WHITE">
          <font>
             <Font name="Lexend Deca Medium" size="18.0" />
          </font>

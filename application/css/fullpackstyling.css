@@ -14,17 +14,17 @@
 }
 
 .button2 {
-    -fx-background-color: #393351;
+    -fx-background-color: #093337;
     -fx-background-radius: 20;
 }
 
 .button2:hover {
-    -fx-background-color: #524A7B;
+    -fx-background-color: #12646C;
     -fx-background-radius: 20;
 }
 
 .button2:pressed {
-    -fx-background-color: #2F2B43;
+    -fx-background-color: #093337;
     -fx-background-radius: 20;
 }
 
@@ -57,23 +57,59 @@
 }
 
 
+/* Style the ComboBox */
 .combo-box {
-    -fx-background-color: #141124;
-    -fx-border-color: #515658;
-    -fx-border-radius: 30;
+    -fx-background-color: #f0f0f0;
+    /* Light gray background */
+    -fx-border-color: #ccc;
+    /* Border color */
+    -fx-border-width: 2px;
+    /* Border width */
+    -fx-border-radius: 5px;
+    /* Rounded corners */
+    -fx-padding: 5px;
+    /* Padding inside the ComboBox */
+    -fx-font-size: 14px;
+    /* Font size */
+    -fx-text-fill: #333;
+    /* Text color */
+    -fx-font-family: "Lexend Deca";
+    /* Font family set to Lexend Deca */
+    -fx-font-size: 12px;
+    /* Font size set to 15px */
 }
 
-.combo-box:hover {
-    -fx-background-color: #141124;
-    -fx-border-color: #FFFF;
-    -fx-border-radius: 30;
+/* Style the drop-down button of the ComboBox */
+.combo-box .arrow {
+    -fx-background-color: #292b2e;
+    /* Blue background for the drop-down button */
+    -fx-background-radius: 5px;
+    /* Rounded corners */
+    -fx-padding: 3px;
+    /* Padding inside the button */
 }
 
-.combo-box:pressed {
-    -fx-background-color: #141124;
-    -fx-border-color: #FFFF;
-    -fx-border-radius: 30;
+/* Style the drop-down list */
+.combo-box .list-cell {
+    /* White background for list items */
+    -fx-text-fill: #333;
+    /* Text color for list items */
 }
+
+/* Hover effect on list items */
+.combo-box .list-cell:hover {
+    -fx-background-color: #e0e0e0;
+    /* Light gray background on hover */
+}
+
+
+
+/* Optional: Style the button when pressed */
+.combo-box .button:pressed {
+    -fx-background-color: #0056b3;
+    /* Darker blue when pressed */
+}
+
 
 .table-view .column-header,
 .table-view .column-header-background .filler {
@@ -307,4 +343,10 @@
 .transparent-bg-onactive-black:active,
 .transparent-bg-onactive-black:focus {
     background-color: black;
+}
+
+.text-field-error {
+    -fx-border-color: #993110;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
 }

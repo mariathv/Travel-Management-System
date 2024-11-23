@@ -1,13 +1,18 @@
 package application.Managers;
 
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import application.Model.BusService;
 import application.Model.ServiceProvider;
+import application.controllers.ServiceItemController;
 import application.controllers.dbHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.HBox;
 
 public class ServiceManager {
 
@@ -593,6 +598,93 @@ public class ServiceManager {
         }
 
         return busNumber;
+    }
+
+    public List<BusService> getAllBusServices() throws SQLException, ClassNotFoundException {
+
+        Connection connection = dbHandler.connect();
+        String query;
+        query = "SELECT " +
+                "ts.ServiceID, " +
+                "ts.ServiceProviderID, " +
+                "ts.Description, " +
+                "ts.ServiceType, " +
+                "ts.DepartureTime, " +
+                "ts.ArrivalTime, " +
+                "ts.DepartureLocation, " +
+                "ts.ArrivalLocation, " +
+                "ts.DepartureDate, " +
+                "ts.ArrivalDate, " +
+                "ts.ticketPrice, " +
+                "bs.BusNo, " +
+                "bs.StationName, " +
+                "bs.StationLocation " +
+                "FROM TravelService ts " +
+                "JOIN BusService bs ON ts.ServiceID = bs.ServiceID AND ts.status = 'ONGOING'";
+
+        PreparedStatement prepStatement = connection.prepareStatement(query);
+
+        ResultSet resultSet = prepStatement.executeQuery();
+
+        List<BusService> busServices = new ArrayList<>();
+        if (!resultSet.next()) {
+            System.out.println("> No Services Found for the specified locations.");
+            return busServices;
+        }
+        do {
+            // Store the result set values into local variables
+            String serviceType = resultSet.getString("ServiceType");
+            String arrivalTime = resultSet.getString("ArrivalTime");
+            String departureTime = resultSet.getString("DepartureTime");
+            String departureLocation = resultSet.getString("DepartureLocation");
+            String arrivalLocation = resultSet.getString("ArrivalLocation");
+            int price = resultSet.getInt("ticketPrice");
+            String departureDate = resultSet.getString("DepartureDate");
+            String arrivalDate = resultSet.getString("ArrivalDate");
+            int ServiceID = resultSet.getInt("ServiceID");
+            String description = resultSet.getString("Description");
+            int serviceProviderID = resultSet.getInt("ServiceProviderID");
+
+            String stationName = resultSet.getString("StationName");
+            String stationLocation = resultSet.getString("StationLocation");
+            String transportNumber = resultSet.getString("BusNo"); // Generic field for BusNo, FlightNumber
+
+            BusService busService = new BusService(stationName, stationLocation, transportNumber, ServiceID,
+                    serviceProviderID,
+                    description, serviceType, departureTime, arrivalTime, departureLocation, arrivalLocation,
+                    departureDate, arrivalDate);
+            busService.setPrice(price);
+            busServices.add(busService);
+
+        } while (resultSet.next());
+
+        return busServices;
+
+    }
+
+    public String getAgencyName(int serviceProviderID) throws ClassNotFoundException {
+        String sql = "SELECT travelAgencyName FROM serviceprovider WHERE serviceProviderID = ?";
+        String agency = "";
+        try (Connection connection = dbHandler.connect();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, serviceProviderID);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                agency = rs.getString("travelAgencyName");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (agency.equals("") || agency.isEmpty()) {
+            System.out.println("No travel agency name found for SP ID ->" + serviceProviderID);
+
+        }
+
+        return agency;
     }
 
 }

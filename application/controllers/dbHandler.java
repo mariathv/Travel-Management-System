@@ -22,13 +22,6 @@ public class dbHandler {
 	// method predefined for connecting to database to avoid redundancy
 	// adding static to make it available without creating an object
 	public static Connection connect() throws ClassNotFoundException, SQLException {
-
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			System.out.println("MySQL JDBC Driver not found.");
-		}
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection(url, username, pass);

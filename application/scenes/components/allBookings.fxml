@@ -12,7 +12,7 @@
    <children>
       <VBox>
          <children>
-            <HBox fx:id="sampleHBOX" alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="600.0" spacing="30.0" style="-fx-background-color: #CCD1D3;" styleClass="bookingDetail" stylesheets="@../../css/fullpackstyling.css">
+            <HBox fx:id="sampleHBOX" alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="549.0" spacing="30.0" style="-fx-background-color: transparent;" styleClass="bookingDetail" stylesheets="@../../css/fullpackstyling.css">
                <children>
                   <Text fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0">
                      <font>
