@@ -218,8 +218,13 @@
                         <Font name="Lexend Deca Regular" size="16.0" />
                      </font>
                   </Text>
+<<<<<<< HEAD
+                  <PasswordField fx:id="newPass" layoutX="18.0" layoutY="73.0" prefHeight="26.0" prefWidth="280.0" styleClass="semi-rect-pane-full" stylesheets="@../css/fullpackstyling.css" />
+                  <Button fx:id="confirmPassChange" layoutX="18.0" layoutY="132.0" mnemonicParsing="false" onAction="#confirmPasswordChange" prefHeight="7.0" prefWidth="84.0" styleClass="button-black-white" text="Confirm">
+=======
                   <PasswordField fx:id="newPass" layoutX="18.0" layoutY="99.0" prefHeight="26.0" prefWidth="280.0" styleClass="semi-rect-pane-full" stylesheets="@../css/fullpackstyling.css" />
                   <Button fx:id="confirmPassChange" layoutX="18.0" layoutY="158.0" mnemonicParsing="false" prefHeight="7.0" prefWidth="84.0" styleClass="button-black-white" text="Confirm">
+>>>>>>> 34ea5696b3e00f43dc30dcdd4a0e5b5c8b6d90fc
                      <stylesheets>
                         <URL value="@../css/loginRegisterModule.css" />
                         <URL value="@../css/fullpackstyling.css" />
@@ -258,7 +263,11 @@
                         <Font name="Lexend Deca Regular" size="11.0" />
                      </font>
                   </Button>
+<<<<<<< HEAD
+                  <TextField fx:id="newPhone" layoutX="18.0" layoutY="74.0" prefHeight="25.0" prefWidth="249.0" styleClass="semi-rect-pane-full" stylesheets="@../css/fullpackstyling.css">
+=======
                   <TextField fx:id="changePNField" alignment="TOP_LEFT" layoutX="18.0" layoutY="74.0" prefHeight="25.0" prefWidth="249.0" styleClass="semi-rect-pane-full" stylesheets="@../css/fullpackstyling.css">
+>>>>>>> 34ea5696b3e00f43dc30dcdd4a0e5b5c8b6d90fc
                      <font>
                         <Font name="Lexend Deca Regular" size="14.0" />
                      </font>
