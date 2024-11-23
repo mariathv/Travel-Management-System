@@ -93,7 +93,7 @@ public class BookingController {
                     bookingItemController itemController = fxmlloader.getController();
 
                     itemController.setData(serlnum++, booking.getUsername(),
-                            booking.getBookingDate(), String.valueOf(booking.getTotalPrice()));
+                            booking.getBookingDate(), String.valueOf(booking.getPrice()));
 
                     vBoxBookings.getChildren().add(hbox);
                 }
@@ -103,73 +103,75 @@ public class BookingController {
 
   private HBox currentlySelectedHBox; // Track the selected HBox
 
-public void loadData() throws SQLException, ClassNotFoundException {
-    Connection connection = dbHandler.connect();
-    String query;
-    vbox.getChildren().clear();
-    int x = 1; // Counter for serial numbers
+	public void loadData() throws SQLException, ClassNotFoundException {
+	    Connection connection = dbHandler.connect();
+	    String query;
+	    vbox.getChildren().clear();
+	    int x = 1; // Counter for serial numbers
+	
+	    // Unified query using UNION
+	    query = "SELECT bookingID, bookingDate, TotalPrice AS price, status, 'BUS' AS type " +
+	            "FROM travelbooking WHERE customerID = ? " +
+	            "UNION ALL " +
+	            "SELECT bookingID, bookingDate, price, status, 'BED' AS type " +
+	            "FROM hotelbooking WHERE customerID = ?";
+	
+	    try (PreparedStatement prepStatement = connection.prepareStatement(query)) {
+	        prepStatement.setInt(1, customer.getCustomerID());
+	        prepStatement.setInt(2, customer.getCustomerID());
+	
+	        try (ResultSet resultSet = prepStatement.executeQuery()) {
+	            if (!resultSet.isBeforeFirst()) { // Check if the result set is empty
+	                System.out.println("No Bookings Found");
+	                return;
+	            }
+	
+	            while (resultSet.next()) { // Start the loop here
+	                FXMLLoader fxmlloader = new FXMLLoader();
+	                fxmlloader.setLocation(getClass().getResource("../scenes/components/allBookings.fxml"));
+	
+	                try {
+	                    HBox hbox = fxmlloader.load();
+	                    AllBookingItemController allBookingItem = fxmlloader.getController();
+	
+	                    // Pass the data to the controller
+	                    String bookingID = resultSet.getString("bookingID");
+	                    String bookingDate = resultSet.getString("bookingDate");
+	                    String price = resultSet.getString("price");
+	                    String type = resultSet.getString("type");
+	                    int status = resultSet.getInt("status");
+	
+	                    allBookingItem.setData(x, bookingID, bookingDate, price, type, status);
+	
+	                    // Pass `bookingID` and `type` to the event handler
+	                    hbox.setOnMouseClicked(event -> {
+	                        Cancelbookingid = bookingID;
+	                        CancelType = type;
+	
+	                        // Reset the style of the previously selected HBox
+	                        if (currentlySelectedHBox != null) {
+	                            currentlySelectedHBox.setStyle("-fx-background-color: transparent;");
+	                        }
+	
+	                        // Highlight the selected HBox
+	                        hbox.setStyle("-fx-background-color: #393351;");
+	
+	                        // Update the reference to the currently selected HBox
+	                        currentlySelectedHBox = hbox;
+	                    });
+	
+	                    vbox.getChildren().add(hbox);
+	                    x++;
+	                } catch (IOException io) {
+	                    io.printStackTrace();
+	                }
+	            }
+	        }
+	    }
+	}
+   
 
-    // Unified query using UNION
-    query = "SELECT bookingID, bookingDate, TotalPrice AS price, status, 'BUS' AS type " +
-            "FROM travelbooking WHERE customerID = ? " +
-            "UNION ALL " +
-            "SELECT bookingID, bookingDate, price, status, 'BED' AS type " +
-            "FROM hotelbooking WHERE customerID = ?";
-
-    try (PreparedStatement prepStatement = connection.prepareStatement(query)) {
-        prepStatement.setInt(1, customer.getCustomerID());
-        prepStatement.setInt(2, customer.getCustomerID());
-
-        try (ResultSet resultSet = prepStatement.executeQuery()) {
-            if (!resultSet.isBeforeFirst()) { // Check if the result set is empty
-                System.out.println("No Bookings Found");
-                return;
-            }
-
-            while (resultSet.next()) { // Start the loop here
-                FXMLLoader fxmlloader = new FXMLLoader();
-                fxmlloader.setLocation(getClass().getResource("../scenes/components/allBookings.fxml"));
-
-                try {
-                    HBox hbox = fxmlloader.load();
-                    AllBookingItemController allBookingItem = fxmlloader.getController();
-
-                    // Pass the data to the controller
-                    String bookingID = resultSet.getString("bookingID");
-                    String bookingDate = resultSet.getString("bookingDate");
-                    String price = resultSet.getString("price");
-                    String type = resultSet.getString("type");
-                    int status = resultSet.getInt("status");
-
-                    allBookingItem.setData(x, bookingID, bookingDate, price, type, status);
-
-                    // Pass `bookingID` and `type` to the event handler
-                    hbox.setOnMouseClicked(event -> {
-                        Cancelbookingid = bookingID;
-                        CancelType = type;
-
-                        // Reset the style of the previously selected HBox
-                        if (currentlySelectedHBox != null) {
-                            currentlySelectedHBox.setStyle("-fx-background-color: transparent;");
-                        }
-
-                        // Highlight the selected HBox
-                        hbox.setStyle("-fx-background-color: #393351;");
-
-                        // Update the reference to the currently selected HBox
-                        currentlySelectedHBox = hbox;
-                    });
-
-                    vbox.getChildren().add(hbox);
-                    x++;
-                } catch (IOException io) {
-                    io.printStackTrace();
-                }
-            }
-        }
-    }
-}
-   public void cancelbooking() {
+	public void cancelbooking() {
         // Retrieve input values
        
         try {

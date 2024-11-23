@@ -20,7 +20,7 @@
                </font>
             </Text>
             <Line endX="513.4444580078125" endY="-23.666667938232422" layoutX="129.0" layoutY="45.0" startX="513.4444580078125" startY="435.0" stroke="#bebdbd" />
-            <ScrollPane layoutX="-3.0" layoutY="49.0" prefHeight="416.0" prefWidth="627.0" style="-fx-border-color: #fdfdfd;">
+            <ScrollPane layoutX="-3.0" layoutY="49.0" prefHeight="416.0" prefWidth="627.0" style="-fx-border-color: transparent;">
                <content>
                   <VBox prefHeight="425.0" prefWidth="623.0">
                      <children>
@@ -73,12 +73,12 @@
             </ScrollPane>
          </children>
       </Pane>
-      <ScrollPane fx:id="bookingsScroll" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #fdfdfd;" visible="false">
+      <ScrollPane fx:id="bookingsScroll" prefHeight="29.0" prefWidth="36.0" style="-fx-border-color: #fdfdfd;" visible="false">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
         </content>
       </ScrollPane>
-      <Button layoutX="688.0" layoutY="365.0" mnemonicParsing="false" onAction="#cancelbooking" prefHeight="40.0" prefWidth="167.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Cancel Booking" textFill="WHITE">
+      <Button layoutX="684.0" layoutY="449.0" mnemonicParsing="false" onAction="#cancelbooking" prefHeight="40.0" prefWidth="167.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Cancel Booking" textFill="WHITE">
          <font>
             <Font name="Lexend Deca Medium" size="18.0" />
          </font>

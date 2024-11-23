@@ -1,5 +1,10 @@
 package application.controllers;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import application.Main;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -16,6 +21,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -24,6 +31,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class ServiceProviderController {
 	@FXML
@@ -46,6 +54,11 @@ public class ServiceProviderController {
 	private FontAwesomeIcon gobackManage1, gobackManage2, icon;
 
 	private ServiceProvider serviceProvider;
+	
+	@FXML
+	private TextField newPhone;
+	@FXML
+	private PasswordField newPass1;
 	private ServiceManager serviceManager = new ServiceManager();
 	private BookingManager bookingManager = new BookingManager();
 
@@ -67,125 +80,164 @@ public class ServiceProviderController {
 		modify_phonePane.setVisible(true);
 	}
 
-	public void confirmPasswordChange() {
+	public void confirmPasswordChange() throws ClassNotFoundException, SQLException {
 		// will be implementing backend later
 		modify_passwordPane.setVisible(false);
 		modify_basePane.setVisible(true);
+	    String query = "UPDATE serviceproviderauth SET password = ? WHERE userID = ?";
+	    try (Connection connection = dbHandler.connect();
+	         PreparedStatement statement = connection.prepareStatement(query)) {
+	        statement.setString(1, newPass1.getText());
+	        statement.setInt(2, serviceProvider.getServiceProviderID());
+
+	        int rowsUpdated = statement.executeUpdate();
+	    }
 	}
 
-	public void confirmPhoneChange() {
+	public void confirmPhoneChange() throws ClassNotFoundException, SQLException {
 		// will be implementing backend later
+		serviceProvider.setPhoneNum(newPhone.getText());
 		modify_phonePane.setVisible(false);
 		modify_basePane.setVisible(true);
+		String query = "UPDATE serviceprovider SET phoneNum  = ? WHERE serviceProviderID = ?";
+	    try (Connection connection = dbHandler.connect();
+	         PreparedStatement statement = connection.prepareStatement(query)) {
+	        statement.setString(1, newPhone.getText());
+	        statement.setInt(2, serviceProvider.getServiceProviderID());
+	        statement.executeUpdate();
+	        
+	    }
+	    loadProfileData();
 	}
-
+	 
 	void loadRecentBookings() throws ClassNotFoundException, SQLException, IOException {
-		System.out.println("fetching recent bookings");
-		if (!serviceProvider.getServiceType().equals("Hotel")) {
+	    System.out.println("Fetching recent bookings");
+	    if (!serviceProvider.getServiceType().equals("Hotel")) {
+	        List<TravelBooking> travelBookings = bookingManager
+	                .getRecentBookingsByServiceProvider(serviceProvider.getServiceProviderID());
+	        if (travelBookings.isEmpty()) {
+	            System.out.println("Empty");
+	        }
+	        for (TravelBooking booking : travelBookings) {
+	            System.out.println("Loading " + booking.getBookingID());
+	            FXMLLoader fxmlloader = new FXMLLoader();
+	            fxmlloader.setLocation(getClass().getResource("../scenes/ServiceProviderHomePane.fxml"));
 
-			List<TravelBooking> travelBookings = bookingManager
-					.getRecentBookingsByServiceProvider(serviceProvider.getServiceProviderID());
-			if (travelBookings.isEmpty()) {
-				System.out.println("Epty");
-			}
-			for (TravelBooking booking : travelBookings) {
-				System.out.println("loading " + booking.getBookingID());
-				FXMLLoader fxmlloader = new FXMLLoader();
-				fxmlloader.setLocation(getClass().getResource("../scenes/ServiceProviderHomePane.fxml"));
+	            Parent root = fxmlloader.load();
 
-				Parent root = fxmlloader.load();
+	            HBox hboxTemplate = (HBox) fxmlloader.getNamespace().get("sampleHBOX");
+	            Text username = (Text) fxmlloader.getNamespace().get("username");
+	            Text bookingDate = (Text) fxmlloader.getNamespace().get("bookingDate");
+	            hboxTemplate.getChildren().remove(2);
 
-				HBox hboxTemplate = (HBox) fxmlloader.getNamespace().get("sampleHBOX");
-				Text username = (Text) fxmlloader.getNamespace().get("username");
-				Text bookingDate = (Text) fxmlloader.getNamespace().get("bookingDate");
-				hboxTemplate.getChildren().remove(2);
+	            username.setText(booking.getUsername());
+	            bookingDate.setText(booking.getBookingDate());
+	            Text Number = new Text(username.getText());
+	            Number.setFont(username.getFont());
+	            Number.setFill(username.getFill());
+	            Number.setStyle(username.getStyle());
 
-				username.setText(booking.getUsername());
-				bookingDate.setText(booking.getBookingDate());
-				Text Number = new Text(username.getText());
-				Number.setFont(username.getFont());
-				Number.setFill(username.getFill());
-				Number.setStyle(username.getStyle());
+	            if (serviceProvider.getServiceType().equals("Bus")) {
+	                Number.setText(serviceManager.getBusNumber(booking.getServiceID()));
+	            } else if (serviceProvider.getServiceType().equals("Train")) {
+	                Number.setText(serviceManager.getTrainNumber(booking.getServiceID()));
+	            } else if (serviceProvider.getServiceType().equals("Flight")) {
+	                Number.setText(serviceManager.getFlightNumber(booking.getServiceID()));
+	            } else {
+	                return;
+	            }
 
-				if (serviceProvider.getServiceType().equals("Bus")) {
-					Number.setText(serviceManager.getBusNumber(booking.getServiceID()));
-				} else if (serviceProvider.getServiceType().equals("Train")) {
-					Number.setText(serviceManager.getTrainNumber(booking.getServiceID()));
-				} else if (serviceProvider.getServiceType().equals("Flight")) {
-					Number.setText(serviceManager.getFlightNumber(booking.getServiceID()));
-				} else {
-					return;
-				}
+	            hboxTemplate.getChildren().add(Number);
+	            vBoxBookings.getChildren().add(hboxTemplate);
+	        }
+	    } else {
+	        List<HotelBooking> hotelBookings = bookingManager
+	                .getRecentHotelBookingsByServiceProvider(serviceProvider.getServiceProviderID());
+	        if (hotelBookings.isEmpty()) {
+	            System.out.println("Empty");
+	        }
+	        for (HotelBooking booking : hotelBookings) {
+	            System.out.println("Loading " + booking.getBookingID());
+	            FXMLLoader fxmlloader = new FXMLLoader();
+	            fxmlloader.setLocation(getClass().getResource("../scenes/ServiceProviderHomePane.fxml"));
 
-				hboxTemplate.getChildren().add(Number);
-				vBoxBookings.getChildren().add(hboxTemplate);
-			}
-		} else {
-			List<HotelBooking> hotelBookings = bookingManager
-					.getRecentHotelBookingsByServiceProvider(serviceProvider.getServiceProviderID());
-			if (hotelBookings.isEmpty()) {
-				System.out.println("Epty");
-			}
-			for (HotelBooking booking : hotelBookings) {
-				System.out.println("loading " + booking.getBookingID());
-				FXMLLoader fxmlloader = new FXMLLoader();
-				fxmlloader.setLocation(getClass().getResource("../scenes/ServiceProviderHomePane.fxml"));
+	            Parent root = fxmlloader.load();
 
-				Parent root = fxmlloader.load();
+	            HBox hboxTemplate = (HBox) fxmlloader.getNamespace().get("sampleHBOX");
+	            Text username = (Text) fxmlloader.getNamespace().get("username");
+	            Text bookingDate = (Text) fxmlloader.getNamespace().get("bookingDate");
+	            hboxTemplate.getChildren().remove(2);
 
-				HBox hboxTemplate = (HBox) fxmlloader.getNamespace().get("sampleHBOX");
-				Text username = (Text) fxmlloader.getNamespace().get("username");
-				Text bookingDate = (Text) fxmlloader.getNamespace().get("bookingDate");
-				hboxTemplate.getChildren().remove(2);
+	            username.setText(booking.getUsername());
+	            bookingDate.setText(booking.getBookingDate());
+	            Text Number = new Text(username.getText());
+	            Number.setFont(username.getFont());
+	            Number.setFill(username.getFill());
+	            Number.setStyle(username.getStyle());
 
-				username.setText(booking.getUsername());
-				bookingDate.setText(booking.getBookingDate());
-				Text Number = new Text(username.getText());
-				Number.setFont(username.getFont());
-				Number.setFill(username.getFill());
-				Number.setStyle(username.getStyle());
+	            Number.setText(booking.getRoomType());
 
-				Number.setText(booking.getRoomType());
-
-				hboxTemplate.getChildren().add(Number);
-				vBoxBookings.getChildren().add(hboxTemplate);
-			}
-		}
+	            hboxTemplate.getChildren().add(Number);
+	            vBoxBookings.getChildren().add(hboxTemplate);
+	        }
+	    }
 	}
 
 	void loadProfileData() throws ClassNotFoundException, SQLException {
-		flagFirst = false;
-		profileUsername.setText(serviceProvider.getUsername());
-		profileAgencyName.setText(serviceProvider.getAgencyName());
-		profileEmail.setText(serviceProvider.getEmail());
-		profileName.setText(serviceProvider.getUsername());
-		profilePhoneNum.setText(serviceProvider.getPhoneNum());
+	    flagFirst = false;
+	    profileUsername.setText(serviceProvider.getUsername());
+	    profileAgencyName.setText(serviceProvider.getAgencyName());
+	    profileEmail.setText(serviceProvider.getEmail());
+	    profileName.setText(serviceProvider.getUsername());
+	    profilePhoneNum.setText(serviceProvider.getPhoneNum());
 
-		int totalServices = serviceManager.getTotalServices(serviceProvider.getServiceProviderID());
-		int onGoingServices = serviceManager.getOnGoingServices(serviceProvider.getServiceProviderID());
-		int totalBookings = serviceManager.getTotalBookings(serviceProvider.getServiceProviderID());
+	    int totalServices = serviceManager.getTotalServices(serviceProvider.getServiceProviderID());
+	    int onGoingServices = serviceManager.getOnGoingServices(serviceProvider.getServiceProviderID());
+	    int totalBookings = serviceManager.getTotalBookings(serviceProvider.getServiceProviderID());
 
-		tServices.setText("" + totalServices);
-		tBookings.setText("" + totalBookings);
-		onServices.setText("" + onGoingServices);
+	    tServices.setText("" + totalServices);
+	    tBookings.setText("" + totalBookings);
+	    onServices.setText("" + onGoingServices);
 
-		int rating = serviceManager.getServiceProviderRating(serviceProvider.getServiceProviderID());
-		int totalFeedbacks;
-		if (serviceProvider.getServiceType().equals("Hotel")) {
-			totalFeedbacks = serviceManager.getTotalHotelFeedbacks(serviceProvider.getServiceProviderID());
-		} else {
-			totalFeedbacks = serviceManager.getTotalTravelFeedbacks(serviceProvider.getServiceProviderID());
-		}
-		ratingNum.setText("" + totalFeedbacks);
+	    int rating = serviceManager.getServiceProviderRating(serviceProvider.getServiceProviderID());
+	    int totalFeedbacks;
+	    if (serviceProvider.getServiceType().equals("Hotel")) {
+	        totalFeedbacks = serviceManager.getTotalHotelFeedbacks(serviceProvider.getServiceProviderID());
+	    } else {
+	        totalFeedbacks = serviceManager.getTotalTravelFeedbacks(serviceProvider.getServiceProviderID());
+	    }
+	    ratingNum.setText("" + totalFeedbacks);
 
-		for (int i = 0; i < rating; i++) {
-			FontAwesomeIcon fai = new FontAwesomeIcon();
-			fai.setGlyphName("STAR");
-			fai.setSize("2em");
-			hboxRating.getChildren().add(fai);
-		}
-
+	    for (int i = 0; i < rating; i++) {
+	        FontAwesomeIcon fai = new FontAwesomeIcon();
+	        fai.setGlyphName("STAR");
+	        fai.setSize("2em");
+	        hboxRating.getChildren().add(fai);
+	    }
 	}
+
+	public void Logout() {
+	    try {
+	        // Close the current stage
+	        Stage primaryStage = AppController.getPrimaryStage();
+	        primaryStage.close();
+
+	        // Restart the application
+	        Platform.runLater(() -> {
+	            try {
+	                Main mainApp = new Main();
+	                Stage newStage = new Stage();
+	                mainApp.start(newStage); // Call the start() method of Main
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            }
+	        });
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+
+
 
 	public void loadNewPanel() { // service pane
 		flagFirst = false;
