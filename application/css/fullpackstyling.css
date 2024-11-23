@@ -223,7 +223,10 @@
 .button-black-white:hover {
     -fx-background-color: white;
     /* White background on hover */
+    -fx-border-radius: 5px;
     -fx-text-fill: black;
+    -fx-border-color: black;
+    -fx-border-width: 2px;
     /* Black text on hover */
     -fx-border-color: white;
     /* White border on hover */
@@ -294,4 +297,14 @@
 
 .bookingDetail:hover {
     -fx-background-color: #69787F;
+}
+
+.transparent-bg-onactive-black {
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+}
+
+.transparent-bg-onactive-black:active,
+.transparent-bg-onactive-black:focus {
+    background-color: black;
 }

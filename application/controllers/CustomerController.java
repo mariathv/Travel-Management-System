@@ -27,9 +27,9 @@ public class CustomerController {
 	@FXML
 	private Text usernameCus; 
 	@FXML
-	private Text nameCus; 
+	private Text nameCus;
 	@FXML
-	private AnchorPane mainPanel_cus,selection,home; 
+	private AnchorPane mainPanel_cus, selection, home;
 	@FXML
 	private Button nav_home_cus, nav_notifs_cus, nav_profile_cus, nav_service_cus,nav_Bookings;
 	@FXML
@@ -43,9 +43,10 @@ public class CustomerController {
 	@FXML
 	private VBox NewVbox;
 	
+
 	public void setCustomer(Customer customer) {
-        this.customer = customer;
-        //updateDashboard();
+		this.customer = customer;
+		// updateDashboard();
 	}
 	
 	public void resetPassword() {
@@ -269,58 +270,6 @@ public class CustomerController {
 		currentTab = 4;
 	}
 	
-	/*
-	public void loadData() throws SQLException, ClassNotFoundException {
-	    Connection connection = dbHandler.connect();
-	    String query;
-	    vbox.getChildren().clear();
-	    int x = 1; // Counter for serial numbers
-
-	    // Unified query using UNION
-	    query = "SELECT bookingID, bookingDate, TotalPrice AS price, status, 'BUS' AS type " +
-	            "FROM travelbooking WHERE customerID = ? " +
-	            "UNION ALL " +
-	            "SELECT bookingID, bookingDate, price, status, 'BED' AS type " +
-	            "FROM hotelbooking WHERE customerID = ?";
-
-	    try (PreparedStatement prepStatement = connection.prepareStatement(query)) {
-	        prepStatement.setInt(1, customer.getCustomerID());
-	        prepStatement.setInt(2, customer.getCustomerID());
-
-	        try (ResultSet resultSet = prepStatement.executeQuery()) {
-	            if (!resultSet.isBeforeFirst()) { // Check if the result set is empty
-	                System.out.println("No Bookings Found");
-	                return;
-	            }
-
-	            while (resultSet.next()) { // Start the loop here
-	                FXMLLoader fxmlloader = new FXMLLoader();
-	                fxmlloader.setLocation(getClass().getResource("../scenes/components/allBookings.fxml"));
-
-	                try {
-	                    HBox hbox = fxmlloader.load();
-	                    AllBookingItemController allBookingItem = fxmlloader.getController();
-
-	                    // Pass the data to the controller
-	                    String bookingID = resultSet.getString("bookingID");
-	                    String bookingDate = resultSet.getString("bookingDate");
-	                    String price = resultSet.getString("price");
-	                    String type = resultSet.getString("type");
-	                    int status = resultSet.getInt("status");
-	                    if(status == 0)
-	                    	continue;
-	                    allBookingItem.setData(x, bookingID, bookingDate, price, type, status);
-
-	                    vbox.getChildren().add(hbox);
-	                    x++;
-	                } catch (IOException io) {
-	                    io.printStackTrace();
-	                }
-	            }
-	        }
-	    }
-	}
-	*/
 	private void changeBackButtonBG() {
 		switch(currentTab) {
 		case 1: nav_home_cus.setStyle("-fx-background-color:  #393D46;"); System.out.println("changed bg color"); break;
@@ -330,18 +279,18 @@ public class CustomerController {
 		case 5: nav_Bookings.setStyle("-fx-background-color:  #393D46;"); System.out.println("changed bg color"); break;
 		}
 	}
-	
+
 	private void updateDashboard() {
-	    if (usernameCus != null && nameCus != null && customer != null) { 
-	        usernameCus.setText(customer.getUsername());
-	        nameCus.setText(customer.getName());
-	    } else {
-	        System.out.println("Error: usernameCus, nameCus, or customer is null.");
-	    }
+		if (usernameCus != null && nameCus != null && customer != null) {
+			usernameCus.setText(customer.getUsername());
+			nameCus.setText(customer.getName());
+		} else {
+			System.out.println("Error: usernameCus, nameCus, or customer is null.");
+		}
 	}
-	
+
 	public void exitApplication() {
-	    Platform.exit(); 
+		Platform.exit();
 	}
-	
+
 }

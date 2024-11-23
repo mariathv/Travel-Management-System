@@ -35,6 +35,10 @@ public class HotelBooking {
         return bookingID;
     }
 
+    public String getRoomType() {
+        return roomType;
+    }
+
     public void setBookingID(int bookingID) {
         this.bookingID = bookingID;
     }
@@ -63,9 +67,6 @@ public class HotelBooking {
         this.price = price;
     }
 
-    public String getRoomType() {
-        return roomType;
-    }
 
     public void setRoomType(String roomType) {
         this.roomType = roomType;

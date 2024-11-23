@@ -3,14 +3,11 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
@@ -19,42 +16,116 @@
 
 <AnchorPane prefHeight="531.0" prefWidth="886.0" style="-fx-background-color: #DDDDDD; -fx-background-radius: 10;" stylesheets="@../css/fullpackstyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.ServiceController">
    <children>
-      <Pane fx:id="sideInfoPane" layoutX="616.0" layoutY="41.0" prefHeight="474.0" prefWidth="240.0" visible="false">
+      <Pane fx:id="sideInfoPane" layoutX="616.0" layoutY="41.0" prefHeight="474.0" prefWidth="240.0">
          <children>
             <Pane layoutX="7.0" layoutY="14.0" prefHeight="298.0" prefWidth="227.0" style="-fx-background-radius: 20;" styleClass="linear-grad" stylesheets="@../css/fullpackstyling.css">
                <children>
-                  <VBox layoutX="11.0" layoutY="19.0" prefHeight="263.0" prefWidth="204.0">
+                  <VBox alignment="CENTER_LEFT" layoutX="11.0" layoutY="19.0" prefHeight="263.0" prefWidth="201.0">
                      <children>
-                        <Text fx:id="infoServiceType" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="ServiceType">
+                        <Text fx:id="dateInfo" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Date:" underline="true" wrappingWidth="209.2000732421875">
                            <font>
-                              <Font name="Lexend Deca Bold" size="24.0" />
+                              <Font name="Lexend Deca Bold" size="16.0" />
                            </font>
                         </Text>
-                        <HBox alignment="CENTER_LEFT" prefHeight="74.0" prefWidth="200.0">
+                        <Pane nodeOrientation="RIGHT_TO_LEFT" prefHeight="28.0" prefWidth="212.0">
                            <children>
-                              <ImageView fx:id="imageViewInfo" fitHeight="60.0" fitWidth="92.0" pickOnBounds="true" preserveRatio="true" />
+                              <FontAwesomeIcon fx:id="markDoneBtn" fill="WHITE" glyphName="CHECK_SQUARE" layoutX="9.0" layoutY="21.0" onMouseClicked="#markServiceDone" size="2em" wrappingWidth="218.39999999999986" />
+                              <HBox alignment="CENTER" layoutX="116.0" layoutY="-1.0" onMouseClicked="#editServiceForm" prefHeight="28.0" prefWidth="63.0" spacing="5.0">
+                                 <children>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Details">
+                                       <font>
+                                          <Font name="Lexend Medium" size="11.0" />
+                                       </font>
+                                    </Text>
+                                    <FontAwesomeIcon fill="WHITE" glyphName="EDIT" size="2em" wrappingWidth="24.800048828125" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </Pane>
+                        <Text fx:id="infoServiceType" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="ServiceType" wrappingWidth="166.0">
+                           <font>
+                              <Font name="Lexend Deca Bold" size="14.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="infoServiceType1" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="No." wrappingWidth="162.0">
+                           <font>
+                              <Font name="Lexend Deca Bold" size="22.0" />
+                           </font>
+                        </Text>
+                        <HBox alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="212.0">
+                           <children>
                               <Text fx:id="infoBusNo" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" BUSNO">
                                  <font>
-                                    <Font name="Lexend Deca Bold" size="23.0" />
+                                    <Font name="Lexend Deca Bold" size="31.0" />
                                  </font>
                               </Text>
                            </children>
                         </HBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
+                        <HBox alignment="CENTER" prefHeight="102.0" prefWidth="210.0">
                            <children>
-                              <Text fx:id="depLocInfo" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Departure" wrappingWidth="185.3367156982422">
-                                 <font>
-                                    <Font name="Lexend Deca Medium" size="26.0" />
-                                 </font>
-                              </Text>
-                              <FontAwesomeIcon fill="WHITE" glyphName="ARROW_DOWN" selectionFill="#e1e1e1" size="5em" />
-                              <Text fx:id="arvLocInfo" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Arrival" wrappingWidth="185.3367156982422">
-                                 <font>
-                                    <Font name="Lexend Deca Medium" size="26.0" />
-                                 </font>
-                              </Text>
+                              <VBox prefHeight="150.0" prefWidth="89.0">
+                                 <children>
+                                    <Text fx:id="infoServiceType2" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Location" underline="true" wrappingWidth="81.2000732421875">
+                                       <font>
+                                          <Font name="Lexend Deca Bold" size="16.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fx:id="infoServiceType21" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Departure:" wrappingWidth="92.4000244140625">
+                                       <font>
+                                          <Font name="Lexend Deca Bold" size="12.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fx:id="depLocInfo" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Departure" wrappingWidth="70.13676452636719">
+                                       <font>
+                                          <Font name="Lexend Deca Medium" size="12.0" />
+                                       </font>
+                                    </Text>
+                                    <Separator prefWidth="200.0" />
+                                    <Text fx:id="infoServiceType211" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Arrival:" wrappingWidth="57.199951171875">
+                                       <font>
+                                          <Font name="Lexend Deca Bold" size="12.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fx:id="arvLocInfo" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Arrival" wrappingWidth="87.73674774169922">
+                                       <font>
+                                          <Font name="Lexend Deca Medium" size="12.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </VBox>
+                              <Separator orientation="VERTICAL" prefHeight="150.0" prefWidth="0.0" />
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Text fx:id="infoServiceType22" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Time:" underline="true" wrappingWidth="81.2000732421875">
+                                       <font>
+                                          <Font name="Lexend Deca Bold" size="16.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fx:id="infoServiceType212" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Departure:" wrappingWidth="92.4000244140625">
+                                       <font>
+                                          <Font name="Lexend Deca Bold" size="12.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fx:id="depTimeInfo" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Departure" wrappingWidth="70.13676452636719">
+                                       <font>
+                                          <Font name="Lexend Deca Medium" size="12.0" />
+                                       </font>
+                                    </Text>
+                                    <Separator prefWidth="200.0" />
+                                    <Text fx:id="infoServiceType2111" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Arrival:" wrappingWidth="57.199951171875">
+                                       <font>
+                                          <Font name="Lexend Deca Bold" size="12.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fx:id="arvTimeInfo" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Arrival" wrappingWidth="87.73674774169922">
+                                       <font>
+                                          <Font name="Lexend Deca Medium" size="12.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
+                        </HBox>
                      </children>
                   </VBox>
                </children>
@@ -71,7 +142,7 @@
                         <Font name="Lexend Deca Medium" size="18.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="218.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="View Feedbacks" textFill="WHITE">
+                  <Button fx:id="viewFeedbacks" mnemonicParsing="false" onAction="#displayFeedbacks" prefHeight="36.0" prefWidth="218.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="View Feedbacks" textFill="WHITE">
                      <font>
                         <Font name="Lexend Deca Medium" size="18.0" />
                      </font>
@@ -80,7 +151,7 @@
             </VBox>
          </children>
       </Pane>
-      <Pane fx:id="hotelServicePane" layoutX="626.0" layoutY="51.0" prefHeight="414.0" prefWidth="240.0" visible="false">
+      <Pane fx:id="hotelServicePane" layoutX="626.0" layoutY="51.0" prefHeight="454.0" prefWidth="240.0" visible="false">
          <children>
             <Pane layoutX="7.0" layoutY="14.0" prefHeight="298.0" prefWidth="227.0" style="-fx-background-radius: 20;" styleClass="linear-grad" stylesheets="@../css/fullpackstyling.css">
                <children>
@@ -147,36 +218,50 @@
                   </VBox>
                </children>
             </Pane>
-            <GridPane layoutX="14.0" layoutY="312.0" prefHeight="103.0" prefWidth="218.0">
-               <columnConstraints>
-                  <ColumnConstraints />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="68.4" minHeight="10.0" prefHeight="68.4" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="35.9999755859375" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="55.20004882812499" minHeight="10.0" prefHeight="32.80002441406249" vgrow="SOMETIMES" />
-               </rowConstraints>
+            <VBox alignment="TOP_CENTER" layoutY="321.0" prefHeight="132.0" prefWidth="240.0" spacing="8.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="212.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="View Feedbacks" textFill="WHITE" GridPane.columnIndex="1">
+                  <Button fx:id="removeButton1" mnemonicParsing="false" onAction="#removeSelectedService" prefHeight="23.0" prefWidth="218.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Remove Service" textFill="WHITE">
                      <font>
                         <Font name="Lexend Deca Medium" size="18.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="212.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Cancel Service" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Button fx:id="viewBookings1" mnemonicParsing="false" onAction="#displayBookings" prefHeight="34.0" prefWidth="218.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="View Bookings" textFill="WHITE">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="viewFeedbacks1" mnemonicParsing="false" onAction="#displayFeedbacks" prefHeight="36.0" prefWidth="218.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="View Feedbacks" textFill="WHITE">
                      <font>
                         <Font name="Lexend Deca Medium" size="18.0" />
                      </font>
                   </Button>
                </children>
-            </GridPane>
+            </VBox>
          </children>
       </Pane>
-      <Text layoutX="53.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Services">
-         <font>
-            <Font name="Lexend Deca Regular" size="34.0" />
-         </font>
-      </Text>
+      <HBox layoutX="49.0" layoutY="31.0" prefHeight="52.0" prefWidth="413.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Services">
+               <font>
+                  <Font name="Lexend Deca Regular" size="34.0" />
+               </font>
+            </Text>
+            <HBox fx:id="tabPane" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Button fx:id="ongoingBTN" mnemonicParsing="false" style="-fx-background-color: transparent;" text="ONGOING">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="13.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="doneBTN" mnemonicParsing="false" style="-fx-background-color: transparent;" text="CLOSED">
+                     <font>
+                        <Font name="Lexend Deca Medium" size="13.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
       <Button fx:id="addNewServiceBtn" layoutX="470.0" layoutY="41.0" mnemonicParsing="false" onAction="#addNewServiceForm" prefHeight="32.0" prefWidth="133.0" styleClass="semi-rect-button-full-1" stylesheets="@../css/loginRegisterModule.css" text="Add New Service">
          <font>
             <Font name="Lexend Deca Regular" size="13.0" />
@@ -190,7 +275,7 @@
                   <VBox fx:id="servicesCont" prefHeight="374.0" prefWidth="542.0" style="-fx-background-color: #DDDDDD;" />
                </content>
             </ScrollPane>
-            <Pane fx:id="addServicePane" prefHeight="382.0" prefWidth="538.0" visible="false">
+            <Pane fx:id="addServicePane" prefHeight="382.0" prefWidth="538.0">
                <children>
                   <Text fx:id="serviceTypeAddText" layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add New Service" wrappingWidth="185.3367156982422">
                      <font>
@@ -370,7 +455,7 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#addNewService" prefHeight="38.0" prefWidth="155.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Add" textFill="WHITE">
+                              <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addNewService" prefHeight="38.0" prefWidth="155.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Add" textFill="WHITE">
                                  <font>
                                     <Font name="Lexend Deca Medium" size="18.0" />
                                  </font>
@@ -508,6 +593,7 @@
                </children>
             </Pane>
             <Pane fx:id="bookingsDisplayPane" prefHeight="382.0" prefWidth="538.0" visible="false" />
+            <Pane fx:id="feedbacksDisplayPane" prefHeight="382.0" prefWidth="538.0" visible="false" />
          </children>
       </StackPane>
       <FontAwesomeIcon fx:id="goBackView" glyphName="ARROW_LEFT" layoutX="569.0" layoutY="64.0" onMouseClicked="#displayServices" size="2em" visible="false" />

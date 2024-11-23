@@ -1,17 +1,35 @@
 package application.Model;
 
 public abstract class TravelService {
-	int serviceID;
-	int serviceProviderID;
-	String description;
-	String serviceType;
-	String departureTime;
-	String arrivalTime;
-	String departureLocation;
-	String arrivalLocation;
-	String arrivalDate;
-	String departureDate;
-	
+    int serviceID;
+    int serviceProviderID;
+    String description;
+    String serviceType;
+    String departureTime;
+    String arrivalTime;
+    String departureLocation;
+    String arrivalLocation;
+    String arrivalDate;
+    String departureDate;
+    String status;
+    int price;
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int p) {
+        this.price = p;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public int getServiceID() {
         return serviceID;
     }

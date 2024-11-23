@@ -154,9 +154,9 @@ public class authController {
 						String emailSP = resultSet3.getString("email");
 						String agencyName = resultSet3.getString("travelAgencyName");
 						String serviceType = resultSet3.getString("serviceType");
-
+						String phoneNum = resultSet3.getString("phoneNum");
 						serviceProvider = new ServiceProvider(id, emailSP, username.getText(), agencyName, serviceType);
-
+						serviceProvider.setPhoneNum(phoneNum);
 						// Redirect to the service provider home screen
 						screenController.switchToSPHome(event, serviceProvider);
 					} else {
@@ -179,7 +179,7 @@ public class authController {
 	}
 
 	public void BacktoLogin(MouseEvent event) throws SQLException, ClassNotFoundException, IOException {
-		screenController.switchToLoginScene(event);
+		screenController.switchToLoginScene(event, false);
 	}
 
 	public void RegisterServiceProvider(MouseEvent event) throws SQLException, ClassNotFoundException, IOException {
@@ -242,6 +242,7 @@ public class authController {
 
 	}
 
+	@FXML
 	public void onUpdateComboBox() {
 		System.out.println("combo box value changed");
 		String selc = ComboSTypes.getValue();

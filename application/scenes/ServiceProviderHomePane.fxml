@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
@@ -38,36 +41,24 @@
          </children>
       </Pane>
       <Line endX="100.0" layoutX="445.0" layoutY="54.0" startX="100.0" startY="418.0" stroke="#b9b1b1" strokeDashOffset="2.0" />
-      <Line endX="323.0" endY="-1.399993896484375" layoutX="190.0" layoutY="246.0" startX="-135.0" startY="-1.399993896484375" stroke="#00adb4" />
-      <BorderPane layoutX="24.0" layoutY="47.0" prefHeight="187.0" prefWidth="503.0">
-         <top>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Recent Bookings" BorderPane.alignment="CENTER">
-               <font>
-                  <Font name="Lexend Deca Regular" size="14.0" />
-               </font>
-            </Text>
-         </top>
-         <center>
-            <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #DDDDDD; -fx-background-radius: 20;" BorderPane.alignment="CENTER" />
-         </center>
-      </BorderPane>
-      <SplitPane dividerPositions="0.5051107325383305" layoutX="42.0" layoutY="272.0" prefHeight="140.0" prefWidth="471.0" style="-fx-background-color: #212832; -fx-background-radius: 10;">
+      <Line endX="323.0" endY="-1.399993896484375" layoutX="181.0" layoutY="313.0" startX="-135.0" startY="-1.399993896484375" stroke="#00adb4" />
+      <SplitPane dividerPositions="0.5051107325383305" layoutX="40.0" layoutY="333.0" prefHeight="140.0" prefWidth="471.0" style="-fx-background-color: #212832; -fx-background-radius: 10;">
          <items>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="145.0" prefWidth="234.0">
                <children>
-                  <Text fill="WHITE" layoutX="9.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Earnings">
+                  <Text fill="WHITE" layoutX="9.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Earnings">
                      <font>
                         <Font name="Lexend Deca Medium" size="19.0" />
                      </font>
                   </Text>
-                  <Text fill="WHITE" layoutX="154.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="7-Days">
+                  <Text fill="WHITE" layoutX="178.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0">
                      <font>
                         <Font name="Lexend Deca Medium" size="19.0" />
                      </font>
                   </Text>
-                  <Text fill="WHITE" layoutX="82.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="------">
+                  <Text fx:id="totalEarnings" fill="WHITE" layoutX="15.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="------" textAlignment="CENTER" wrappingWidth="203.2200164794922">
                      <font>
-                        <Font name="Lexend Deca Medium" size="30.0" />
+                        <Font name="Lexend Deca Medium" size="33.0" />
                      </font>
                   </Text>
                </children>
@@ -90,7 +81,7 @@
                   <Font name="Lexend Deca Medium" size="18.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" graphicTextGap="10.0" mnemonicParsing="false" onAction="#Logout" prefHeight="26.0" prefWidth="194.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Logout" textFill="WHITE">
+            <Button fx:id="logoutBtn" alignment="CENTER" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="194.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Logout" textFill="WHITE">
                <font>
                   <Font name="Lexend Deca Medium" size="18.0" />
                </font>
@@ -104,5 +95,43 @@
             </Button>
          </children>
       </VBox>
+      <Pane layoutX="45.0" layoutY="39.0" prefHeight="262.0" prefWidth="459.0">
+         <children>
+            <Text layoutX="165.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recent Bookings">
+               <font>
+                  <Font name="Lexend Deca Regular" size="14.0" />
+               </font>
+            </Text>
+            <ScrollPane fx:id="bookingsScroll" layoutY="34.0" prefHeight="228.0" prefWidth="459.0">
+               <content>
+                  <VBox fx:id="vBoxBookings" prefHeight="218.0" prefWidth="451.0">
+                     <children>
+                        <HBox fx:id="sampleHBOX" alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="448.0" spacing="10.0" style="-fx-background-color: #CCD1D3;" styleClass="bookingDetail" stylesheets="@../css/fullpackstyling.css">
+                           <children>
+                              <Text fx:id="username" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" wrappingWidth="137.6099395751953">
+                                 <font>
+                                    <Font name="Lexend Deca Medium" size="15.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="bookingDate" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="BookingDate" wrappingWidth="180.85499620437622">
+                                 <font>
+                                    <Font name="Lexend Deca Medium" size="15.0" />
+                                 </font>
+                              </Text>
+                              <FontAwesomeIcon fx:id="icon" glyphName="BUS" size="1.5em" />
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
