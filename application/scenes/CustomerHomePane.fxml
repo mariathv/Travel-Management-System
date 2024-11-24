@@ -13,7 +13,7 @@
    <children>
       <Pane layoutX="569.0" layoutY="46.0" prefHeight="297.0" prefWidth="270.0" style="-fx-background-radius: 20;" styleClass="linear-grad" stylesheets="@../css/fullpackstyling.css">
          <children>
-            <VBox alignment="TOP_CENTER" layoutX="16.0" layoutY="12.0" prefHeight="265.0" prefWidth="243.0">
+            <VBox alignment="TOP_CENTER" layoutX="16.0" layoutY="12.0" prefHeight="265.0" prefWidth="243.0" spacing="10.0">
                <children>
                   <ImageView fitHeight="170.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -25,6 +25,7 @@
                         <Font name="Lexend Deca Bold" size="18.0" />
                      </font>
                   </Text>
+                  <Line endX="100.0" startX="-100.0" />
                   <Text fx:id="usernameCus" boundsType="LOGICAL_VERTICAL_CENTER" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Name" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="147.72601318359375">
                      <font>
                         <Font name="Lexend Deca Bold" size="18.0" />
@@ -35,6 +36,6 @@
          </children>
       </Pane>
       <Line endX="100.0" layoutX="445.0" layoutY="54.0" startX="100.0" startY="418.0" stroke="#807373" strokeDashOffset="2.0" />
-      <Line endX="323.0" endY="-1.399993896484375" layoutX="187.0" layoutY="402.0" startX="-135.0" startY="-1.399993896484375" stroke="#00adb4" />
+      <Line endX="323.0" endY="-1.399993896484375" layoutX="187.0" layoutY="402.0" startX="-135.0" startY="-1.399993896484375" stroke="#949494" />
    </children>
 </AnchorPane>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox prefHeight="99.0" prefWidth="261.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.notificationItemController">
+   <children>
+      <HBox alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="261.0">
+         <children>
+            <Text fx:id="notif_date" boundsType="LOGICAL_VERTICAL_CENTER" fill="#404040" strokeType="OUTSIDE" strokeWidth="0.0" text="11/12/23" textOrigin="CENTER" wrappingWidth="162.9481658935547">
+               <font>
+                  <Font name="Lexend Deca Regular" size="11.0" />
+               </font>
+            </Text>
+            <Pane prefHeight="25.0" prefWidth="92.0" style="-fx-background-color: #5F9FA5; -fx-background-radius: 10; -fx-border-color: white; -fx-border-radius: 10;">
+               <children>
+                  <Text fx:id="notif_tag" fill="WHITE" layoutX="16.0" layoutY="17.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TAG" textAlignment="CENTER" wrappingWidth="59.875999450683594">
+                     <font>
+                        <Font name="Lexend Medium" size="12.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="72.0" prefWidth="228.0" spacing="10.0">
+         <children>
+            <FontAwesomeIcon fx:id="notif_icon" fill="#0a2628" glyphName="BUS" size="2.5em" wrappingWidth="26.0" />
+            <VBox alignment="CENTER" prefHeight="73.0" prefWidth="230.0" spacing="5.0">
+               <children>
+                  <Text fx:id="notif_message" boundsType="LOGICAL_VERTICAL_CENTER" fill="#4d4d4d" strokeType="OUTSIDE" strokeWidth="0.0" text="sdaofhjasuifysaiufyhaufyhasiufyusfuaiyfsiufyasiuyfiasyfi" textOrigin="CENTER" wrappingWidth="214.9481658935547">
+                     <font>
+                        <Font name="Lexend Deca Regular" size="12.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="notif_agency" boundsType="LOGICAL_VERTICAL_CENTER" strokeType="OUTSIDE" strokeWidth="0.0" text="- Travel Agency" textOrigin="CENTER" wrappingWidth="214.9481658935547">
+                     <font>
+                        <Font name="Lexend Deca Regular" size="14.0" />
+                     </font>
+                  </Text>
+               </children>
+            </VBox>
+         </children>
+         <VBox.margin>
+            <Insets left="5.0" top="5.0" />
+         </VBox.margin>
+      </HBox>
+   </children>
+</VBox>

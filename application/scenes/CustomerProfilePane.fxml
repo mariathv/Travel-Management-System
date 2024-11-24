@@ -229,5 +229,17 @@
             </Pane>
          </children>
       </StackPane>
+      <Button alignment="CENTER" graphicTextGap="10.0" layoutX="567.0" layoutY="482.0" mnemonicParsing="false" onMouseClicked="#Logout" prefHeight="26.0" prefWidth="194.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Logout" textFill="WHITE">
+         <font>
+            <Font name="Lexend Deca Medium" size="18.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="18.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/images/pngs/logout.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>

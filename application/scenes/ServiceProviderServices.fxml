@@ -16,7 +16,7 @@
 
 <AnchorPane prefHeight="531.0" prefWidth="886.0" style="-fx-background-color: #DDDDDD; -fx-background-radius: 10;" stylesheets="@../css/fullpackstyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.ServiceController">
    <children>
-      <Pane fx:id="sideInfoPane" layoutX="616.0" layoutY="41.0" prefHeight="474.0" prefWidth="240.0">
+      <Pane fx:id="sideInfoPane" layoutX="616.0" layoutY="41.0" prefHeight="474.0" prefWidth="240.0" visible="false">
          <children>
             <Pane layoutX="7.0" layoutY="14.0" prefHeight="298.0" prefWidth="227.0" style="-fx-background-radius: 20;" styleClass="linear-grad" stylesheets="@../css/fullpackstyling.css">
                <children>
@@ -151,7 +151,7 @@
             </VBox>
          </children>
       </Pane>
-      <Pane fx:id="hotelServicePane" layoutX="626.0" layoutY="51.0" prefHeight="454.0" prefWidth="240.0" visible="false">
+      <Pane fx:id="hotelServicePane" layoutX="626.0" layoutY="51.0" prefHeight="454.0" prefWidth="240.0">
          <children>
             <Pane layoutX="7.0" layoutY="14.0" prefHeight="298.0" prefWidth="227.0" style="-fx-background-radius: 20;" styleClass="linear-grad" stylesheets="@../css/fullpackstyling.css">
                <children>
@@ -205,9 +205,9 @@
                               <Font name="Lexend Deca Medium" size="14.0" />
                            </font>
                         </Text>
-                        <HBox fx:id="infoRatingBox" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                        <HBox fx:id="infoRatingBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="(num)">
+                              <Text fx:id="hotelRatingNum" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="(num)">
                                  <font>
                                     <Font name="Lexend Deca Medium" size="14.0" />
                                  </font>
@@ -275,7 +275,7 @@
                   <VBox fx:id="servicesCont" prefHeight="374.0" prefWidth="542.0" style="-fx-background-color: #DDDDDD;" />
                </content>
             </ScrollPane>
-            <Pane fx:id="addServicePane" prefHeight="382.0" prefWidth="538.0">
+            <Pane fx:id="addServicePane" prefHeight="382.0" prefWidth="538.0" visible="false">
                <children>
                   <Text fx:id="serviceTypeAddText" layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add New Service" wrappingWidth="185.3367156982422">
                      <font>
@@ -461,14 +461,28 @@
                                  </font>
                               </Button>
                               <VBox prefHeight="82.0" prefWidth="126.0" />
-                              <VBox alignment="TOP_RIGHT" prefHeight="82.0" prefWidth="281.0">
+                              <VBox alignment="TOP_RIGHT" prefHeight="63.0" prefWidth="205.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ticket Price:" wrappingWidth="262.93669080734253">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ticket Price:" wrappingWidth="215.93669080734253">
                                        <font>
                                           <Font name="Lexend Deca Medium" size="19.0" />
                                        </font>
                                     </Text>
-                                    <TextField fx:id="StktPrice" prefHeight="52.0" prefWidth="254.0" promptText="Price" style="-fx-background-color: transparent;" styleClass="text-field-with-bottom-border" stylesheets="@../css/loginRegisterModule.css">
+                                    <TextField fx:id="StktPrice" prefHeight="39.0" prefWidth="191.0" promptText="Price" style="-fx-background-color: transparent;" styleClass="text-field-with-bottom-border" stylesheets="@../css/loginRegisterModule.css">
+                                       <font>
+                                          <Font name="Lexend Deca Medium" size="20.0" />
+                                       </font>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="TOP_RIGHT" prefHeight="63.0" prefWidth="192.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Seats:" wrappingWidth="149.93669080734253">
+                                       <font>
+                                          <Font name="Lexend Deca Medium" size="19.0" />
+                                       </font>
+                                    </Text>
+                                    <TextField fx:id="totalSeats" prefHeight="39.0" prefWidth="176.0" promptText="Total Seats" style="-fx-background-color: transparent;" styleClass="text-field-with-bottom-border-1" stylesheets="@../css/loginRegisterModule.css">
                                        <font>
                                           <Font name="Lexend Deca Medium" size="20.0" />
                                        </font>

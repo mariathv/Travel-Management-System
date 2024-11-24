@@ -5,15 +5,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import application.Main;
+import application.Managers.ServiceManager;
 import application.Model.Customer;
+import application.Model.Notifications;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -31,7 +36,7 @@ public class CustomerController {
 	@FXML
 	private AnchorPane mainPanel_cus, selection, home;
 	@FXML
-	private Button nav_home_cus, nav_notifs_cus, nav_profile_cus, nav_service_cus, nav_Bookings;
+	private Button nav_home_cus, nav_profile_cus, nav_service_cus, nav_Bookings;
 	@FXML
 	private Text cusID, profileName, profileEmail, profilePhoneNum, total, travel, hotel;
 	@FXML
@@ -41,11 +46,14 @@ public class CustomerController {
 	@FXML
 	private PasswordField newPass;
 	@FXML
-	private VBox NewVbox;
+	private VBox NewVbox, notifBox;
 	@FXML
-	private ScrollPane homeBookingScroll;
+	private ScrollPane homeBookingScroll, notifScroll;
 
 	ScreenController screenController = new ScreenController();
+
+	List<Notifications> notifs = new ArrayList<>();
+	ServiceManager serviceManager = new ServiceManager();
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
@@ -154,11 +162,10 @@ public class CustomerController {
 			mainPanel_cus.getChildren().setAll(newPanel);
 			changeBackButtonBG();
 			nav_home_cus.setStyle("-fx-background-color:  #212832;-fx-background-radius: 30px 0 0 30px;");
-			updateDashboard();
 			currentTab = 1;
 			loadData();
+			loadNotifications();
 			homeBookingScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-			homeBookingScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -185,14 +192,16 @@ public class CustomerController {
 	public void loadBooking_cus() { // service pane
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../scenes/Bookings.fxml"));
+			CustomerBookingController cont = new CustomerBookingController();
+			loader.setController(cont);
 			AnchorPane newPanel = loader.load();
-			BookingController bc = loader.getController();
+			CustomerBookingController bc = loader.getController();
 			bc.setCustomer(customer);
 			bc.loadData();
 			mainPanel_cus.getChildren().setAll(newPanel);
 			changeBackButtonBG();
 			nav_Bookings.setStyle("-fx-background-color:  #212832;-fx-background-radius: 30px 0 0 30px;");
-			currentTab = 5;
+			currentTab = 3;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -269,32 +278,60 @@ public class CustomerController {
 				nav_service_cus.setStyle("-fx-background-color:  #393D46;");
 				System.out.println("changed bg color");
 				break;
-			case 3:
-				nav_notifs_cus.setStyle("-fx-background-color:  #393D46;");
-				System.out.println("changed bg color");
-				break;
 			case 4:
 				nav_profile_cus.setStyle("-fx-background-color:  #393D46;");
 				System.out.println("changed bg color");
 				break;
-			case 5:
+			case 3:
 				nav_Bookings.setStyle("-fx-background-color:  #393D46;");
 				System.out.println("changed bg color");
 				break;
 		}
 	}
 
-	private void updateDashboard() {
-
-		if (usernameCus != null && customer != null) {
-			usernameCus.setText(customer.getUsername());
-		} else {
-			System.out.println("Error: usernameCus, nameCus, or customer is null.");
-		}
-	}
-
 	public void exitApplication() {
 		Platform.exit();
+	}
+
+	public void loadNotifications() throws ClassNotFoundException {
+		if (notifs != null)
+			notifs.clear();
+
+		notifScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+		notifScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+		notifs = serviceManager.getCustomerNotifications(customer.getCustomerID());
+
+		if (notifs.isEmpty()) {
+			// add hbox text
+			System.out.println("No notifications");
+			return;
+		}
+
+		for (int i = 0; i < notifs.size(); i++) {
+			FXMLLoader fxmlloader = new FXMLLoader();
+			fxmlloader.setLocation(getClass().getResource("../scenes/components/notification_item.fxml"));
+
+			try {
+				VBox vbox = fxmlloader.load();
+				notificationItemController notifController = fxmlloader.getController();
+
+				notifController.setData(notifs.get(i).getDate(), notifs.get(i).getMessage(), notifs.get(i).getAgency(),
+						notifs.get(i).getTag(), notifs.get(i).getType());
+
+				if (notifBox != null)
+					notifBox.getChildren().add(vbox);
+
+				if (notifs.size() > 1 && i != notifs.size() - 1) {
+					Separator s = new Separator();
+					if (notifBox != null)
+						notifBox.getChildren().add(s);
+				}
+			} catch (IOException io) {
+				io.printStackTrace();
+			}
+		}
+
 	}
 
 }
