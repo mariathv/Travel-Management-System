@@ -27,21 +27,22 @@ public class BookingController {
     HBox sampleHBOX;
     @FXML
     VBox vBoxBookings, vbox;
-        
+
     String CancelType;
     String Cancelbookingid;
 
     List<TravelBooking> bookings;
     List<HotelBooking> HotelBookings;
-    
+
     Customer customer;
 
     @FXML
     private void initialize() throws IOException {
         bookingsScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     }
+
     public void setCustomer(Customer c) {
-		customer = c;
+        customer = c;
     }
 
     public void loadBookingData(int serviceID, boolean tFlag) throws IOException, ClassNotFoundException, SQLException {
@@ -101,79 +102,78 @@ public class BookingController {
         }
     }
 
-  private HBox currentlySelectedHBox; // Track the selected HBox
+    private HBox currentlySelectedHBox; // Track the selected HBox
 
-	public void loadData() throws SQLException, ClassNotFoundException {
-	    Connection connection = dbHandler.connect();
-	    String query;
-	    vbox.getChildren().clear();
-	    int x = 1; // Counter for serial numbers
-	
-	    // Unified query using UNION
-	    query = "SELECT bookingID, bookingDate, TotalPrice AS price, status, 'BUS' AS type " +
-	            "FROM travelbooking WHERE customerID = ? " +
-	            "UNION ALL " +
-	            "SELECT bookingID, bookingDate, price, status, 'BED' AS type " +
-	            "FROM hotelbooking WHERE customerID = ?";
-	
-	    try (PreparedStatement prepStatement = connection.prepareStatement(query)) {
-	        prepStatement.setInt(1, customer.getCustomerID());
-	        prepStatement.setInt(2, customer.getCustomerID());
-	
-	        try (ResultSet resultSet = prepStatement.executeQuery()) {
-	            if (!resultSet.isBeforeFirst()) { // Check if the result set is empty
-	                System.out.println("No Bookings Found");
-	                return;
-	            }
-	
-	            while (resultSet.next()) { // Start the loop here
-	                FXMLLoader fxmlloader = new FXMLLoader();
-	                fxmlloader.setLocation(getClass().getResource("../scenes/components/allBookings.fxml"));
-	
-	                try {
-	                    HBox hbox = fxmlloader.load();
-	                    AllBookingItemController allBookingItem = fxmlloader.getController();
-	
-	                    // Pass the data to the controller
-	                    String bookingID = resultSet.getString("bookingID");
-	                    String bookingDate = resultSet.getString("bookingDate");
-	                    String price = resultSet.getString("price");
-	                    String type = resultSet.getString("type");
-	                    int status = resultSet.getInt("status");
-	
-	                    allBookingItem.setData(x, bookingID, bookingDate, price, type, status);
-	
-	                    // Pass `bookingID` and `type` to the event handler
-	                    hbox.setOnMouseClicked(event -> {
-	                        Cancelbookingid = bookingID;
-	                        CancelType = type;
-	
-	                        // Reset the style of the previously selected HBox
-	                        if (currentlySelectedHBox != null) {
-	                            currentlySelectedHBox.setStyle("-fx-background-color: transparent;");
-	                        }
-	
-	                        // Highlight the selected HBox
-	                        hbox.setStyle("-fx-background-color: #393351;");
-	
-	                        // Update the reference to the currently selected HBox
-	                        currentlySelectedHBox = hbox;
-	                    });
-	
-	                    vbox.getChildren().add(hbox);
-	                    x++;
-	                } catch (IOException io) {
-	                    io.printStackTrace();
-	                }
-	            }
-	        }
-	    }
-	}
-   
+    public void loadData() throws SQLException, ClassNotFoundException {
+        Connection connection = dbHandler.connect();
+        String query;
+        vbox.getChildren().clear();
+        int x = 1; // Counter for serial numbers
 
-	public void cancelbooking() {
+        // Unified query using UNION
+        query = "SELECT bookingID, bookingDate, TotalPrice AS price, status, 'BUS' AS type " +
+                "FROM travelbooking WHERE customerID = ? " +
+                "UNION ALL " +
+                "SELECT bookingID, bookingDate, price, status, 'BED' AS type " +
+                "FROM hotelbooking WHERE customerID = ?";
+
+        try (PreparedStatement prepStatement = connection.prepareStatement(query)) {
+            prepStatement.setInt(1, customer.getCustomerID());
+            prepStatement.setInt(2, customer.getCustomerID());
+
+            try (ResultSet resultSet = prepStatement.executeQuery()) {
+                if (!resultSet.isBeforeFirst()) { // Check if the result set is empty
+                    System.out.println("No Bookings Found");
+                    return;
+                }
+
+                while (resultSet.next()) { // Start the loop here
+                    FXMLLoader fxmlloader = new FXMLLoader();
+                    fxmlloader.setLocation(getClass().getResource("../scenes/components/allBookings.fxml"));
+
+                    try {
+                        HBox hbox = fxmlloader.load();
+                        AllBookingItemController allBookingItem = fxmlloader.getController();
+
+                        // Pass the data to the controller
+                        String bookingID = resultSet.getString("bookingID");
+                        String bookingDate = resultSet.getString("bookingDate");
+                        String price = resultSet.getString("price");
+                        String type = resultSet.getString("type");
+                        int status = resultSet.getInt("status");
+
+                        allBookingItem.setData(x, bookingID, bookingDate, price, type, status);
+
+                        // Pass `bookingID` and `type` to the event handler
+                        hbox.setOnMouseClicked(event -> {
+                            Cancelbookingid = bookingID;
+                            CancelType = type;
+
+                            // Reset the style of the previously selected HBox
+                            if (currentlySelectedHBox != null) {
+                                currentlySelectedHBox.setStyle("-fx-background-color: transparent;");
+                            }
+
+                            // Highlight the selected HBox
+                            hbox.setStyle("-fx-background-color: #393351;");
+
+                            // Update the reference to the currently selected HBox
+                            currentlySelectedHBox = hbox;
+                        });
+
+                        vbox.getChildren().add(hbox);
+                        x++;
+                    } catch (IOException io) {
+                        io.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
+    public void cancelbooking() {
         // Retrieve input values
-       
+
         try {
             int bookingid = Integer.parseInt(Cancelbookingid); // Parse booking ID as an integer
 
@@ -193,24 +193,23 @@ public class BookingController {
     }
 
     private void updateBookingStatus(String tableName, int bookingid) throws SQLException, ClassNotFoundException {
-     
+
         String query = "UPDATE " + tableName + " SET status = 0 WHERE bookingID = ?";
 
         try (Connection connection = dbHandler.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setInt(1, bookingid);
             int rowsUpdated = preparedStatement.executeUpdate();
-            
+
             if (rowsUpdated > 0) {
-            	loadData();
-                System.out.println("Booking ID " + bookingid + " in table '" + tableName + "' has been successfully cancelled.");
+                loadData();
+                System.out.println(
+                        "Booking ID " + bookingid + " in table '" + tableName + "' has been successfully cancelled.");
             } else {
                 System.out.println("Booking ID " + bookingid + " not found in table '" + tableName + "'.");
             }
         }
     }
 
-	
-    
 }

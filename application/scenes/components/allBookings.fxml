@@ -12,14 +12,14 @@
    <children>
       <VBox>
          <children>
-            <HBox fx:id="sampleHBOX" alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="600.0" spacing="30.0" style="-fx-background-color: #CCD1D3;" styleClass="bookingDetail" stylesheets="@../../css/fullpackstyling.css">
+            <HBox fx:id="sampleHBOX" alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="508.0" spacing="30.0" style="-fx-background-color: transparent;" styleClass="bookingDetail" stylesheets="@../../css/fullpackstyling.css">
                <children>
                   <Text fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0">
                      <font>
                         <Font name="Lexend Deca Medium" size="15.0" />
                      </font>
                   </Text>
-                  <Text fx:id="serialno" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="1" wrappingWidth="18.651789665222168">
+                  <Text fx:id="serialno" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="1" wrappingWidth="35.65178966522217">
                      <font>
                         <Font name="Lexend Deca Medium" size="17.0" />
                      </font>
@@ -27,11 +27,6 @@
                   <Text fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0">
                      <font>
                         <Font name="Lexend Deca Medium" size="15.0" />
-                     </font>
-                  </Text>
-                  <Text fx:id="Bookingid" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="1" wrappingWidth="93.43225860595703">
-                     <font>
-                        <Font name="Lexend Deca Medium" size="17.0" />
                      </font>
                   </Text>
                   <Text fx:id="bookingDate" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="24-24-24" wrappingWidth="99.34380388259888">
@@ -45,7 +40,7 @@
                      </font>
                   </Text>
                   <FontAwesomeIcon fx:id="icon" glyphName="BUS" size="25" wrappingWidth="53.42860221862793" />
-                  <Circle fx:id="circle" fill="#1ef40b" radius="11.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Circle fx:id="circle" fill="#36862f" radius="7.0" stroke="BLACK" strokeMiterLimit="2.0" strokeType="INSIDE" strokeWidth="0.0" />
                </children>
             </HBox>
             <Line endX="513.4444580078125" endY="-23.666667938232422" startX="1112.7374267578125" startY="-23.990291595458984" />

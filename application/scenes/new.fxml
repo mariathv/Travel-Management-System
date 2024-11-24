@@ -1,68 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="531.0" prefWidth="886.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.CustomerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="531.0" prefWidth="886.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Text fx:id="usernameCus2" boundsType="LOGICAL_VERTICAL_CENTER" layoutX="103.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recent Active Bookings" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="425.9481658935547">
+      <Text fx:id="usernameCus2" boundsType="LOGICAL_VERTICAL_CENTER" layoutX="15.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Active Bookings" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="162.9481658935547">
          <font>
-            <Font name="Lexend Deca Bold" size="27.0" />
+            <Font name="Lexend Deca Regular" size="19.0" />
          </font>
       </Text>
-       <ScrollPane layoutX="15.0" layoutY="80.0" prefHeight="416.0" prefWidth="627.0" style="-fx-border-color: transparent;">
+       <ScrollPane fx:id="homeBookingScroll" layoutX="15.0" layoutY="80.0" prefHeight="416.0" prefWidth="545.0" style="-fx-border-color: transparent; -fx-background-color: transparent;">
                <content>
-                  <VBox prefHeight="425.0" prefWidth="623.0">
+                  <VBox fx:id="NewVbox" prefHeight="409.0" prefWidth="541.0">
                      <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="57.0" prefWidth="549.0" spacing="30.0" style="-fx-background-color: #393351;" styleClass="bookingDetail" stylesheets="@../css/fullpackstyling.css">
+                        <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="546.0" spacing="30.0" style="-fx-background-color: #0F6F78;" styleClass="bookingDetail" stylesheets="@../css/fullpackstyling.css">
                            <children>
                               <Text fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0">
                                  <font>
                                     <Font name="Lexend Deca Medium" size="20.0" />
                                  </font>
                               </Text>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="#" wrappingWidth="1.0">
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="#" wrappingWidth="66.0">
                                  <font>
-                                    <Font name="Lexend Deca Medium" size="20.0" />
+                                    <Font name="Lexend Deca Medium" size="15.0" />
                                  </font>
                               </Text>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="BookingId" wrappingWidth="104.98779225349426">
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="BookingDate" wrappingWidth="101.78835272789001">
                                  <font>
-                                    <Font name="Lexend Deca Medium" size="20.0" />
-                                 </font>
-                              </Text>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="BookingDate" wrappingWidth="135.78835272789001">
-                                 <font>
-                                    <Font name="Lexend Deca Medium" size="20.0" />
+                                    <Font name="Lexend Deca Medium" size="15.0" />
                                  </font>
                               </Text>
                               <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" wrappingWidth="51.82276201248169">
                                  <font>
-                                    <Font name="Lexend Deca Medium" size="20.0" />
+                                    <Font name="Lexend Deca Medium" size="15.0" />
                                  </font>
                               </Text>
                               <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Type" wrappingWidth="50.93378496170044">
                                  <font>
-                                    <Font name="Lexend Deca Medium" size="20.0" />
+                                    <Font name="Lexend Deca Medium" size="15.0" />
                                  </font>
                               </Text>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Statue" wrappingWidth="70.48941802978516">
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Status" wrappingWidth="70.48941802978516">
                                  <font>
-                                    <Font name="Lexend Deca Medium" size="20.0" />
+                                    <Font name="Lexend Deca Medium" size="15.0" />
                                  </font>
                               </Text>
                            </children>
                         </HBox>
-                        <VBox fx:id="NewVbox" prefHeight="347.0" prefWidth="648.0">
+                        <VBox prefHeight="347.0" prefWidth="539.0">
                         <children>
                         </children>
                         </VBox>
@@ -70,66 +63,24 @@
                   </VBox>
                </content>
             </ScrollPane>
-      <Pane layoutX="660.0" layoutY="81.0" prefHeight="297.0" prefWidth="202.0" style="-fx-background-radius: 20;" styleClass="linear-grad" stylesheets="@../css/fullpackstyling.css">
+      <VBox alignment="CENTER" layoutX="639.0" layoutY="385.0" prefHeight="112.0" prefWidth="244.0" spacing="10.0" />
+      <Line endX="-100.0" endY="439.0" layoutX="678.0" layoutY="55.0" startX="-100.0" startY="25.0" stroke="#8d8d8d" />
+      <Separator layoutX="618.0" layoutY="120.0" prefWidth="200.0" />
+      <ScrollPane fx:id="notifScroll" layoutX="595.0" layoutY="130.0" prefHeight="365.0" prefWidth="265.0" style="-fx-border-color: transparent; -fx-background-color: transparent;">
+         <content>
+            <VBox fx:id="notifBox" prefHeight="360.0" prefWidth="261.0" spacing="5.0" style="-fx-background-color: transparent;" />
+         </content>
+      </ScrollPane>
+      <HBox alignment="CENTER" layoutX="606.0" layoutY="87.0" prefHeight="24.0" prefWidth="225.0">
          <children>
-            <VBox alignment="TOP_CENTER" layoutX="-1.0" prefHeight="265.0" prefWidth="208.0">
-               <children>
-                  <Text fx:id="usernameCus" boundsType="LOGICAL_VERTICAL_CENTER" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="147.72601318359375">
-                     <font>
-                        <Font name="Lexend Deca Bold" size="18.0" />
-                     </font>
-                  </Text>
-                  <ImageView fitHeight="154.0" fitWidth="161.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/images/pngs/profile-user.png" />
-                     </image>
-                  </ImageView>
-                  <Text fx:id="usernameCus11" boundsType="LOGICAL_VERTICAL_CENTER" fill="WHITE" layoutX="40.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="147.72601318359375">
-                     <font>
-                        <Font name="Lexend Deca Bold" size="18.0" />
-                     </font>
-                  </Text>
-                  <Text fx:id="nameCus" boundsType="LOGICAL_VERTICAL_CENTER" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="\@Username" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="171.72601318359375">
-                     <font>
-                        <Font name="Lexend Deca Bold" size="20.0" />
-                     </font>
-                  </Text>
-                  <Text fx:id="usernameCus1" boundsType="LOGICAL_VERTICAL_CENTER" fill="WHITE" layoutX="40.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="147.72601318359375">
-                     <font>
-                        <Font name="Lexend Deca Bold" size="18.0" />
-                     </font>
-                  </Text>
-                  <Text fx:id="nameCus1" boundsType="LOGICAL_VERTICAL_CENTER" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Name" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="174.3926396369934">
-                     <font>
-                        <Font name="Lexend Deca Bold" size="20.0" />
-                     </font>
-                  </Text>
-               </children>
-            </VBox>
-         </children>
-      </Pane>
-      <VBox alignment="CENTER" layoutX="639.0" layoutY="385.0" prefHeight="112.0" prefWidth="244.0" spacing="10.0">
-         <children>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="194.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Manage Profile" textFill="WHITE">
+            <FontAwesomeIcon fill="#3b5a6f" glyphName="BELL" size="1.25em" />
+            <Text fx:id="usernameCus21" boundsType="LOGICAL_VERTICAL_CENTER" strokeType="OUTSIDE" strokeWidth="0.0" text="Notifications" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="128.9481658935547">
                <font>
-                  <Font name="Lexend Deca Medium" size="18.0" />
+                  <Font name="Lexend Deca Regular" size="15.0" />
                </font>
-            </Button>
-            <Button alignment="CENTER" graphicTextGap="10.0" mnemonicParsing="false" onAction="#Logout" prefHeight="26.0" prefWidth="194.0" styleClass="button2" stylesheets="@../css/fullpackstyling.css" text="Logout" textFill="WHITE">
-               <font>
-                  <Font name="Lexend Deca Medium" size="18.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="18.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/images/pngs/logout.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
+            </Text>
          </children>
-      </VBox>
-      <Line endX="271.111083984375" layoutX="309.0" layoutY="64.0" startX="-245.33334350585938" />
+      </HBox>
        
    </children>
 </AnchorPane>
