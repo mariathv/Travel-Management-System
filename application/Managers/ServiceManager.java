@@ -3,12 +3,18 @@ package application.Managers;
 import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.management.Notification;
+
 import application.Model.BusService;
+import application.Model.FlightService;
+import application.Model.Notifications;
 import application.Model.ServiceProvider;
+import application.Model.TrainService;
 import application.controllers.ServiceItemController;
 import application.controllers.dbHandler;
 import javafx.fxml.FXMLLoader;
@@ -154,7 +160,6 @@ public class ServiceManager {
         }
     }
 
-    // Hotel Service Queries
     public int deleteHotelFeedback(int serviceID) throws SQLException, ClassNotFoundException {
         String query = "DELETE FROM servicefeedback WHERE serviceID = ?";
         try (Connection connection = dbHandler.connect();
@@ -182,22 +187,22 @@ public class ServiceManager {
         }
     }
 
-    public int addCancellationNotifications(int serviceID, String message, boolean tFlag)
+    public int addCancellationNotifications(int serviceID, String message, boolean tFlag, String type, String agency)
             throws SQLException, ClassNotFoundException {
         int rowsAffected = 0;
         String getCustQuery;
         if (tFlag) {
-            getCustQuery = "Select customerID FROM travelbooking WHERE serviceID = ?";
+            getCustQuery = "Select DISTINCT customerID FROM travelbooking WHERE serviceID = ?";
         } else {
-            getCustQuery = "Select customerID FROM hotelbooking WHERE listingID = ?";
+            getCustQuery = "Select DISTINCT customerID FROM hotelbooking WHERE listingID = ?";
         }
         System.out.println(serviceID);
 
-        LocalDate today = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String todayString = today.format(formatter);
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy (HH:mm)");
+        String formattedDateTime = now.format(formatter);
 
-        String insertNotificationQuery = "INSERT INTO customernotifications (customerID, message, date) VALUES (?, ?, ?)";
+        String insertNotificationQuery = "INSERT INTO customernotifications (customerID, message, date, type, tag, agency) VALUES (?, ?, ?,?,?,?)";
 
         try (Connection connection = dbHandler.connect();
                 PreparedStatement selectStatement = connection.prepareStatement(getCustQuery);
@@ -214,7 +219,10 @@ public class ServiceManager {
 
                 insertStatement.setInt(1, customerID);
                 insertStatement.setString(2, message);
-                insertStatement.setString(3, todayString);
+                insertStatement.setString(3, formattedDateTime);
+                insertStatement.setString(4, type);
+                insertStatement.setString(5, "Cancelled");
+                insertStatement.setString(6, agency);
 
                 rowsAffected += insertStatement.executeUpdate();
             }
@@ -223,8 +231,77 @@ public class ServiceManager {
         return rowsAffected;
     }
 
-    public boolean markServiceAsDone(int serviceId) throws ClassNotFoundException {
+    public int addCompletionNotifications(int serviceID, String message, boolean tFlag, String type, String agency)
+            throws SQLException, ClassNotFoundException {
+        int rowsAffected = 0;
+        String getCustQuery;
+
+        if (tFlag) {
+            getCustQuery = "SELECT DISTINCT customerID FROM travelbooking WHERE serviceID = ?";
+        } else {
+            getCustQuery = "SELECT DISTINCT customerID FROM hotelbooking WHERE listingID = ?";
+        }
+        System.out.println(serviceID);
+
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy (HH:mm)");
+        String formattedDateTime = now.format(formatter);
+
+        String insertNotificationQuery = "INSERT INTO customernotifications (customerID, message, date, type, tag, agency) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (Connection connection = dbHandler.connect();
+                PreparedStatement selectStatement = connection.prepareStatement(getCustQuery);
+                PreparedStatement insertStatement = connection.prepareStatement(insertNotificationQuery)) {
+
+            selectStatement.setInt(1, serviceID);
+
+            ResultSet resultSet = selectStatement.executeQuery();
+            if (!resultSet.isBeforeFirst()) {
+                System.out.println("No customers found for the given service ID: " + serviceID);
+            }
+
+            // Iterate through the result set to send notifications to all customers
+            while (resultSet.next()) {
+                int customerID = resultSet.getInt("customerID");
+
+                insertStatement.setInt(1, customerID);
+                insertStatement.setString(2, message);
+                insertStatement.setString(3, formattedDateTime);
+                insertStatement.setString(4, type);
+                insertStatement.setString(5, "Completed");
+                insertStatement.setString(6, agency);
+
+                rowsAffected += insertStatement.executeUpdate();
+            }
+        }
+
+        return rowsAffected;
+    }
+
+    public boolean markServiceAsDone(int serviceId, String agency) throws ClassNotFoundException {
         String query = "UPDATE travelservice SET status = 'DONE' WHERE serviceID = ?";
+
+        try (Connection connection = dbHandler.connect();
+                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, serviceId);
+
+            int rowsUpdated = preparedStatement.executeUpdate();
+
+            String message = "Thank you for traveling with " + agency + ". We hope you had a great experience!";
+            int rows = addCompletionNotifications(serviceId, message, true, "COMPLETE", agency);
+            updateBookingStatusCmpl(serviceId);
+            System.out.println(rows + " notification(s) sent.");
+
+            return rowsUpdated > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateBookingStatusCmpl(int serviceId) throws ClassNotFoundException {
+        String query = "UPDATE travelbooking SET status = 2 WHERE serviceID = ?";
 
         try (Connection connection = dbHandler.connect();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -244,7 +321,7 @@ public class ServiceManager {
             String depLoc, String depTime, String depDate,
             String arvLoc, String arvTime, String arvDate,
             String SBusNo, String BStationName, String BStationLoc,
-            String StktPrice, String GNumber) throws SQLException, ClassNotFoundException {
+            String StktPrice, String GNumber, int totalSeats) throws SQLException, ClassNotFoundException {
 
         String description = String.format(
                 "Bus No. %s from %s to %s departing on %s at %s and arriving on %s at %s. \nTicket Price: PKR %s. \nBus station: %s located at %s.",
@@ -252,7 +329,7 @@ public class ServiceManager {
 
         Connection connection = dbHandler.connect();
 
-        String insertQuery = "INSERT INTO TravelService(serviceProviderID, description, serviceType, arrivalTime, departureTime, arrivalLocation, departureLocation, departureDate, arrivalDate, ticketPrice, status) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+        String insertQuery = "INSERT INTO TravelService(serviceProviderID, description, serviceType, arrivalTime, departureTime, arrivalLocation, departureLocation, departureDate, arrivalDate, ticketPrice, status, totalSeats) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 
         PreparedStatement prepStatement = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
 
@@ -267,6 +344,7 @@ public class ServiceManager {
         prepStatement.setString(9, arvDate);
         prepStatement.setInt(10, Integer.parseInt(StktPrice));
         prepStatement.setString(11, "ONGOING");
+        prepStatement.setInt(12, totalSeats);
 
         int affectedRows = prepStatement.executeUpdate();
 
@@ -571,7 +649,7 @@ public class ServiceManager {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                busNumber = rs.getString("BusNo");
+                busNumber = rs.getString("TrainNumber");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -591,13 +669,33 @@ public class ServiceManager {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                busNumber = rs.getString("BusNo");
+                busNumber = rs.getString("FlightNumber");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return busNumber;
+    }
+
+    public String getRoomType(int listingID) throws ClassNotFoundException {
+        String sql = "SELECT roomType FROM hotelbooking WHERE listingID = ?";
+        String room = "";
+        try (Connection connection = dbHandler.connect();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, listingID);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                room = rs.getString("FlightNumber");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return room;
     }
 
     public List<BusService> getAllBusServices() throws SQLException, ClassNotFoundException {
@@ -662,6 +760,132 @@ public class ServiceManager {
 
     }
 
+    public List<TrainService> getAllTrainServices() throws SQLException, ClassNotFoundException {
+
+        Connection connection = dbHandler.connect();
+        String query = "SELECT " +
+                "ts.ServiceID, " +
+                "ts.ServiceProviderID, " +
+                "ts.Description, " +
+                "ts.ServiceType, " +
+                "ts.DepartureTime, " +
+                "ts.ArrivalTime, " +
+                "ts.DepartureLocation, " +
+                "ts.ArrivalLocation, " +
+                "ts.DepartureDate, " +
+                "ts.ArrivalDate, " +
+                "ts.ticketPrice, " +
+                "trs.TrainNumber, " +
+                "trs.StationName, " +
+                "trs.StationLocation " +
+                "FROM TravelService ts " +
+                "JOIN TrainService trs ON ts.ServiceID = trs.ServiceID AND ts.status = 'ONGOING'";
+
+        PreparedStatement prepStatement = connection.prepareStatement(query);
+
+        ResultSet resultSet = prepStatement.executeQuery();
+
+        List<TrainService> trainServices = new ArrayList<>();
+        if (!resultSet.next()) {
+            System.out.println("> No Services Found for the specified locations.");
+            return trainServices;
+        }
+        do {
+            // Store the result set values into local variables
+            String serviceType = resultSet.getString("ServiceType");
+            String arrivalTime = resultSet.getString("ArrivalTime");
+            String departureTime = resultSet.getString("DepartureTime");
+            String departureLocation = resultSet.getString("DepartureLocation");
+            String arrivalLocation = resultSet.getString("ArrivalLocation");
+            int price = resultSet.getInt("ticketPrice");
+            String departureDate = resultSet.getString("DepartureDate");
+            String arrivalDate = resultSet.getString("ArrivalDate");
+            int ServiceID = resultSet.getInt("ServiceID");
+            String description = resultSet.getString("Description");
+            int serviceProviderID = resultSet.getInt("ServiceProviderID");
+
+            String stationName = resultSet.getString("StationName");
+            String stationLocation = resultSet.getString("StationLocation");
+            String transportNumber = resultSet.getString("TrainNumber"); // Generic field for TrainNumber, BusNo,
+                                                                         // FlightNumber
+
+            TrainService trainService = new TrainService(stationName, stationLocation, transportNumber, ServiceID,
+                    serviceProviderID,
+                    description, serviceType, departureTime, arrivalTime, departureLocation, arrivalLocation,
+                    departureDate, arrivalDate);
+            trainService.setPrice(price);
+            trainServices.add(trainService);
+
+        } while (resultSet.next());
+
+        return trainServices;
+    }
+
+    public List<FlightService> getAllFlightServices() throws SQLException, ClassNotFoundException {
+
+        Connection connection = dbHandler.connect();
+        String query = "SELECT " +
+                "ts.ServiceID, " +
+                "ts.ServiceProviderID, " +
+                "ts.Description, " +
+                "ts.ServiceType, " +
+                "ts.DepartureTime, " +
+                "ts.ArrivalTime, " +
+                "ts.DepartureLocation, " +
+                "ts.ArrivalLocation, " +
+                "ts.DepartureDate, " +
+                "ts.ArrivalDate, " +
+                "ts.ticketPrice, " +
+                "fs.FlightNumber, " +
+                "fs.AirportName, " +
+                "fs.AirportLocation, " +
+                "fs.GateNumber " +
+                "FROM TravelService ts " +
+                "JOIN FlightService fs ON ts.ServiceID = fs.ServiceID AND ts.status = 'ONGOING'";
+
+        PreparedStatement prepStatement = connection.prepareStatement(query);
+
+        ResultSet resultSet = prepStatement.executeQuery();
+
+        List<FlightService> flightServices = new ArrayList<>();
+        if (!resultSet.next()) {
+            System.out.println("> No Services Found for the specified locations.");
+            return flightServices;
+        }
+        do {
+            // Store the result set values into local variables
+            String serviceType = resultSet.getString("ServiceType");
+            String arrivalTime = resultSet.getString("ArrivalTime");
+            String departureTime = resultSet.getString("DepartureTime");
+            String departureLocation = resultSet.getString("DepartureLocation");
+            String arrivalLocation = resultSet.getString("ArrivalLocation");
+            int price = resultSet.getInt("ticketPrice");
+            String departureDate = resultSet.getString("DepartureDate");
+            String arrivalDate = resultSet.getString("ArrivalDate");
+            int ServiceID = resultSet.getInt("ServiceID");
+            String description = resultSet.getString("Description");
+            int serviceProviderID = resultSet.getInt("ServiceProviderID");
+
+            String airportName = resultSet.getString("AirportName");
+            String airportLocation = resultSet.getString("AirportLocation");
+            String transportNumber = resultSet.getString("FlightNumber"); // Generic field for FlightNumber,
+                                                                          // TrainNumber, BusNo
+            String gateNumber = resultSet.getString("GateNumber");
+
+            FlightService flightService = new FlightService(airportName, airportLocation, transportNumber,
+                    serviceProviderID,
+                    ServiceID,
+                    gateNumber,
+                    description, serviceType, departureTime, arrivalTime, departureLocation, arrivalLocation,
+                    departureDate, arrivalDate);
+            flightService.setPrice(price);
+            flightServices.add(flightService);
+
+        } while (resultSet.next());
+
+        return flightServices;
+    }
+
     public String getAgencyName(int serviceProviderID) throws ClassNotFoundException {
         String sql = "SELECT travelAgencyName FROM serviceprovider WHERE serviceProviderID = ?";
         String agency = "";
@@ -685,6 +909,93 @@ public class ServiceManager {
         }
 
         return agency;
+    }
+
+    public List<Notifications> getCustomerNotifications(int customerID) throws ClassNotFoundException {
+        List<Notifications> notifs = new ArrayList<>();
+
+        String query = "Select * from customernotifications WHERE customerID = ?";
+        try (Connection connection = dbHandler.connect();
+                PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setInt(1, customerID);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String date = rs.getString("date");
+                String message = rs.getString("message");
+                String agency = rs.getString("agency");
+                String tag = rs.getString("tag");
+                String type = rs.getString("type");
+                Notifications notif = new Notifications(date, message, agency, tag, type);
+
+                notifs.add(notif);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return notifs;
+    }
+
+    public boolean giveTravelFeedback(int serviceID, int rating, String comment, int customerID,
+            String customerUsername) {
+        String query = "INSERT INTO servicefeedback (serviceID, rating, comment, customerID, customerUsername) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection connection = dbHandler.connect();
+                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setInt(1, serviceID);
+            preparedStatement.setInt(2, rating);
+            preparedStatement.setString(3, comment);
+            preparedStatement.setInt(4, customerID);
+            preparedStatement.setString(5, customerUsername);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Feedback successfully submitted for Service ID: " + serviceID);
+                return true;
+            } else {
+                System.out.println("Failed to submit feedback for Service ID: " + serviceID);
+            }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public boolean giveHotelFeedback(int serviceID, int rating, String comment, int customerID,
+            String customerUsername) {
+        String query = "INSERT INTO hotelfeedback (serviceID, rating, comment, customerID, customerUsername) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection connection = dbHandler.connect();
+                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setInt(1, serviceID);
+            preparedStatement.setInt(2, rating);
+            preparedStatement.setString(3, comment);
+            preparedStatement.setInt(4, customerID);
+            preparedStatement.setString(5, customerUsername);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Feedback successfully submitted for Service ID: " + serviceID);
+                return true;
+            } else {
+                System.out.println("Failed to submit feedback for Service ID: " + serviceID);
+            }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
 }

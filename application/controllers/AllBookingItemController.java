@@ -18,33 +18,28 @@ public class AllBookingItemController {
     private Circle circle;
 
     public void setData(
-            int x, 
-            String bookingId, 
-            String bookingDate, 
+            int x,
+            String bookingId,
+            String bookingDate,
             String priceText,
-            String glyphName, 
-            int color
-    ) {
-    	
-    	
+            String glyphName,
+            int color) {
+
         if (icon != null) {
             icon.setGlyphName(glyphName);
         }
 
         if (circle != null) {
-        	if(color == 1)
-            circle.setFill(Color.web("Green"));
-        	else if(color == 0)
+            if (color == 1)
+                circle.setFill(Color.web("Green"));
+            else if (color == 0)
                 circle.setFill(Color.web("Red"));
-        	else 
-        		circle.setFill(Color.web("Yellow"));
+            else
+                circle.setFill(Color.web("Yellow"));
         }
 
         if (serialno != null) {
-        	serialno.setText(String.valueOf(x));
-        }
-        if (Bookingid != null) {
-            Bookingid.setText(bookingId);
+            serialno.setText(String.valueOf(x));
         }
         if (this.bookingDate != null) {
             this.bookingDate.setText(bookingDate);

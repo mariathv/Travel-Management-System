@@ -13,22 +13,20 @@ import application.Model.HotelBooking;
 import application.Model.TravelBooking;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class BookingController {
     @FXML
-    ScrollPane bookingsScroll, scrollPaneBooking;
+    ScrollPane bookingsScroll;
     @FXML
     HBox sampleHBOX;
     @FXML
     VBox vBoxBookings, vbox;
-    @FXML
-    Button ongoingBTN, doneBTN, cancel;
 
     String CancelType;
     String Cancelbookingid;
@@ -38,48 +36,9 @@ public class BookingController {
 
     Customer customer;
 
-    int selectedTab = -1;
-
     @FXML
     private void initialize() throws IOException {
         bookingsScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPaneBooking.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-
-        ongoingBTN.setStyle("-fx-background-color: black; -fx-text-fill: white;");
-        doneBTN.setStyle("-fx-background-color: transparent; -fx-text-fill: black;");
-
-        cancel.setVisible(false);
-
-        ongoingBTN.setOnMouseClicked(event -> {
-            try {
-                toggleButtonState(ongoingBTN, doneBTN, 1);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-        doneBTN.setOnMouseClicked(event -> {
-            try {
-                toggleButtonState(doneBTN, ongoingBTN, 2);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    private void toggleButtonState(Button activeBtn, Button inactiveBtn, int tabNumber)
-            throws ClassNotFoundException, SQLException {
-        if (selectedTab == tabNumber)
-            return;
-        activeBtn.setStyle("-fx-background-color: black; -fx-text-fill: white;");
-
-        inactiveBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: black;");
-
-        selectedTab = tabNumber;
-        loadData();
     }
 
     public void setCustomer(Customer c) {
@@ -152,18 +111,11 @@ public class BookingController {
         int x = 1; // Counter for serial numbers
 
         // Unified query using UNION
-        if (selectedTab == 1 || selectedTab == -1)
-            query = "SELECT bookingID, bookingDate, TotalPrice AS price, status, 'BUS' AS type " +
-                    "FROM travelbooking WHERE customerID = ? AND status = 1 " +
-                    "UNION ALL " +
-                    "SELECT bookingID, bookingDate, price, status, 'BED' AS type " +
-                    "FROM hotelbooking WHERE customerID = ? AND status = 1 ";
-        else
-            query = "SELECT bookingID, bookingDate, TotalPrice AS price, status, 'BUS' AS type " +
-                    "FROM travelbooking WHERE customerID = ? AND status = 0 " +
-                    "UNION ALL " +
-                    "SELECT bookingID, bookingDate, price, status, 'BED' AS type " +
-                    "FROM hotelbooking WHERE customerID = ? AND status = 0 ";
+        query = "SELECT bookingID, bookingDate, TotalPrice AS price, status, 'BUS' AS type " +
+                "FROM travelbooking WHERE customerID = ? " +
+                "UNION ALL " +
+                "SELECT bookingID, bookingDate, price, status, 'BED' AS type " +
+                "FROM hotelbooking WHERE customerID = ?";
 
         try (PreparedStatement prepStatement = connection.prepareStatement(query)) {
             prepStatement.setInt(1, customer.getCustomerID());
@@ -197,15 +149,13 @@ public class BookingController {
                             Cancelbookingid = bookingID;
                             CancelType = type;
 
-                            cancel.setVisible(true);
-
                             // Reset the style of the previously selected HBox
                             if (currentlySelectedHBox != null) {
                                 currentlySelectedHBox.setStyle("-fx-background-color: transparent;");
                             }
 
                             // Highlight the selected HBox
-                            hbox.setStyle("-fx-background-color: #C9DFE1;");
+                            hbox.setStyle("-fx-background-color: #393351;");
 
                             // Update the reference to the currently selected HBox
                             currentlySelectedHBox = hbox;

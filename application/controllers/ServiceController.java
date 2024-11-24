@@ -1,5 +1,6 @@
 package application.controllers;
 
+import javafx.scene.paint.Color;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,15 +42,15 @@ public class ServiceController {
 	@FXML
 	private VBox servicesCont, vBoxFeedbacks;
 	@FXML
-	private HBox GateInfo, tabPane;
+	private HBox GateInfo, tabPane, infoRatingBox;
 	@FXML
 	private Button addNewServiceBtn, removeButton, viewBookings, viewFeedbacks, removeButton1, viewBookings1,
 			viewFeedbacks1, ongoingBTN, doneBTN, addBtn;
 	@FXML
 	private TextField depLoc, depTime, depDate, arvLoc, arvTime, arvDate, SBusNo, BStationName, BStationLoc, StktPrice,
-			GNumber;
+			GNumber, totalSeats;
 	@FXML
-	private Text infoServiceType, infoBusNo, depLocInfo, arvLocInfo, depTimeInfo, arvTimeInfo, dateInfo; // dynamically
+	private Text infoServiceType, infoBusNo, depLocInfo, arvLocInfo, depTimeInfo, arvTimeInfo, dateInfo, hotelRatingNum; // dynamically
 	// updated
 	// info upon mouse click
 	@FXML
@@ -337,6 +338,13 @@ public class ServiceController {
 		}
 	}
 
+	public static boolean isAllDigits(String input) {
+		if (input == null || input.isEmpty()) {
+			return false;
+		}
+		return input.matches("\\d+");
+	}
+
 	public void addNewService() throws SQLException, ClassNotFoundException {
 
 		// add new service logic and db handling
@@ -349,16 +357,17 @@ public class ServiceController {
 				SBusNo.getText().isEmpty() ||
 				BStationName.getText().isEmpty() ||
 				BStationLoc.getText().isEmpty() ||
-				StktPrice.getText().isEmpty()) {
-			System.out.println("One or more fields are empty. Please fill all fields.");
+				StktPrice.getText().isEmpty() || !isAllDigits(totalSeats.getText())) {
+			System.out.println("One or more fields are empty/incorrect. Please fill all fields.");
 			return;
 		}
 		try {
+
 			boolean flag = serviceManager.addNewService(serviceProvider, depLoc.getText(), depTime.getText(),
 					depDate.getText(),
 					arvLoc.getText(), arvTime.getText(), arvDate.getText(),
 					SBusNo.getText(), BStationName.getText(), BStationLoc.getText(),
-					StktPrice.getText(), GNumber.getText());
+					StktPrice.getText(), GNumber.getText(), Integer.parseInt(totalSeats.getText()));
 
 			if (flag) {
 				initServicesFS();
@@ -382,7 +391,8 @@ public class ServiceController {
 					String cancellationMessage = "Your booking has been cancelled due to service unavailability ("
 							+ serviceID + "), you have been refunded";
 					int notificationsSent = serviceManager.addCancellationNotifications(serviceID,
-							cancellationMessage, true);
+							cancellationMessage, true, serviceProvider.getServiceType(),
+							serviceProvider.getAgencyName());
 					System.out.println("Notifications sent: " + notificationsSent);
 				} catch (SQLException | ClassNotFoundException e) {
 					e.printStackTrace();
@@ -412,7 +422,8 @@ public class ServiceController {
 						+ serviceID + "), you have been refunded";
 				try {
 					int notificationsSent = serviceManager.addCancellationNotifications(serviceID,
-							cancellationMessage, false);
+							cancellationMessage, false, serviceProvider.getServiceType(),
+							serviceProvider.getAgencyName());
 					System.out.println("Notifications sent: " + notificationsSent);
 				} catch (SQLException | ClassNotFoundException e) {
 					e.printStackTrace();
@@ -823,6 +834,14 @@ public class ServiceController {
 		infoLocationDetails.setText(hotel.getHotelLocation());
 		infoBasicPrice.setText(Integer.toString(hotel.getBasicRoomPrice()));
 		infoDoublePrice.setText(Integer.toString(hotel.getDoubleRoomPrice()));
+		hotelRatingNum.setText("(" + hotel.getRating() + ")");
+		for (int i = 0; i < hotel.getRating(); i++) {
+			FontAwesomeIcon fai = new FontAwesomeIcon();
+			fai.setGlyphName("STAR");
+			fai.setSize("1.5em");
+			fai.setFill(Color.WHITE);
+			infoRatingBox.getChildren().add(fai);
+		}
 
 	}
 
@@ -846,12 +865,14 @@ public class ServiceController {
 		if (bookingsLoaded && selectedServiceID == bookingsLoadedFr) {
 			viewBookings.setVisible(false);
 			viewBookings1.setVisible(false);
+
 			hideServicePanels("bookings");
 			if (!bookingsDisplayPane.isVisible()) {
 				bookingsDisplayPane.setVisible(true);
 			}
 			return; // Exit early since bookings are already loaded for the selected service
 		}
+		tabPane.setVisible(false);
 
 		hideServicePanels("bookings");
 		viewBookings.setVisible(false);
@@ -859,6 +880,8 @@ public class ServiceController {
 
 		FXMLLoader fxmlloader = new FXMLLoader();
 		fxmlloader.setLocation(getClass().getResource("../scenes/ServiceBookings.fxml"));
+		BookingController cont = new BookingController();
+		fxmlloader.setController(cont);
 		Pane pane = fxmlloader.load();
 
 		BookingController bookingController = fxmlloader.getController();
@@ -900,13 +923,14 @@ public class ServiceController {
 		if (feedbacksLoaded && selectedServiceID == feedbacksLoadedFr) {
 			viewFeedbacks.setVisible(false);
 			viewFeedbacks1.setVisible(false);
+			tabPane.setVisible(false);
 			hideServicePanels("feedbacks");
 			if (!feedbacksDisplayPane.isVisible()) {
 				feedbacksDisplayPane.setVisible(true);
 			}
 			return; // Exit early since bookings are already loaded for the selected service
 		}
-
+		tabPane.setVisible(false);
 		hideServicePanels("feedbacks");
 		viewFeedbacks.setVisible(false);
 		viewFeedbacks1.setVisible(false);
@@ -967,7 +991,7 @@ public class ServiceController {
 	public void markServiceDone() throws ClassNotFoundException, SQLException {
 		if (selectedServiceID == -1)
 			return;
-		boolean flag = serviceManager.markServiceAsDone(selectedServiceID);
+		boolean flag = serviceManager.markServiceAsDone(selectedServiceID, serviceProvider.getAgencyName());
 		if (flag) {
 			System.out.println("Service marked done successfully");
 			initServicesFS();

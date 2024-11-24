@@ -13,8 +13,10 @@ import java.util.List;
 import application.Managers.ServiceManager;
 import application.Model.BusService;
 import application.Model.Customer;
+import application.Model.FlightService;
 import application.Model.HotelBooking;
 import application.Model.HotelService;
+import application.Model.TrainService;
 import application.Model.TravelBooking;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.fxml.FXML;
@@ -31,15 +33,15 @@ import javafx.scene.text.Text;
 
 public class ServiceControllerCus {
 	@FXML
-	private Text ServiceNo, From, To, Dtime, Atime, StationName, StationLoc, Price, errText;
+	private Text ServiceNo, From, To, Dtime, Atime, StationName, StationLoc, Price, errText, errHotel, hotelPrice;
 	@FXML
 	private ComboBox<String> TypeInput, TypeInput1;
 	@FXML
 	private TextField FromInput, ToInput;
 	@FXML
-	private Pane sideInfoPane, hotelServicePane1;
+	private Pane sideInfoPane, hotelServicePane1, hotelPaymentPane;
 	@FXML
-	private AnchorPane SearchPane, ConfirmBookingPane, HotelBookingPane, PaymentTravel, PaymentHotel;
+	private AnchorPane SearchPane, ConfirmBookingPane, HotelBookingPane;
 	@FXML
 	private Text ServiceNo2, StaName, Staloc, Agency, Dloc, Ddate, Dtime1, Price1, Atime1, ADate, Aloc, agencyName,
 			sampleText, typeNo;
@@ -50,6 +52,9 @@ public class ServiceControllerCus {
 
 	@FXML
 	private TextField cnField, mmField, yyField, cvvField, fnField, lnField;
+
+	@FXML
+	private TextField cnField1, mmField1, yyField1, cvvField1, fnField1, lnField1;
 
 	String Des, Arrival, Type;
 	Customer customer;
@@ -65,6 +70,8 @@ public class ServiceControllerCus {
 	private Text infoHotelName2, infoLocationDetails1, infoBasicPrice1, infoDoublePrice1, infoRatingBox1;
 
 	List<BusService> busServices = new ArrayList<>();
+	List<TrainService> trainServices = new ArrayList<>();
+	List<FlightService> flightServices = new ArrayList<>();
 
 	@FXML
 	public void initialize() throws ClassNotFoundException, SQLException {
@@ -86,10 +93,38 @@ public class ServiceControllerCus {
 
 		SearchPane.setVisible(true);
 		ConfirmBookingPane.setVisible(false);
+		HotelBookingPane.setVisible(false);
+		hotelServicePane1.setVisible(true);
+		hotelPaymentPane.setVisible(false);
 
 		// hide stuff
 		sideInfoPane.setVisible(false);
 		getAllServices();
+	}
+
+	private void clearAllTextFields() {
+		cnField.clear();
+		mmField.clear();
+		yyField.clear();
+		cvvField.clear();
+		fnField.clear();
+		lnField.clear();
+		cnField1.clear();
+		mmField1.clear();
+		yyField1.clear();
+		cvvField1.clear();
+		fnField1.clear();
+		lnField1.clear();
+	}
+
+	public void gobackServices() {
+		SearchPane.setVisible(true);
+		ConfirmBookingPane.setVisible(false);
+		HotelBookingPane.setVisible(false);
+		hotelServicePane1.setVisible(true);
+		hotelPaymentPane.setVisible(false);
+
+		clearAllTextFields();
 	}
 
 	public ServiceControllerCus() {
@@ -110,29 +145,29 @@ public class ServiceControllerCus {
 			ConfirmBookingPane.setVisible(true);
 		SearchPane.setVisible(false);
 		HotelBookingPane.setVisible(false);
-		PaymentTravel.setVisible(false);
-		PaymentHotel.setVisible(false);
 
-	}
-
-	public void DoPayment() {
-
-		if (!PaymentTravel.isVisible())
-			PaymentTravel.setVisible(true);
-		SearchPane.setVisible(false);
-		HotelBookingPane.setVisible(false);
-		ConfirmBookingPane.setVisible(false);
-		PaymentHotel.setVisible(false);
 	}
 
 	public void DoPayment2() {
 
-		if (!PaymentHotel.isVisible())
-			PaymentHotel.setVisible(true);
-		SearchPane.setVisible(false);
-		HotelBookingPane.setVisible(false);
-		ConfirmBookingPane.setVisible(false);
-		PaymentTravel.setVisible(false);
+		if (TypeInput1 == null || TypeInput1.getValue() == null || TypeInput1.getValue().isBlank()) {
+			errHotel.setText("* Select a type");
+			return;
+		}
+		String typev = TypeInput1.getValue();
+		hotelServicePane1.setVisible(false);
+		hotelPaymentPane.setVisible(true);
+		if (typev.equals("Basic Room")) {
+			hotelPrice.setText("" + hotelservice.getBasicRoomPrice());
+		} else {
+			hotelPrice.setText("" + hotelservice.getDoubleRoomPrice());
+		}
+
+	}
+
+	public void viewServiceInfo() {
+		hotelServicePane1.setVisible(true);
+		hotelPaymentPane.setVisible(false);
 	}
 
 	public void BackToSearch() {
@@ -141,11 +176,13 @@ public class ServiceControllerCus {
 		sideInfoPane.setVisible(false);
 		ConfirmBookingPane.setVisible(false);
 		HotelBookingPane.setVisible(false);
-		PaymentTravel.setVisible(false);
-		PaymentHotel.setVisible(false);
 	}
 
 	public void DoHotelPayment() {
+
+		if (!validateAllFieldsForHotelPayment()) {
+			return;
+		}
 		Connection conn = null; // Ensure you establish your database connection
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -202,6 +239,7 @@ public class ServiceControllerCus {
 			int rowsInserted = pstmt.executeUpdate();
 			if (rowsInserted > 0) {
 				System.out.println("Hotel booking successfully added to the database!");
+				gobackServices();
 			}
 
 		} catch (Exception e) {
@@ -239,7 +277,7 @@ public class ServiceControllerCus {
 		return true;
 	}
 
-	public boolean validateAllFields() {
+	public boolean validateAllFieldsForTravelPayment() {
 		boolean isValid = true;
 
 		isValid &= validateField(cnField); // Card number field
@@ -252,9 +290,22 @@ public class ServiceControllerCus {
 		return isValid;
 	}
 
+	public boolean validateAllFieldsForHotelPayment() {
+		boolean isValid = true;
+
+		isValid &= validateField(cnField1); // Card number field
+		isValid &= validateField(mmField1); // Month field
+		isValid &= validateField(yyField1); // Year field
+		isValid &= validateField(cvvField1); // CVV field
+		isValid &= validateField(fnField1); // First name field
+		isValid &= validateField(lnField1); // Last name field
+
+		return isValid;
+	}
+
 	public void DoBooking() {
 		System.out.println("booking " + cnField.getText());
-		if (!validateAllFields()) {
+		if (!validateAllFieldsForTravelPayment()) {
 			return;
 		}
 
@@ -283,7 +334,7 @@ public class ServiceControllerCus {
 			// 5. Insert the booking into the database
 			String insertQuery = "INSERT INTO travelbooking (bookingID, customerID, serviceID, totalPrice, serviceType, bookingDate, username,status) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(insertQuery);
-
+			System.out.println(travel_Booking.getServiceID());
 			pstmt.setInt(1, travel_Booking.getBookingID());
 			pstmt.setInt(2, travel_Booking.getCustomerID());
 			pstmt.setInt(3, travel_Booking.getServiceID());
@@ -298,7 +349,6 @@ public class ServiceControllerCus {
 				System.out.println("Booking successfully added to the database!");
 				HotelBookingPane.setVisible(true);
 				ConfirmBookingPane.setVisible(false);
-				PaymentTravel.setVisible(false);
 				BookHotelToo();
 
 			}
@@ -378,8 +428,6 @@ public class ServiceControllerCus {
 			HotelBookingPane.setVisible(true);
 		SearchPane.setVisible(false);
 		ConfirmBookingPane.setVisible(false);
-		PaymentTravel.setVisible(false);
-		PaymentHotel.setVisible(false);
 		hotelServicePane1.setVisible(false);
 
 		vBoxHotel.getChildren().clear();
@@ -558,9 +606,10 @@ public class ServiceControllerCus {
 		}
 
 		do {
+			System.out.println(resultSet.getInt("ServiceProviderID") + resultSet.getInt("ServiceID") + "");
 			// Store the result set values into local variables
 			String serviceType = resultSet.getString("ServiceType");
-			int serviceId = resultSet.getInt("ServiceID");
+			int serviceId = resultSet.getInt("ServiceProviderID");
 			String arrivalTime = resultSet.getString("ArrivalTime");
 			String departureTime = resultSet.getString("DepartureTime");
 			String departureLocation = resultSet.getString("DepartureLocation");
@@ -625,7 +674,7 @@ public class ServiceControllerCus {
 							departureDate,
 							arrivalDate,
 							agency,
-							serviceId
+							ServiceID
 
 					);
 
@@ -643,8 +692,10 @@ public class ServiceControllerCus {
 		busServices.clear();
 
 		busServices = serviceManager.getAllBusServices();
+		trainServices = serviceManager.getAllTrainServices();
+		flightServices = serviceManager.getAllFlightServices();
 
-		if (busServices.isEmpty()) {
+		if (busServices.isEmpty() && trainServices.isEmpty() && flightServices.isEmpty()) {
 			Text txt = new Text();
 			txt.setText("No Services Found");
 			txt.setFont(sampleText.getFont());
@@ -704,7 +755,123 @@ public class ServiceControllerCus {
 							busServices.get(currentIndex).getDepartureDate(),
 							busServices.get(currentIndex).getArrivalDate(),
 							agency,
-							busServices.get(currentIndex).getServiceProviderID());
+							busServices.get(currentIndex).getServiceID());
+
+				});
+
+				servicesCont.getChildren().add(hbox);
+			} catch (IOException io) {
+				System.out.println(io);
+			}
+		}
+
+		for (int i = 0; i < flightServices.size(); i++) {
+			FXMLLoader fxmlloader = new FXMLLoader();
+			fxmlloader.setLocation(getClass().getResource("../scenes/components/service_item.fxml"));
+
+			try {
+				System.out.println("adding service to View");
+				HBox hbox = fxmlloader.load();
+				ServiceItemController sItemC = fxmlloader.getController();
+
+				// Pass the captured data to the controller
+				sItemC.setData(flightServices.get(i).getArrivalLocation(), flightServices.get(i).getDepartureLocation(),
+						flightServices.get(i).getArrivalTime(), flightServices.get(i).getDepartureTime(),
+						flightServices.get(i).getServiceType(),
+						flightServices.get(i).getServiceID());
+				int currentIndex = i;
+
+				hbox.setOnMouseClicked(event -> {
+					String agency;
+					try {
+						agency = serviceManager.getAgencyName(flightServices.get(currentIndex).getServiceProviderID());
+					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
+						return;
+					}
+					showServiceDetails(
+							flightServices.get(currentIndex).getServiceType(),
+							flightServices.get(currentIndex).getFlightNumber(),
+							flightServices.get(currentIndex).getDepartureLocation(),
+							flightServices.get(currentIndex).getArrivalLocation(),
+							flightServices.get(currentIndex).getDepartureTime(),
+							flightServices.get(currentIndex).getArrivalLocation(),
+							flightServices.get(currentIndex).getAirportName(),
+							flightServices.get(currentIndex).getAirportLocation(),
+							"" + flightServices.get(currentIndex).getPrice(), agency);
+
+					BookingDetails(
+							flightServices.get(currentIndex).getServiceType(),
+							flightServices.get(currentIndex).getFlightNumber(),
+							flightServices.get(currentIndex).getDepartureLocation(),
+							flightServices.get(currentIndex).getArrivalLocation(),
+							flightServices.get(currentIndex).getDepartureTime(),
+							flightServices.get(currentIndex).getArrivalLocation(),
+							flightServices.get(currentIndex).getAirportName(),
+							flightServices.get(currentIndex).getAirportLocation(),
+							"" + flightServices.get(currentIndex).getPrice(),
+							flightServices.get(currentIndex).getDepartureDate(),
+							flightServices.get(currentIndex).getArrivalDate(),
+							agency,
+							flightServices.get(currentIndex).getServiceID());
+
+				});
+
+				servicesCont.getChildren().add(hbox);
+			} catch (IOException io) {
+				System.out.println(io);
+			}
+		}
+
+		for (int i = 0; i < trainServices.size(); i++) {
+			FXMLLoader fxmlloader = new FXMLLoader();
+			fxmlloader.setLocation(getClass().getResource("../scenes/components/service_item.fxml"));
+
+			try {
+				System.out.println("adding service to View");
+				HBox hbox = fxmlloader.load();
+				ServiceItemController sItemC = fxmlloader.getController();
+
+				// Pass the captured data to the controller
+				sItemC.setData(trainServices.get(i).getArrivalLocation(), trainServices.get(i).getDepartureLocation(),
+						trainServices.get(i).getArrivalTime(), trainServices.get(i).getDepartureTime(),
+						trainServices.get(i).getServiceType(),
+						trainServices.get(i).getServiceID());
+				int currentIndex = i;
+
+				hbox.setOnMouseClicked(event -> {
+					String agency;
+					try {
+						agency = serviceManager.getAgencyName(trainServices.get(currentIndex).getServiceProviderID());
+					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
+						return;
+					}
+					showServiceDetails(
+							trainServices.get(currentIndex).getServiceType(),
+							trainServices.get(currentIndex).getTrainNumber(),
+							trainServices.get(currentIndex).getDepartureLocation(),
+							trainServices.get(currentIndex).getArrivalLocation(),
+							trainServices.get(currentIndex).getDepartureTime(),
+							trainServices.get(currentIndex).getArrivalLocation(),
+							trainServices.get(currentIndex).getStationName(),
+							trainServices.get(currentIndex).getStationLocation(),
+							"" + trainServices.get(currentIndex).getPrice(), agency);
+
+					BookingDetails(
+							trainServices.get(currentIndex).getServiceType(),
+							trainServices.get(currentIndex).getTrainNumber(),
+							trainServices.get(currentIndex).getDepartureLocation(),
+							trainServices.get(currentIndex).getArrivalLocation(),
+							trainServices.get(currentIndex).getDepartureTime(),
+							trainServices.get(currentIndex).getArrivalLocation(),
+							trainServices.get(currentIndex).getStationName(),
+							trainServices.get(currentIndex).getStationLocation(),
+							"" + trainServices.get(currentIndex).getPrice(),
+							trainServices.get(currentIndex).getDepartureDate(),
+							trainServices.get(currentIndex).getArrivalDate(),
+							agency,
+							trainServices.get(currentIndex).getServiceID());
 
 				});
 
