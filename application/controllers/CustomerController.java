@@ -1,6 +1,7 @@
 package application.controllers;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +13,7 @@ import application.Main;
 import application.Managers.ServiceManager;
 import application.Model.Customer;
 import application.Model.Notifications;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,6 +27,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -32,23 +35,27 @@ public class CustomerController {
 	int currentTab = 1;
 	private Customer customer;
 	@FXML
-	private Text usernameCus;
+	private Text usernameCus, usernameCus1;
 	@FXML
 	private AnchorPane mainPanel_cus, selection, home;
 	@FXML
-	private Button nav_home_cus, nav_profile_cus, nav_service_cus, nav_Bookings;
+	private Button nav_home_cus, nav_notifs_cus, nav_profile_cus, nav_service_cus, nav_Bookings, confirmPassChange,
+			confirmPhoneChange, logoutBtn;
 	@FXML
-	private Text cusID, profileName, profileEmail, profilePhoneNum, total, travel, hotel;
+	private Text cusID, profileName, profileEmail, profilePhoneNum, total, travel, hotel, modify_textprompt, errPass,
+			errPN;
 	@FXML
 	private Pane modify_basePane, modify_passwordPane, modify_phonePane;
 	@FXML
-	private TextField newUsername;
+	private TextField newUsername, changePNField;
 	@FXML
-	private PasswordField newPass;
+	private PasswordField newPass, currPass;
 	@FXML
 	private VBox NewVbox, notifBox;
 	@FXML
 	private ScrollPane homeBookingScroll, notifScroll;
+	@FXML
+	private FontAwesomeIcon gobackManage2, gobackManage1;
 
 	ScreenController screenController = new ScreenController();
 
@@ -208,6 +215,161 @@ public class CustomerController {
 		}
 	}
 
+	public void loadProfilePane() {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../scenes/CustomerProfilePane.fxml"));
+			loader.setController(this);
+			AnchorPane newPanel = loader.load();
+			mainPanel_cus.getChildren().setAll(newPanel);
+			loadProfileData();
+			changeBackButtonBG();
+			nav_profile_cus.setStyle("-fx-background-color:  #212832;-fx-background-radius: 30px 0 0 30px;");
+
+			changePNField.setStyle("-fx-padding: 0 0 0 10px;");
+			currPass.setStyle("-fx-padding: 0 0 0 10px;");
+			newPass.setStyle("-fx-padding: 0 0 0 10px;");
+
+			modify_basePane.setVisible(true);
+			modify_passwordPane.setVisible(false);
+			modify_phonePane.setVisible(false);
+
+			confirmPhoneChange.setOnMouseClicked(arg0 -> {
+				try {
+					PhoneNumberChange();
+				} catch (ClassNotFoundException | SQLException e) {
+					e.printStackTrace();
+				}
+			});
+
+			logoutBtn.setOnMouseClicked(arg0 -> {
+				try {
+					Logout(arg0);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+
+			confirmPassChange.setOnMouseClicked(arg0 -> {
+				try {
+					PasswordChange();
+				} catch (ClassNotFoundException | SQLException e) {
+					e.printStackTrace();
+				}
+			});
+
+			gobackManage1.setOnMouseClicked(arg0 -> {
+				modify_basePane.setVisible(true);
+				modify_passwordPane.setVisible(false);
+				modify_phonePane.setVisible(false);
+			});
+
+			gobackManage2.setOnMouseClicked(arg0 -> {
+				modify_basePane.setVisible(true);
+				modify_passwordPane.setVisible(false);
+				modify_phonePane.setVisible(false);
+			});
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		currentTab = 4;
+	}
+
+	private void PhoneNumberChange() throws ClassNotFoundException, SQLException {
+		errPN.setFill(Color.RED);
+
+		// Validate phone number input
+		if (changePNField.getText().isEmpty()) {
+			errPN.setText("* Phone number is required");
+			return;
+		}
+
+		if (!isValidPhoneNumber(changePNField.getText())) {
+			errPN.setText("* Please enter a valid phone number");
+			return;
+		}
+
+		if (changePNField.getText().equals(customer.getPhoneNum())) {
+			errPN.setText("* Enter New Phone number");
+			return;
+		}
+		// Update the phone number in the database
+		String query = "UPDATE customer SET phoneNo = ? WHERE CustomerID = ?";
+		try (Connection connection = dbHandler.connect();
+				PreparedStatement statement = connection.prepareStatement(query)) {
+			statement.setString(1, changePNField.getText());
+			statement.setInt(2, customer.getCustomerID());
+
+			// Check if the update was successful
+			int rowsAffected = statement.executeUpdate();
+			if (rowsAffected == 0) {
+				errPN.setText("* Error changing phone number. Please try again.");
+				return;
+			}
+		}
+
+		customer.setPhoneNum(changePNField.getText());
+		errPN.setFill(Color.BLACK);
+		errPN.setText("Phone number changed successfully");
+		loadProfileData();
+	}
+
+	private void PasswordChange() throws ClassNotFoundException, SQLException {
+		errPass.setFill(Color.RED);
+		if (currPass.getText().equals("") || newPass.getText().equals("")) {
+			errPass.setText("* Above fields are required");
+			return;
+		}
+		if (!isCurrentPassword(currPass.getText(), customer.getCustomerID())) {
+			errPass.setText("* Current password incorrect");
+			return;
+		}
+		if (newPass.getText().equals(currPass.getText())) {
+			errPass.setText("* Insert Different password");
+			return;
+		}
+		if (!setPassword(customer.getCustomerID(), newPass.getText())) {
+			errPass.setText("* Error changing password");
+			return;
+		} else {
+			errPass.setFill(Color.BLACK);
+			errPass.setText("Password changed successfully");
+			loadProfileData();
+		}
+	}
+
+	public boolean setPassword(int ID, String newPassword) throws SQLException, ClassNotFoundException {
+		String query = "UPDATE customerauth SET password = ? WHERE userID = ?";
+		try (Connection connection = dbHandler.connect();
+				PreparedStatement statement = connection.prepareStatement(query)) {
+			// Hash the new password before storing (implement hashing as required)
+			statement.setString(1, newPassword); // Replace with hashed password
+			statement.setInt(2, ID);
+
+			// Execute update
+			int rowsAffected = statement.executeUpdate();
+			return rowsAffected > 0;
+		}
+	}
+
+	public boolean isCurrentPassword(String currentPassword, int serviceProviderID)
+			throws SQLException, ClassNotFoundException {
+		String query = "SELECT password FROM customerauth WHERE userID = ?";
+		try (Connection connection = dbHandler.connect();
+				PreparedStatement statement = connection.prepareStatement(query)) {
+			statement.setInt(1, serviceProviderID);
+			ResultSet rs = statement.executeQuery();
+
+			if (rs.next()) {
+				String storedPassword = rs.getString("password");
+				// Compare stored hashed password with the input password (hash it if necessary)
+				return storedPassword.equals(currentPassword); // Replace with hashing comparison
+			}
+		}
+		return false;
+	}
+
 	public void loadProfileData() throws SQLException, ClassNotFoundException {
 		Connection connection = dbHandler.connect();
 		String query = "SELECT " +
@@ -217,11 +379,11 @@ public class CustomerController {
 				"FROM ( " +
 				"    SELECT bookingID, 'BUS' AS type " +
 				"    FROM travelbooking " +
-				"    WHERE customerID = ? " +
+				"    WHERE customerID = ? AND status = 1 " +
 				"    UNION ALL " +
 				"    SELECT bookingID, 'BED' AS type " +
 				"    FROM hotelbooking " +
-				"    WHERE customerID = ? " +
+				"    WHERE customerID = ? AND status = 1 " +
 				") AS all_bookings;";
 
 		try (PreparedStatement prepStatement = connection.prepareStatement(query)) {
@@ -245,27 +407,10 @@ public class CustomerController {
 		}
 
 		// Set customer profile information
-		cusID.setText(String.valueOf(customer.getCustomerID()));
+		cusID.setText("@" + customer.getUsername());
 		profileName.setText(customer.getName());
 		profileEmail.setText(customer.getEmail());
 		profilePhoneNum.setText(customer.getPhoneNum());
-	}
-
-	public void loadProfilePane() {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../scenes/CustomerProfilePane.fxml"));
-			loader.setController(this);
-			AnchorPane newPanel = loader.load();
-			mainPanel_cus.getChildren().setAll(newPanel);
-			loadProfileData();
-			changeBackButtonBG();
-			nav_profile_cus.setStyle("-fx-background-color:  #212832;-fx-background-radius: 30px 0 0 30px;");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		currentTab = 4;
 	}
 
 	private void changeBackButtonBG() {
@@ -289,6 +434,14 @@ public class CustomerController {
 		}
 	}
 
+	public static boolean isValidPhoneNumber(String phoneNumber) {
+		System.out.println("checking : " + phoneNumber);
+		if (phoneNumber == null || phoneNumber.isEmpty()) {
+			return false;
+		}
+		return phoneNumber.matches("\\d+"); // Regex to check if it contains only digits
+	}
+
 	public void exitApplication() {
 		Platform.exit();
 	}
@@ -310,6 +463,10 @@ public class CustomerController {
 
 		for (int i = 0; i < notifs.size(); i++) {
 			FXMLLoader fxmlloader = new FXMLLoader();
+			URL resource = getClass().getResource("../scenes/components/notification_item.fxml");
+			if (resource == null) {
+				System.err.println("FXML file not found at the specified location!");
+			}
 			fxmlloader.setLocation(getClass().getResource("../scenes/components/notification_item.fxml"));
 
 			try {

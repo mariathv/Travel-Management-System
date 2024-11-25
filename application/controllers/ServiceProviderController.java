@@ -2,6 +2,7 @@ package application.controllers;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import application.Main;
@@ -433,5 +434,48 @@ public class ServiceProviderController {
 		}
 		return phoneNumber.matches("\\d+"); // Regex to check if it contains only digits
 	}
+	
+	public boolean updateRatingOnAvg(int serviceProviderID) {
+	    String calculateAvgRatingQuery = 
+	        "SELECT AVG(rating) AS avgRating " +
+	        "FROM servicefeedback " +
+	        "WHERE serviceID IN (SELECT serviceID FROM TravelService WHERE serviceProviderID = ?)";
+	    
+	    String updateServiceProviderRatingQuery = 
+	        "UPDATE serviceProvider SET rating = ? WHERE serviceProviderID = ?";
+	    
+	    double avgRating = 0.0;
+
+	    try (Connection connection = dbHandler.connect()) {
+	        // Calculate the average rating
+	        try (PreparedStatement avgStmt = connection.prepareStatement(calculateAvgRatingQuery)) {
+	            avgStmt.setInt(1, serviceProviderID);
+	            try (ResultSet resultSet = avgStmt.executeQuery()) {
+	                if (resultSet.next()) {
+	                    avgRating = resultSet.getDouble("avgRating");
+	                }
+	            }
+	        }
+
+	        // Update the service provider's rating
+	        try (PreparedStatement updateStmt = connection.prepareStatement(updateServiceProviderRatingQuery)) {
+	            updateStmt.setDouble(1, avgRating);
+	            updateStmt.setInt(2, serviceProviderID);
+
+	            int rowsAffected = updateStmt.executeUpdate();
+	            if (rowsAffected > 0) {
+	                System.out.println("Successfully updated rating for Service Provider ID: " + serviceProviderID);
+	                return true;
+	            } else {
+	                System.out.println("Failed to update rating for Service Provider ID: " + serviceProviderID);
+	            }
+	        }
+	    } catch (SQLException | ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
+
+	    return false;
+	}
+
 
 }

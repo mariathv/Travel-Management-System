@@ -229,6 +229,8 @@ public class ServiceControllerCus {
 
 			pstmt.setInt(1, hotel_booking.getBookingID());
 			pstmt.setInt(2, hotel_booking.getCustomerID());
+			// System.out.println("adding hotel " + hotel_booking.getListingID() +
+			// hotel_booking.getStatus());
 			pstmt.setInt(3, hotel_booking.getListingID());
 			pstmt.setInt(4, hotel_booking.getPrice());
 			pstmt.setString(5, hotel_booking.getRoomType());

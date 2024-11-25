@@ -243,7 +243,7 @@ public class CustomerBookingController {
                     bookingItemController itemController = fxmlloader.getController();
 
                     itemController.setData(serlnum++, booking.getUsername(),
-                            booking.getBookingDate(), String.valueOf(booking.getTotalPrice()));
+                            booking.getBookingDate(), String.valueOf(booking.getTotalPrice()), booking.getStatus());
 
                     vBoxBookings.getChildren().add(hbox);
                 }
@@ -256,7 +256,7 @@ public class CustomerBookingController {
                     bookingItemController itemController = fxmlloader.getController();
 
                     itemController.setData(serlnum++, booking.getUsername(),
-                            booking.getBookingDate(), String.valueOf(booking.getPrice()));
+                            booking.getBookingDate(), String.valueOf(booking.getPrice()), 1);
 
                     vBoxBookings.getChildren().add(hbox);
                 }
@@ -278,17 +278,17 @@ public class CustomerBookingController {
                     +
                     "FROM travelbooking WHERE customerID = ? AND status = 1 " +
                     "UNION ALL " +
-                    "SELECT bookingID, bookingDate, price, 'Hotel' AS serviceType,status, listingID AS id,'BED' AS type "
+                    "SELECT bookingID, bookingDate, price, 'Hotel' AS serviceType, listingID AS id,status,'BED' AS type "
                     +
                     "FROM hotelbooking WHERE customerID = ? AND status = 1 ";
         else
             query = "SELECT bookingID, bookingDate, TotalPrice AS price,serviceType, serviceID AS id,  status, 'BUS' AS type "
                     +
-                    "FROM travelbooking WHERE customerID = ? AND status = 2 " +
+                    "FROM travelbooking WHERE customerID = ? AND status = 0 " +
                     "UNION ALL " +
-                    "SELECT bookingID, bookingDate, price,'Hotel' AS serviceType,  status,listingID AS id, 'BED' AS type "
+                    "SELECT bookingID, bookingDate, price,'Hotel' AS serviceType, listingID AS id, status, 'BED' AS type "
                     +
-                    "FROM hotelbooking WHERE customerID = ? AND status = 2 ";
+                    "FROM hotelbooking WHERE customerID = ? AND status = 0 ";
 
         try (PreparedStatement prepStatement = connection.prepareStatement(query)) {
             prepStatement.setInt(1, customer.getCustomerID());
@@ -315,6 +315,7 @@ public class CustomerBookingController {
                         // String type = resultSet.getString("type");
                         int status = resultSet.getInt("status");
                         int serviceID = resultSet.getInt("id");
+                        System.out.println("fetched serviceID" + serviceID);
                         String serviceType = resultSet.getString("serviceType");
                         String type1 = "";
                         if (serviceType.equals("Bus"))
@@ -322,7 +323,7 @@ public class CustomerBookingController {
                         else if (serviceType.equals("Train"))
                             type1 = "TRAIN";
                         else if (serviceType.equals("Flight"))
-                            type1 = "FLIGHT";
+                            type1 = "PLANE";
                         else if (serviceType.equals("Hotel"))
                             type1 = "HOTEL";
                         allBookingItem.setData(x, bookingID, bookingDate, price, type1, status);
@@ -351,7 +352,9 @@ public class CustomerBookingController {
                                         serviceNo.setText(serviceManager.getFlightNumber(serviceID));
                                     } else {
                                         textNumber.setText("Room Type: ");
-                                        serviceNo.setText(serviceManager.getRoomType(serviceID));
+                                        String roomType = serviceManager.getRoomType(serviceID);
+                                        System.out.println("room type : " + roomType);
+                                        serviceNo.setText(roomType);
                                     }
                                 } catch (ClassNotFoundException e) {
                                     e.printStackTrace();
@@ -379,6 +382,7 @@ public class CustomerBookingController {
                                 this.serviceID = serviceID;
 
                                 viewFeedbackPanel();
+                                resetFeedbackFields();
 
                                 // Reset the style of the previously selected HBox
                                 if (currentlySelectedHBox != null) {
@@ -403,6 +407,14 @@ public class CustomerBookingController {
         }
     }
 
+    public void resetFeedbackFields() {
+        feedbackmsg.clear();
+        errf.setText("");
+        errf1.setText("");
+
+        resetStars();
+    }
+
     public void cancelbooking() {
         // Retrieve input values
 
@@ -410,12 +422,10 @@ public class CustomerBookingController {
             int bookingid = Integer.parseInt(Cancelbookingid); // Parse booking ID as an integer
 
             // Database query logic based on type
-            if (CancelType.equalsIgnoreCase("BED")) {
+            if (CancelType.equalsIgnoreCase("HOTEL")) {
                 updateBookingStatus("hotelbooking", bookingid);
-            } else if (CancelType.equalsIgnoreCase("BUS")) {
-                updateBookingStatus("travelbooking", bookingid);
             } else {
-                System.out.println("Invalid booking type. Please enter 'hotel' or 'travel'.");
+                updateBookingStatus("travelbooking", bookingid);
             }
         } catch (NumberFormatException e) {
             System.out.println("Invalid booking ID. Please enter a valid number.");

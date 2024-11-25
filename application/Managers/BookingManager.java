@@ -18,7 +18,7 @@ public class BookingManager {
 
     public List<TravelBooking> getBookingsByServiceProvider(int serviceID) throws ClassNotFoundException, SQLException {
         Connection connection = dbHandler.connect();
-        String sql = "SELECT * FROM TravelBooking WHERE serviceID = ?";
+        String sql = "SELECT * FROM TravelBooking WHERE serviceID = ? AND status = 1";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, serviceID);
@@ -31,9 +31,11 @@ public class BookingManager {
                 String serviceType = rs.getString("serviceType");
                 String bookingDate = rs.getString("bookingDate");
                 String username = rs.getString("username");
+                int status = rs.getInt("status");
 
                 TravelBooking booking = new TravelBooking(bookingID, customerID, serviceID, totalPrice, serviceType,
                         bookingDate, username);
+                booking.setStatus(status);
                 bookings.add(booking);
             }
         } catch (SQLException e) {
@@ -51,7 +53,7 @@ public class BookingManager {
                 +
                 "FROM travelbooking cb " +
                 "JOIN travelservice ts ON cb.serviceID = ts.serviceID " +
-                "WHERE ts.serviceProviderID = ? " + // Changed to serviceProviderID
+                "WHERE ts.serviceProviderID = ? AND cb.status = 1 " + // Changed to serviceProviderID
                 "ORDER BY cb.bookingDate DESC " +
                 "LIMIT 5";
 
@@ -83,7 +85,7 @@ public class BookingManager {
     public List<HotelBooking> getHotelBookingsByServiceProvider(int serviceID)
             throws ClassNotFoundException, SQLException {
         Connection connection = dbHandler.connect();
-        String sql = "SELECT * FROM HotelBooking WHERE listingID = ?";
+        String sql = "SELECT * FROM HotelBooking WHERE listingID = ? AND status = 1";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, serviceID);
@@ -111,7 +113,7 @@ public class BookingManager {
     public List<HotelBooking> getRecentHotelBookingsByServiceProvider(int serviceProviderID)
             throws ClassNotFoundException, SQLException {
         Connection connection = dbHandler.connect();
-        String sql = "SELECT * from hotelbooking hb JOIN hotelservice hs ON hb.listingID = hs.HotelServiceID WHERE hs.ServiceProviderID = ? ORDER BY bookingDate DESC LIMIT 5";
+        String sql = "SELECT * from hotelbooking hb JOIN hotelservice hs ON hb.listingID = hs.HotelServiceID WHERE hs.ServiceProviderID = ? AND hb.status = 1 ORDER BY bookingDate DESC LIMIT 5";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, serviceProviderID);

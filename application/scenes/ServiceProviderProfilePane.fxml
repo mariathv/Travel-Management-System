@@ -83,11 +83,6 @@
                   </Text>
                </children>
             </GridPane>
-            <Text fill="WHITE" layoutX="178.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Followers: ">
-               <font>
-                  <Font name="Lexend Deca Regular" size="14.0" />
-               </font>
-            </Text>
             <Text fill="WHITE" layoutX="178.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Agency:">
                <font>
                   <Font name="Lexend Deca Regular" size="14.0" />
