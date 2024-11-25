@@ -50,7 +50,8 @@ public class ServiceController {
 	private TextField depLoc, depTime, depDate, arvLoc, arvTime, arvDate, SBusNo, BStationName, BStationLoc, StktPrice,
 			GNumber, totalSeats;
 	@FXML
-	private Text infoServiceType, infoBusNo, depLocInfo, arvLocInfo, depTimeInfo, arvTimeInfo, dateInfo, hotelRatingNum; // dynamically
+	private Text infoServiceType, infoBusNo, depLocInfo, arvLocInfo, depTimeInfo, arvTimeInfo, dateInfo, hotelRatingNum,
+			errService; // dynamically
 	// updated
 	// info upon mouse click
 	@FXML
@@ -75,35 +76,39 @@ public class ServiceController {
 
 	int selectedTab = -1;
 	boolean isEditing = false;
+	boolean isInit = false;
 
 	@FXML
 	public void initialize() {
+		if (!isInit) {
+			isInit = true;
+			System.out.println("init");
+			ongoingBTN.setStyle("-fx-background-color: black; -fx-text-fill: white;");
+			doneBTN.setStyle("-fx-background-color: transparent; -fx-text-fill: black;");
 
-		ongoingBTN.setStyle("-fx-background-color: black; -fx-text-fill: white;");
-		doneBTN.setStyle("-fx-background-color: transparent; -fx-text-fill: black;");
+			sideInfoPane.setVisible(false);
+			hotelServicePane.setVisible(false);
+			addServicePane.setVisible(false);
 
-		sideInfoPane.setVisible(false);
-		hotelServicePane.setVisible(false);
-		addServicePane.setVisible(false);
-
-		ongoingBTN.setOnMouseClicked(event -> {
-			try {
-				toggleButtonState(ongoingBTN, doneBTN, 1);
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		});
-		doneBTN.setOnMouseClicked(event -> {
-			try {
-				toggleButtonState(doneBTN, ongoingBTN, 2);
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		});
+			ongoingBTN.setOnMouseClicked(event -> {
+				try {
+					toggleButtonState(ongoingBTN, doneBTN, 1);
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			});
+			doneBTN.setOnMouseClicked(event -> {
+				try {
+					toggleButtonState(doneBTN, ongoingBTN, 2);
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			});
+		}
 	}
 
 	private void toggleButtonState(Button activeBtn, Button inactiveBtn, int tabNumber)
@@ -345,9 +350,24 @@ public class ServiceController {
 		return input.matches("\\d+");
 	}
 
-	public void addNewService() throws SQLException, ClassNotFoundException {
+	private void clearFields() {
+		depLoc.setText("");
+		depTime.setText("");
+		depDate.setText("");
+		arvLoc.setText("");
+		arvTime.setText("");
+		arvDate.setText("");
+		SBusNo.setText("");
+		BStationName.setText("");
+		StktPrice.setText("");
+		GNumber.setText("");
+		totalSeats.setText("");
+	}
 
-		// add new service logic and db handling
+	public void addNewService() throws SQLException, ClassNotFoundException {
+		clearFields();
+		errService.setText("");
+
 		if (depLoc.getText().isEmpty() ||
 				depTime.getText().isEmpty() ||
 				depDate.getText().isEmpty() ||
@@ -358,7 +378,7 @@ public class ServiceController {
 				BStationName.getText().isEmpty() ||
 				BStationLoc.getText().isEmpty() ||
 				StktPrice.getText().isEmpty() || !isAllDigits(totalSeats.getText())) {
-			System.out.println("One or more fields are empty/incorrect. Please fill all fields.");
+			errService.setText("One or more fields are empty/incorrect. Please fill all fields.");
 			return;
 		}
 		try {
@@ -886,9 +906,10 @@ public class ServiceController {
 
 		BookingController bookingController = fxmlloader.getController();
 		if (serviceProvider.getServiceType().equals("Hotel")) {
-			bookingController.loadBookingData(selectedServiceID, false);
+
+			bookingController.loadBookingData(selectedServiceID, false, serviceProvider.getServiceType());
 		} else {
-			bookingController.loadBookingData(selectedServiceID, true);
+			bookingController.loadBookingData(selectedServiceID, true, serviceProvider.getServiceType());
 		}
 
 		bookingsDisplayPane.getChildren().clear();
@@ -923,22 +944,23 @@ public class ServiceController {
 		if (feedbacksLoaded && selectedServiceID == feedbacksLoadedFr) {
 			viewFeedbacks.setVisible(false);
 			viewFeedbacks1.setVisible(false);
-			tabPane.setVisible(false);
+			tabPane.setVisible(true); // * */
 			hideServicePanels("feedbacks");
 			if (!feedbacksDisplayPane.isVisible()) {
 				feedbacksDisplayPane.setVisible(true);
 			}
 			return; // Exit early since bookings are already loaded for the selected service
 		}
-		tabPane.setVisible(false);
+		tabPane.setVisible(true);
 		hideServicePanels("feedbacks");
 		viewFeedbacks.setVisible(false);
 		viewFeedbacks1.setVisible(false);
-
+		System.out.println("setting up");
 		FXMLLoader fxmlloader = new FXMLLoader();
 		fxmlloader.setController(this);
 		fxmlloader.setLocation(getClass().getResource("../scenes/ServiceFeedbacks.fxml"));
 		Pane pane = fxmlloader.load();
+		System.out.println("done");
 		if (serviceProvider.getServiceType().equals("Hotel"))
 			loadFeedbackData(selectedServiceID, false);
 		else
@@ -956,7 +978,7 @@ public class ServiceController {
 
 	public void loadFeedbackData(int serviceID, boolean tFLag)
 			throws IOException, ClassNotFoundException, SQLException {
-		System.out.println("clearing VBOX");
+		System.out.println("selected tab" + selectedTab);
 		vBoxFeedbacks.getChildren().clear();
 
 		// Create an instance of ServiceDAO to fetch feedbacks for the given serviceID

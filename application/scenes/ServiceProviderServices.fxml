@@ -275,7 +275,7 @@
                   <VBox fx:id="servicesCont" prefHeight="374.0" prefWidth="542.0" style="-fx-background-color: #DDDDDD;" />
                </content>
             </ScrollPane>
-            <Pane fx:id="addServicePane" prefHeight="382.0" prefWidth="538.0" visible="false">
+            <Pane fx:id="addServicePane" prefHeight="382.0" prefWidth="538.0">
                <children>
                   <Text fx:id="serviceTypeAddText" layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add New Service" wrappingWidth="185.3367156982422">
                      <font>
@@ -493,6 +493,11 @@
                         </HBox>
                      </children>
                   </VBox>
+                  <Text fx:id="errService" fill="#b72828" layoutX="187.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="348.8000000000002">
+                     <font>
+                        <Font name="Lexend Deca Regular" size="12.0" />
+                     </font>
+                  </Text>
                </children>
             </Pane>
             <Pane fx:id="addHotelListingPane" prefHeight="382.0" prefWidth="538.0" visible="false">

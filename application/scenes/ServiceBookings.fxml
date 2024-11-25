@@ -19,33 +19,34 @@
       <Line endX="405.79998779296875" endY="7.62939453125E-6" layoutX="115.0" layoutY="47.0" startX="-100.0" stroke="#817e7e" />
       <ScrollPane fx:id="bookingsScroll" layoutX="14.0" layoutY="48.0" prefHeight="326.0" prefWidth="507.0">
          <content>
-            <VBox fx:id="vBoxBookings" prefHeight="320.0" prefWidth="506.0">
+            <VBox prefHeight="314.0" prefWidth="506.0">
                <children>
-                  <HBox fx:id="sampleHBOX" alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="506.0" spacing="30.0" style="-fx-background-color: #CCD1D3;" styleClass="bookingDetail" stylesheets="@../css/fullpackstyling.css">
+                  <HBox fx:id="sampleHBOX" alignment="CENTER_LEFT" prefHeight="44.0" prefWidth="506.0" spacing="30.0" style="-fx-background-color: #CCD1D3;" styleClass="bookingDetail" stylesheets="@../css/fullpackstyling.css">
                      <children>
-                        <Text fx:id="userID" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="   1">
+                        <Text fx:id="userID" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="#" textAlignment="CENTER" wrappingWidth="77.8600492477417">
                            <font>
                               <Font name="Lexend Deca Medium" size="15.0" />
                            </font>
                         </Text>
-                        <Text fx:id="username" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" wrappingWidth="119.20999908447266">
+                        <Text fx:id="username" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" textAlignment="CENTER" wrappingWidth="87.20999908447266">
                            <font>
                               <Font name="Lexend Deca Medium" size="15.0" />
                            </font>
                         </Text>
-                        <Text fx:id="bookingDate" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="BookingDate" wrappingWidth="122.45497179031372">
+                        <Text fx:id="bookingDate" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="BookingDate" textAlignment="CENTER" wrappingWidth="103.25495958328247">
                            <font>
                               <Font name="Lexend Deca Medium" size="15.0" />
                            </font>
                         </Text>
-                        <Text fx:id="price" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" wrappingWidth="74.04505205154419">
+                        <Text fx:id="price" fill="#1e353f" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" textAlignment="CENTER" wrappingWidth="48.445019245147705">
                            <font>
                               <Font name="Lexend Deca Medium" size="15.0" />
                            </font>
                         </Text>
-                        <FontAwesomeIcon fx:id="icon" glyphName="BUS" size="1.5em" />
+                        <FontAwesomeIcon fx:id="TYPE" glyphName="BUS" size="1.5em" text="" />
                      </children>
                   </HBox>
+                  <VBox fx:id="vBoxBookings" prefHeight="284.0" prefWidth="506.0" />
                </children>
             </VBox>
          </content>

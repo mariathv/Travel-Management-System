@@ -292,12 +292,20 @@ public class ServiceManager {
             updateBookingStatusCmpl(serviceId);
             System.out.println(rows + " notification(s) sent.");
 
+            query = "UPDATE travelbooking SET status = 0 WHERE serviceID = ?";
+
+            try (Connection connection1 = dbHandler.connect();
+                    PreparedStatement preparedStatement1 = connection1.prepareStatement(query)) {
+                preparedStatement1.setInt(1, serviceId);
+                preparedStatement1.executeUpdate();
+            }
             return rowsUpdated > 0;
 
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
+
     }
 
     public boolean updateBookingStatusCmpl(int serviceId) throws ClassNotFoundException {
@@ -679,6 +687,7 @@ public class ServiceManager {
     }
 
     public String getRoomType(int listingID) throws ClassNotFoundException {
+        System.out.println("service no to check: " + listingID);
         String sql = "SELECT roomType FROM hotelbooking WHERE listingID = ?";
         String room = "";
         try (Connection connection = dbHandler.connect();
@@ -689,7 +698,7 @@ public class ServiceManager {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                room = rs.getString("FlightNumber");
+                room = rs.getString("roomType");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -873,11 +882,10 @@ public class ServiceManager {
             String gateNumber = resultSet.getString("GateNumber");
 
             FlightService flightService = new FlightService(airportName, airportLocation, transportNumber,
-                    serviceProviderID,
                     ServiceID,
-                    gateNumber,
+                    serviceProviderID,
                     description, serviceType, departureTime, arrivalTime, departureLocation, arrivalLocation,
-                    departureDate, arrivalDate);
+                    departureDate, arrivalDate, gateNumber);
             flightService.setPrice(price);
             flightServices.add(flightService);
 
@@ -942,22 +950,60 @@ public class ServiceManager {
 
     public boolean giveTravelFeedback(int serviceID, int rating, String comment, int customerID,
             String customerUsername) {
-        String query = "INSERT INTO servicefeedback (serviceID, rating, comment, customerID, customerUsername) VALUES (?, ?, ?, ?, ?)";
+        String insertFeedbackQuery = "INSERT INTO servicefeedback (serviceID, rating, comment, customerID, customerUsername) VALUES (?, ?, ?, ?, ?)";
+        String getServiceProviderQuery = "SELECT serviceProviderID FROM TravelService WHERE serviceID = ?";
+        String calculateAvgRatingQuery = "SELECT AVG(rating) AS avgRating FROM servicefeedback WHERE serviceID IN (SELECT serviceID FROM TravelService WHERE serviceProviderID = ?)";
+        String updateServiceProviderRatingQuery = "UPDATE serviceProvider SET rating = ? WHERE serviceProviderID = ?";
 
         try (Connection connection = dbHandler.connect();
-                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                PreparedStatement insertFeedbackStmt = connection.prepareStatement(insertFeedbackQuery);
+                PreparedStatement getServiceProviderStmt = connection.prepareStatement(getServiceProviderQuery);
+                PreparedStatement calculateAvgRatingStmt = connection.prepareStatement(calculateAvgRatingQuery);
+                PreparedStatement updateServiceProviderRatingStmt = connection
+                        .prepareStatement(updateServiceProviderRatingQuery)) {
 
-            preparedStatement.setInt(1, serviceID);
-            preparedStatement.setInt(2, rating);
-            preparedStatement.setString(3, comment);
-            preparedStatement.setInt(4, customerID);
-            preparedStatement.setString(5, customerUsername);
+            // Step 1: Insert feedback into servicefeedback table
+            insertFeedbackStmt.setInt(1, serviceID);
+            insertFeedbackStmt.setInt(2, rating);
+            insertFeedbackStmt.setString(3, comment);
+            insertFeedbackStmt.setInt(4, customerID);
+            insertFeedbackStmt.setString(5, customerUsername);
 
-            int rowsAffected = preparedStatement.executeUpdate();
+            int rowsAffected = insertFeedbackStmt.executeUpdate();
 
             if (rowsAffected > 0) {
                 System.out.println("Feedback successfully submitted for Service ID: " + serviceID);
-                return true;
+
+                // Step 2: Retrieve serviceProviderID using the serviceID
+                getServiceProviderStmt.setInt(1, serviceID);
+                ResultSet rs = getServiceProviderStmt.executeQuery();
+
+                if (rs.next()) {
+                    int serviceProviderID = rs.getInt("serviceProviderID");
+
+                    // Step 3: Calculate the updated average rating for the serviceProviderID
+                    calculateAvgRatingStmt.setInt(1, serviceProviderID);
+                    ResultSet avgRatingRs = calculateAvgRatingStmt.executeQuery();
+
+                    if (avgRatingRs.next()) {
+                        double avgRating = avgRatingRs.getDouble("avgRating");
+
+                        // Step 4: Update the serviceProvider's rating in the database
+                        updateServiceProviderRatingStmt.setDouble(1, avgRating);
+                        updateServiceProviderRatingStmt.setInt(2, serviceProviderID);
+
+                        int updateRows = updateServiceProviderRatingStmt.executeUpdate();
+
+                        if (updateRows > 0) {
+                            System.out.println("Updated average rating for Service Provider ID: " + serviceProviderID
+                                    + " to " + avgRating);
+                            return true;
+                        } else {
+                            System.out.println(
+                                    "Failed to update average rating for Service Provider ID: " + serviceProviderID);
+                        }
+                    }
+                }
             } else {
                 System.out.println("Failed to submit feedback for Service ID: " + serviceID);
             }

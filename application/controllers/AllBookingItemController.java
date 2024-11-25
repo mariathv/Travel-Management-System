@@ -34,8 +34,7 @@ public class AllBookingItemController {
                 circle.setFill(Color.web("Green"));
             else if (color == 0)
                 circle.setFill(Color.web("Red"));
-            else
-                circle.setFill(Color.web("Yellow"));
+            
         }
 
         if (serialno != null) {

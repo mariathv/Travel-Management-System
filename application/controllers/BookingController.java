@@ -11,6 +11,7 @@ import application.Managers.BookingManager;
 import application.Model.Customer;
 import application.Model.HotelBooking;
 import application.Model.TravelBooking;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ScrollPane;
@@ -27,7 +28,8 @@ public class BookingController {
     HBox sampleHBOX;
     @FXML
     VBox vBoxBookings, vbox;
-
+    @FXML
+    private FontAwesomeIcon TYPE;
     String CancelType;
     String Cancelbookingid;
 
@@ -45,14 +47,10 @@ public class BookingController {
         customer = c;
     }
 
-    public void loadBookingData(int serviceID, boolean tFlag) throws IOException, ClassNotFoundException, SQLException {
+    public void loadBookingData(int serviceID, boolean tFlag, String type)
+            throws IOException, ClassNotFoundException, SQLException {
 
         vBoxBookings.getChildren().clear();
-        FXMLLoader initLoader = new FXMLLoader();
-        initLoader.setLocation(getClass().getResource("../scenes/components/booking_item.fxml"));
-        HBox hboxinit = initLoader.load();
-
-        vBoxBookings.getChildren().add(hboxinit);
 
         Separator separator = new Separator();
         separator.setPrefWidth(400);
@@ -61,10 +59,18 @@ public class BookingController {
         // Get the list of bookings from the DAO based on the provided serviceID
         BookingManager dao = new BookingManager();
         System.out.println("Fetching Data");
-        if (tFlag)
+        if (tFlag) {
+            if (type.equals("Bus"))
+                TYPE.setGlyphName("BUS");
+            else if (type.equals("Train"))
+                TYPE.setGlyphName("TRAIN");
+            else
+                TYPE.setGlyphName("PLANE");
             bookings = dao.getBookingsByServiceProvider(serviceID);
-        else
+        } else {
+            TYPE.setGlyphName("HOTEL");
             HotelBookings = dao.getHotelBookingsByServiceProvider(serviceID);
+        }
 
         System.out.println("Loading Data");
         int serlnum = 1;
@@ -81,7 +87,7 @@ public class BookingController {
                     bookingItemController itemController = fxmlloader.getController();
 
                     itemController.setData(serlnum++, booking.getUsername(),
-                            booking.getBookingDate(), String.valueOf(booking.getTotalPrice()));
+                            booking.getBookingDate(), String.valueOf(booking.getTotalPrice()), booking.getStatus());
 
                     vBoxBookings.getChildren().add(hbox);
                 }
@@ -94,7 +100,7 @@ public class BookingController {
                     bookingItemController itemController = fxmlloader.getController();
 
                     itemController.setData(serlnum++, booking.getUsername(),
-                            booking.getBookingDate(), String.valueOf(booking.getPrice()));
+                            booking.getBookingDate(), String.valueOf(booking.getPrice()), 1);
 
                     vBoxBookings.getChildren().add(hbox);
                 }

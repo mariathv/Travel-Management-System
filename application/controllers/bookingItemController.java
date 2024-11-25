@@ -3,6 +3,7 @@ package application.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
 public class bookingItemController {
@@ -18,6 +19,8 @@ public class bookingItemController {
     private Text bookingDate;
     @FXML
     private Text price;
+    @FXML
+    private Circle circle;
 
     public HBox getSampleHBOX() {
         return sampleHBOX;
@@ -47,7 +50,7 @@ public class bookingItemController {
         price.setWrappingWidth(80);
     }
 
-    public void setData(int id, String name, String date, String cost) {
+    public void setData(int id, String name, String date, String cost, int color) {
         userID.setText(String.valueOf("   " + id));
         userID.setWrappingWidth(80);
         username.setText(name);
@@ -56,6 +59,13 @@ public class bookingItemController {
         bookingDate.setWrappingWidth(90);
         price.setText(cost);
         price.setWrappingWidth(80);
+        if (circle != null) {
+            if (color == 1)
+                circle.setFill(Color.web("Green"));
+            else 
+                circle.setFill(Color.web("Red"));
+            
+        }
 
     }
 
