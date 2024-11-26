@@ -22,7 +22,7 @@
                <children>
                   <VBox alignment="CENTER_LEFT" layoutX="11.0" layoutY="19.0" prefHeight="263.0" prefWidth="201.0">
                      <children>
-                        <Text fx:id="dateInfo" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Date:" underline="true" wrappingWidth="209.2000732421875">
+                        <Text fx:id="dateInfo" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" underline="true" wrappingWidth="209.2000732421875">
                            <font>
                               <Font name="Lexend Deca Bold" size="16.0" />
                            </font>
@@ -151,7 +151,7 @@
             </VBox>
          </children>
       </Pane>
-      <Pane fx:id="hotelServicePane" layoutX="626.0" layoutY="51.0" prefHeight="454.0" prefWidth="240.0">
+      <Pane fx:id="hotelServicePane" layoutX="626.0" layoutY="51.0" prefHeight="454.0" prefWidth="240.0" visible="false">
          <children>
             <Pane layoutX="7.0" layoutY="14.0" prefHeight="298.0" prefWidth="227.0" style="-fx-background-radius: 20;" styleClass="linear-grad" stylesheets="@../css/fullpackstyling.css">
                <children>
@@ -268,14 +268,14 @@
          </font>
       </Button>
       <Line endX="100.0" endY="37.19999694824219" layoutX="-47.0" layoutY="53.0" startX="100.0" startY="418.0" stroke="#b9b1b1" strokeDashOffset="2.0" />
-      <StackPane layoutX="54.0" layoutY="90.0" prefHeight="382.0" prefWidth="550.0">
+      <StackPane layoutX="54.0" layoutY="90.0" prefHeight="382.0" prefWidth="550.0" style="-fx-background-color: transparent;">
          <children>
-            <ScrollPane fx:id="viewServicePane" prefHeight="382.0" prefWidth="542.0" style="-fx-border-color: transparent; -fx-background-color: transparent;">
+            <ScrollPane fx:id="viewServicePane" hbarPolicy="NEVER" prefHeight="382.0" prefWidth="542.0" style="-fx-border-color: transparent; -fx-background-color: transparent;">
                <content>
-                  <VBox fx:id="servicesCont" prefHeight="374.0" prefWidth="542.0" style="-fx-background-color: #DDDDDD;" />
+                  <VBox fx:id="servicesCont" prefHeight="374.0" prefWidth="545.0" style="-fx-background-color: #DDDDDD;" />
                </content>
             </ScrollPane>
-            <Pane fx:id="addServicePane" prefHeight="382.0" prefWidth="538.0">
+            <Pane fx:id="addServicePane" prefHeight="382.0" prefWidth="538.0" visible="false">
                <children>
                   <Text fx:id="serviceTypeAddText" layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add New Service" wrappingWidth="185.3367156982422">
                      <font>

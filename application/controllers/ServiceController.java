@@ -85,6 +85,9 @@ public class ServiceController {
 			System.out.println("init");
 			ongoingBTN.setStyle("-fx-background-color: black; -fx-text-fill: white;");
 			doneBTN.setStyle("-fx-background-color: transparent; -fx-text-fill: black;");
+			
+			viewServicePane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+			
 
 			sideInfoPane.setVisible(false);
 			hotelServicePane.setVisible(false);
@@ -359,13 +362,14 @@ public class ServiceController {
 		arvDate.setText("");
 		SBusNo.setText("");
 		BStationName.setText("");
+		BStationLoc.setText("");
 		StktPrice.setText("");
 		GNumber.setText("");
 		totalSeats.setText("");
 	}
 
 	public void addNewService() throws SQLException, ClassNotFoundException {
-		clearFields();
+		
 		errService.setText("");
 
 		if (depLoc.getText().isEmpty() ||
@@ -378,11 +382,12 @@ public class ServiceController {
 				BStationName.getText().isEmpty() ||
 				BStationLoc.getText().isEmpty() ||
 				StktPrice.getText().isEmpty() || !isAllDigits(totalSeats.getText())) {
+			clearFields();
 			errService.setText("One or more fields are empty/incorrect. Please fill all fields.");
 			return;
 		}
 		try {
-
+			
 			boolean flag = serviceManager.addNewService(serviceProvider, depLoc.getText(), depTime.getText(),
 					depDate.getText(),
 					arvLoc.getText(), arvTime.getText(), arvDate.getText(),

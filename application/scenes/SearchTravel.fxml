@@ -23,7 +23,7 @@
    <children>
       <StackPane>
          <children>
-            <AnchorPane fx:id="SearchPane" prefHeight="531.0" prefWidth="886.0" style="-fx-background-color: #DDDDDD; -fx-background-radius: 10;" stylesheets="@../css/fullpackstyling.css" visible="false">
+            <AnchorPane fx:id="SearchPane" prefHeight="531.0" prefWidth="886.0" style="-fx-background-color: #DDDDDD; -fx-background-radius: 10;" stylesheets="@../css/fullpackstyling.css">
                <children>
                   <Pane fx:id="sideInfoPane" layoutX="616.0" layoutY="41.0" prefHeight="414.0" prefWidth="240.0">
                      <children>
@@ -166,7 +166,7 @@
                   <Line endX="100.0" endY="37.19999694824219" layoutX="-47.0" layoutY="53.0" startX="100.0" startY="418.0" stroke="#b9b1b1" strokeDashOffset="2.0" />
                   <StackPane layoutX="54.0" layoutY="90.0" prefHeight="382.0" prefWidth="550.0">
                      <children>
-                        <ScrollPane fx:id="viewServicePane_cus" prefHeight="382.0" prefWidth="542.0" style="-fx-border-color: transparent; -fx-background-color: transparent;">
+                        <ScrollPane fx:id="viewServicePane_cus" hbarPolicy="NEVER" prefHeight="382.0" prefWidth="542.0" style="-fx-border-color: transparent; -fx-background-color: transparent;">
                 			<VBox fx:id="servicesCont" prefHeight="374.0" prefWidth="542.0" style="-fx-background-color: #DDDDDD;" />
             			</ScrollPane>
                         <Pane fx:id="addServicePane" prefHeight="382.0" prefWidth="538.0" visible="false">
@@ -493,7 +493,7 @@
                   </Button>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="HotelBookingPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="531.0" prefWidth="886.0">
+            <AnchorPane fx:id="HotelBookingPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="531.0" prefWidth="886.0" visible="false">
                <children>
                   <Text fill="#224600" layoutX="19.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment processed successfully">
                      <font>
