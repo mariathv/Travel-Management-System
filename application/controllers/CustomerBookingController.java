@@ -436,7 +436,7 @@ public class CustomerBookingController {
 
     private void updateBookingStatus(String tableName, int bookingid) throws SQLException, ClassNotFoundException {
 
-        String query = "UPDATE " + tableName + " SET status = 0 WHERE bookingID = ?";
+        String query = "UPDATE " + tableName + " SET status = 2 WHERE bookingID = ?";
 
         try (Connection connection = dbHandler.connect();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {

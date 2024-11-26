@@ -332,7 +332,7 @@ public class ServiceManager {
             String StktPrice, String GNumber, int totalSeats) throws SQLException, ClassNotFoundException {
 
         String description = String.format(
-                "Bus No. %s from %s to %s departing on %s at %s and arriving on %s at %s. \nTicket Price: PKR %s. \nBus station: %s located at %s.",
+                "Transport No. %s from %s to %s departing on %s at %s and arriving on %s at %s. \nTicket Price: PKR %s. \nBus station: %s located at %s.",
                 SBusNo, depLoc, arvLoc, depDate, depTime, arvDate, arvTime, StktPrice, BStationName, BStationLoc);
 
         Connection connection = dbHandler.connect();

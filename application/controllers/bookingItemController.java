@@ -62,7 +62,7 @@ public class bookingItemController {
         if (circle != null) {
             if (color == 1)
                 circle.setFill(Color.web("Green"));
-            else 
+            else if (color == 0)
                 circle.setFill(Color.web("Red"));
             
         }
