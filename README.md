@@ -1,10 +1,6 @@
 <h1 align="center" id="title">Travel Management System</h1>
 
-## INTERFACES
 
-![Screenshot 2024-11-11 212350](https://github.com/user-attachments/assets/648961aa-5f46-4c0e-8a86-c74f7b925218)
-![Screenshot 2024-11-11 212406](https://github.com/user-attachments/assets/764d523a-fbfb-4955-8747-b5edd4c0550f)
-![Screenshot 2024-11-11 212420](https://github.com/user-attachments/assets/a72d62b6-9992-4559-9868-ff651cd4be18)
 
 <p id="description">Software Design &amp; Analysis Project | Fall 2024</p>
 
